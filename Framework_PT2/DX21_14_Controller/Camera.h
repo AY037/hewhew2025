@@ -1,0 +1,26 @@
+#pragma once
+#include"input.h"
+#include"direct3d.h"
+// プロジェクション変換行列設定
+#define FOV (60.0f)
+#define NEAR_CLIP (1.0f)
+#define FAR_CLIP (300.0f)
+class Camera
+{
+public:
+	Camera() { cameraPos = { 0.0f, 0.0f, 0.0f };}
+	~Camera(){}
+	void Init();   //初期化
+	void Update(); //更新   
+	void Uninit(); //終了
+
+	DirectX::XMMATRIX SetViewMatrix();			   //プロジェクション変換行列のセット
+	DirectX::XMMATRIX SetProjectionMatrix();		   //プロジェクション変換行列のセット
+	void SetCameraPos(float x, float y, float z);  //カメラ座標をセット
+	DirectX::XMFLOAT3 GetCameraPos(void);		   //カメラ座標をゲット
+
+	Input input;
+private:
+	//カメラ座標
+	DirectX::XMFLOAT3 cameraPos = { 0.0f, 0.0f, 0.0f };
+};
