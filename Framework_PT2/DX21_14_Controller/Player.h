@@ -4,11 +4,11 @@ class Player :public GameObject
 {
 public:
 	Player(){}
-	~Player() { Uninit(); }
+	~Player() {}
 	void Init(TextureManager& _textureManager);  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:
-	Input input;
+	Input& input = Input::GetInstance();
 };
 

@@ -45,6 +45,10 @@ private:
 	HRESULT ReadChunkData(HANDLE, void*, DWORD, DWORD);
 
 public:
+	static Sound& GetInstance() {
+		static Sound instance;  // 静的なインスタンスを作成（初回アクセス時に生成）
+		return instance;            // 常に同じインスタンスを返す
+	}
 	// ゲームループ開始前に呼び出すサウンドの初期化処理
 	HRESULT Init(void);
 

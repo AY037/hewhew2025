@@ -1,18 +1,19 @@
 #include "SceneManager.h"
-#include "GameScene.h"
-#include "TitleScene.h"
-void SceneManager::AddScene()//シーンの追加。
-{
-	scenes.push_back(std::make_unique<TitleScene>());
-	scenes.push_back(std::make_unique<GameScene>());
+void SceneManager::AddScene(const std::string& sceneName, Scene* scene) {
+	scenes[sceneName].push_back(std::move(scene));  // 所有権を移動して追加
 }
 
-void SceneManager::SwitchScene(int sceneID)//シーンの切り替え。
+void SceneManager::SwitchScene(const std::string& sceneName)//シーンの切り替え。
 {
-	if (sceneID >= 0 && sceneID < scenes.size())
-	{
-		currentScene = std::move(scenes[sceneID]);
-		currentScene->Init(); // シーンの初期化を行う
+	if (scenes.find(sceneName) != scenes.end()) {
+		// sceneName に関連するシーンのベクターを取得
+		auto& sceneVector = scenes[sceneName];
+
+		// シーンが空でないことを確認
+		if (!sceneVector.empty()) {
+			// ベクターの最初のシーンを取得
+			currentScene = scenes[sceneName][0]; // 所有権を移動
+		}
 	}
 }
 

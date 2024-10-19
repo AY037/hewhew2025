@@ -1,7 +1,5 @@
 #pragma once
-#include "Camera.h"
 #include "input.h"
-#include <memory>
 #include "TextureManager.h"
 //class IObject {
 //public:
@@ -45,7 +43,7 @@ private:
 protected:
 public:
 	GameObject() {}
-	virtual ~GameObject() {  }
+	virtual ~GameObject() { Uninit(); }
 	//¶ã‚©‚ç‰½’i–Ú‚ğØ‚è”²‚¢‚Ä•\¦‚·‚é‚©
 	float numU = 0;
 	float numV = 0;

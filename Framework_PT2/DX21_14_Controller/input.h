@@ -56,6 +56,7 @@
 #define VK_X 0x58
 #define VK_Y 0x59
 #define VK_Z 0x5A
+//#define VK_LEFTCLICK 0x5B
 
 class Input {
 private:
@@ -69,10 +70,16 @@ private:
 
 	int VibrationTime; //振動継続時間をカウントする変数
 
-public:
+	DirectX::XMFLOAT2 mousePos;
 
 	Input(); //コンストラクタ
 	~Input(); //デストラクタ
+public:
+	// シングルトンのインスタンスを取得するための静的メソッド
+	static Input& GetInstance() {
+		static Input instance;  // 静的なインスタンスを作成（初回アクセス時に生成）
+		return instance;            // 常に同じインスタンスを返す
+	}
 	void Update(); //更新
 
 	//キー入力
@@ -97,5 +104,8 @@ public:
 	//flame：振動を継続する時間(単位：フレーム)
 	//powoe：振動の強さ(0～1)
 	void SetVibration(int frame = 1, float powor = 1);
+
+	void SetMousePos(DirectX::XMFLOAT2);
+	DirectX::XMFLOAT2 GetMousePos();
 };
 

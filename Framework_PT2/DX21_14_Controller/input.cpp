@@ -122,3 +122,12 @@ void Input::SetVibration(int frame, float powor)
 	VibrationTime = frame;
 }
 
+void Input::SetMousePos(DirectX::XMFLOAT2 _mousePos)
+{
+	mousePos = _mousePos;
+}
+DirectX::XMFLOAT2 Input::GetMousePos()
+{
+	return mousePos;
+}
+

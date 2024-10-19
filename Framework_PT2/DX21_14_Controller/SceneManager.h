@@ -7,15 +7,22 @@
 class SceneManager
 {
 public:
-	SceneManager() : currentScene(nullptr) {}
+	SceneManager() {}
 	~SceneManager() {
+		for (auto& pair : scenes) {
+			for (auto* scene : pair.second) {
+				delete scene; // Scene* のメモリを解放
+			}
+			pair.second.clear(); // ベクタをクリア
+		}
+		scenes.clear(); // マップ自体をクリア
 	}
-	void AddScene();				   //シーンの追加。
-	void SwitchScene(int sceneID);	   //シーンの切り替え。
+	void AddScene(const std::string& sceneName, Scene*);				   //シーンの追加。
+	void SwitchScene(const std::string& sceneName);	   //シーンの切り替え。
 	void Update();				       // 現在のシーンの更新
 	void Draw();                       // 現在のシーンの描画
 private:
-	std::vector<std::unique_ptr<Scene>> scenes; // すべてのシーンのリスト。
-	std::unique_ptr<Scene> currentScene;		// 現在アクティブなシーン。
+	std::unordered_map<std::string,std::vector<Scene*>> scenes; // すべてのシーンのリスト。
+	Scene* currentScene;		// 現在アクティブなシーン。
 };
 

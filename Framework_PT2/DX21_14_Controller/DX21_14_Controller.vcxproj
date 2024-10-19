@@ -137,6 +137,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DIContainer.cpp" />
     <ClCompile Include="direct3d.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -161,6 +163,8 @@
     </ClInclude>
     <ClInclude Include="DIContainer.h" />
     <ClInclude Include="direct3d.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="GameObject.h" />

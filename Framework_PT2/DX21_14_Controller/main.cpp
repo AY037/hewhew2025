@@ -1,6 +1,7 @@
 #undef UNICODE  // Unicodeではなく、マルチバイト文字を使う
 
 #include <Windows.h>
+#include <Windowsx.h>
 #include "Game.h"
 // マクロ定義
 #define CLASS_NAME   "DX21Smpl"// ウインドウクラスの名前
@@ -149,23 +150,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_DESTROY:// ウィンドウ破棄のメッセージ
+	{
 		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
 		break;
-
+	}
 	case WM_CLOSE:  // 「x」ボタンが押されたら
 	{
 		int res = MessageBoxA(NULL, "終了しますか？", "確認", MB_OKCANCEL);
 		if (res == IDOK) {
 			DestroyWindow(hWnd);  // 「WM_DESTROY」メッセージを送る
 		}
+		break;
 	}
-	break;
-
 	case WM_KEYDOWN: //キー入力があったメッセージ
+	{
 		if (LOWORD(wParam) == VK_ESCAPE) { //入力されたキーがESCAPEなら
 			PostMessage(hWnd, WM_CLOSE, wParam, lParam);//「WM_CLOSE」を送る
 		}
-
+		break;
+	}
+	case WM_MOUSEMOVE:
+	{
+		DirectX::XMFLOAT2 mousePos;
+		mousePos.x = GET_X_LPARAM(lParam);
+		mousePos.y = GET_Y_LPARAM(lParam);
+		Input::GetInstance().SetMousePos(mousePos);
+		break;
+	}
 	default:
 		// 受け取ったメッセージに対してデフォルトの処理を実行
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);

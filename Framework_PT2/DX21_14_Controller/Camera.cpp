@@ -1,49 +1,51 @@
 #include "Camera.h"
-#include <cstdio>
-#include "iostream"
 void Camera::Init()
 {
 	SetCameraPos(0, 0, -100);//カメラ初期位置
-	// コンソールを割り当てる
-	AllocConsole();
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
 }
 
 void Camera::Update(void)
 {
-	input.Update();
-
-	if (input.GetKeyPress(VK_UP))
+	mousePos = input.GetMousePos();
+	if (input.GetKeyPress(VK_W))
 	{
 		cameraPos.z++;
 	}
-	if (input.GetKeyPress(VK_DOWN))
+	if (input.GetKeyPress(VK_S))
 	{
 		cameraPos.z--;
 	}
-	if (input.GetKeyPress(VK_RIGHT))
-	{
-		cameraPos.x++;
-	}
-	if (input.GetKeyPress(VK_LEFT))
+	if (input.GetKeyPress(VK_A))
 	{
 		cameraPos.x--;
 	}
-	std::cout << cameraPos.x << "\t" << cameraPos.x << std::endl;//updaateに入れる
+	if (input.GetKeyPress(VK_D))
+	{
+		cameraPos.x++;
+	}
+	DirectX::XMFLOAT2 midPos;
+	cameraAngle.x = -(SCREEN_WIDTH / 2 - mousePos.x)/8;
+	cameraAngle.y = -(SCREEN_HEIGHT / 2 - mousePos.y)/8;
 }
 
 DirectX::XMMATRIX Camera::SetViewMatrix()
 {
-	//ビュー変換行列を作成
-	DirectX::XMVECTOR viewPos, viewRot, viewUp;
-	viewPos = DirectX::XMVectorSet(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
-	viewRot = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f);
-	viewUp = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f);
-	DirectX::XMMATRIX viewMat = DirectX::XMMatrixLookToLH(viewPos, viewRot, viewUp);
+	// ビュー変換行列を作成
+	DirectX::XMVECTOR viewPos = DirectX::XMVectorSet(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
+	DirectX::XMVECTOR viewRot = GetRotationQuaternion(); // クォータニオンを取得
+	DirectX::XMVECTOR viewUp = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	// クォータニオンを回転行列に変換
+	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationQuaternion(viewRot);
+
+	// 前方ベクトルを取得
+	DirectX::XMVECTOR forward = DirectX::XMVector3TransformNormal(DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), rotationMatrix);
+
+	// ビュー行列を作成
+	DirectX::XMMATRIX viewMat = DirectX::XMMatrixLookToLH(viewPos, forward, viewUp);
 	return viewMat;
 }
+
 DirectX::XMMATRIX Camera::SetProjectionMatrix()
 {
 	// プロジェクション変換行列を作成
@@ -57,6 +59,15 @@ DirectX::XMMATRIX Camera::SetProjectionMatrix()
 		//カメラからの距離がNEAR_CLIP以上離れているオブジェクトを描画FAR_CLIPはその逆
 	);
 	return projectionMat;
+}
+DirectX::XMVECTOR Camera::GetRotationQuaternion()
+{
+	// Yaw（水平回転）、Pitch（垂直回転）からクォータニオンを作成
+	return DirectX::XMQuaternionRotationRollPitchYaw(
+		DirectX::XMConvertToRadians(cameraAngle.y), // ピッチ
+		DirectX::XMConvertToRadians(cameraAngle.x), // ヨー
+		1.0f                                         // ロール
+	);
 }
 void Camera::Uninit(void)
 {
@@ -75,4 +86,9 @@ DirectX::XMFLOAT3 Camera::GetCameraPos(void)
 {
 	//カメラ座標をゲット
 	return cameraPos;
+}
+
+DirectX::XMFLOAT3 Camera::GetCameraAngle(void)//カメラ角度のゲッター
+{
+	return cameraAngle;
 }

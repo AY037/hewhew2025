@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "Camera.h"
 void GameObject::Initialize(const wchar_t* imgname, TextureManager& _textureManager, int sx, int sy)
 {
 	//UVÀ•W‚ğİ’è

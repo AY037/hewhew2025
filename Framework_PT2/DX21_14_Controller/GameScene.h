@@ -10,26 +10,39 @@ class GameScene:public Scene
 public:
 	GameScene()
 	{
-		camera = new Camera();
+		camera = std::make_unique<Camera>();
+		Init();
 	}
 	~GameScene()
 	{
-		delete camera;
-		for (auto obj : gameObjects)
-		{
+
+		// staticObjectsの解放
+		for (auto obj : staticObjects) {
 			obj->Uninit();
-			if (obj) delete obj;
 		}
-		Shutdown();
-		gameObjects.clear(); // ベクタをクリア
+		staticObjects.clear(); // ベクタをクリア
+
+		// dynamicObjectsの解放
+		for (auto& pair : dynamicObjects) {
+			for (auto& obj : pair.second) {
+				obj->Uninit();
+			}
+		}
+		dynamicObjects.clear(); // ベクタをクリア
+
+		sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 	}
 	void Init();	 // シーンの初期化。ここにオブジェクトを追加
 	void Update();	 // シーン内のオブジェクト更新。
 	void Draw();	 // シーン内のオブジェクトを描画
 	void Shutdown(); // シーンの終了処理。
-	void AddObject(GameObject*);
+	void AddObject(const std::string& objectName, std::shared_ptr<GameObject> _gameObject);
+	//void collider(GameObject&);//後でコンポーネント化
+	std::shared_ptr<GameObject> GetGameObject(const std::string&);
 private:
-	Input input;
+	std::vector<std::shared_ptr<GameObject>> staticObjects; // シーン内のゲームオブジェクトリスト
+	std::unordered_map<std::string, std::list<std::shared_ptr<GameObject>>> dynamicObjects; // 動的オブジェクトの管理
+	Input& input = Input::GetInstance();
 	TextureManager textureManager;
 };
 

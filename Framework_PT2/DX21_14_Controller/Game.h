@@ -11,7 +11,7 @@ private:
 
 	bool isRunning;// ゲームが実行中かどうかを判定するフラグ。
 
-	Input input;
+	Input& input = Input::GetInstance();
 public:
 	Game() {
 		isRunning = false;
