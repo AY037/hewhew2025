@@ -63,7 +63,7 @@ void GameScene::Update()// シーン内のオブジェクト更新。
     auto bulletIter = dynamicObjects.find("Bullet");
     if (bulletIter != dynamicObjects.end()) {
         for (auto& bullet : bulletIter->second) {
-            if (-1.0 < bullet->GetPos().z && bullet->GetPos().z < 1.0f) {
+            if (-5.0 < bullet->GetPos().z && bullet->GetPos().z < 5.0f) {
                 // "Enemy" タイプのオブジェクトを取得
                 auto& enemyList = dynamicObjects["Enemy"];
                 for (auto enemyIter = enemyList.begin(); enemyIter != enemyList.end();) {

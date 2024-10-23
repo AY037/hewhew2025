@@ -19,6 +19,6 @@ public:
 	void Draw();  //•`‰æ
 private:
 	DirectX::XMFLOAT3 shootAngle;
-	const float speed = 2.0f;
+	const float speed = 10.0f;
 };
 

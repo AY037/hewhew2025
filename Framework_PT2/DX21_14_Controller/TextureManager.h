@@ -1,7 +1,7 @@
 #pragma once
 #include "WICTextureLoader.h" // テクスチャ読み込みライブラリ
-#include<unordered_map>
 #include"direct3d.h"
+#include<unordered_map>
 class TextureManager
 {
 public:

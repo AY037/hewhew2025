@@ -12,8 +12,6 @@ ID3D11ShaderResourceView* TextureManager::GetTexture(const wchar_t* imgname, ID3
 	HRESULT hr = DirectX::CreateWICTextureFromFileEx(g_pDevice, g_pDeviceContext, imgname, 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0, 0, DirectX::WIC_LOADER_IGNORE_SRGB, nullptr, &m_pTextureView);
 
-	int n = sizeof(textureCache);
-	n = n;
 	if (SUCCEEDED(hr)) {
 		textureCache[imgname] = m_pTextureView; // ƒLƒƒƒbƒVƒ…‚É•Û‘¶
 		return m_pTextureView;
