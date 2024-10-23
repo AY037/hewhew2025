@@ -9,7 +9,7 @@ void Bullet::Init()
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 }
-
+//ƒeƒXƒg
 void Bullet::Update(void)
 {
 	DirectX::XMFLOAT3 direction;
