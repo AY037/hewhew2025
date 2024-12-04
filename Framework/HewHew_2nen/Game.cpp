@@ -3,12 +3,11 @@
 #include "TitleScene.h"
 void Game::Init(HWND hWnd)
 {
-	//D3D_Create(hWnd);//DirectXを初期化
 	Sound::GetInstance().Init();
 	sceneManager = new SceneManager;
 	sceneManager->AddScene("TitleScene", new TitleScene);//シーンの追加
 	sceneManager->AddScene("GameScene", new GameScene);//シーンの追加
-	sceneManager->SwitchScene("TitleScene");
+	sceneManager->SwitchScene("GameScene");
 }
 
 void Game::Update(void)
@@ -23,19 +22,17 @@ void Game::Update(void)
 		}
 		if (input.GetKeyTrigger(VK_T))
 		{
-			sceneManager->SwitchScene("TitleScene");
+			//sceneManager->SwitchScene("TitleScene");
 		}
 	}
 }
 
 void Game::Draw(void)
 {
-	D3D_StartRender();  //描画開始
 	if (sceneManager != nullptr)
 	{
 		sceneManager->Draw();
 	}
-	D3D_FinishRender(); //描画終了
 }
 
 void Game::Uninit(void)
@@ -43,5 +40,5 @@ void Game::Uninit(void)
 	delete sceneManager;
 	sceneManager = nullptr;
 	Sound::GetInstance().Uninit();
-	D3D_Release();//DirectXを終了
+	Application::GetInstance().D3D_Release();//DirectXを終了
 }

@@ -9,7 +9,6 @@
 
 // 関数のプロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-void SetupDIContainer();
 
 //--------------------------------------------------------------------------------------
 // エントリポイント＝一番最初に実行される関数

@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームオブジェクト">
+      <UniqueIdentifier>{0d8b9209-bf6b-4b97-87ba-32ad5136fb74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Gui">
+      <UniqueIdentifier>{072da46b-341b-4a13-8824-74638b30d316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\コンポーネント">
+      <UniqueIdentifier>{23315b39-c755-4740-bc25-beaf97b88e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\コンポーネント\物理">
+      <UniqueIdentifier>{0867be5e-02be-4a87-aa47-24e6945a9773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\シーン">
+      <UniqueIdentifier>{bcfd4c1c-f56d-46ef-af78-4c9a32ea492a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ステージ">
+      <UniqueIdentifier>{699ee859-903a-48c0-a9af-d3e89598dd39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\便利">
+      <UniqueIdentifier>{0dfff49f-618d-46e5-8a33-56e0f4125e82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\基本">
+      <UniqueIdentifier>{09b402a4-371b-4b28-a1fd-be70a58dde24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ゲームオブジェクト\テクスチャ">
+      <UniqueIdentifier>{4f0c7a15-32d3-439c-8d45-1d0b2a5ec5a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\基本\要素">
+      <UniqueIdentifier>{e7889de9-3e35-41f1-9cfd-09a8647808b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームオブジェクト">
+      <UniqueIdentifier>{1cb2345b-95d2-4a66-bf9d-6d12f592c0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\コンポーネント">
+      <UniqueIdentifier>{80e5c2e8-9c92-4368-892f-e2430bed7056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\基本">
+      <UniqueIdentifier>{8c2d741a-580b-4642-9708-c793b5a614e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\便利">
+      <UniqueIdentifier>{373f61b1-28a1-4343-8679-ec8d1a5e76f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\シーン">
+      <UniqueIdentifier>{b756e611-b3d6-4111-bbb0-3837e743ca44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\基本\要素">
+      <UniqueIdentifier>{d73ac7f3-b9f7-4818-b3ec-a20046ba804c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\コンポーネント\物理">
+      <UniqueIdentifier>{5cf5da08-5c8a-462a-b64d-026ce5ba85a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\コンポーネント\レイ">
+      <UniqueIdentifier>{1d0313e2-b3d4-4079-bc38-5ddcd6c4e640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ゲームオブジェクト\テクスチャ">
+      <UniqueIdentifier>{057203c7-edc2-496e-b63b-9921fea002bb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Background.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>ソース ファイル\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicAABBTree.cpp">
+      <Filter>ソース ファイル\コンポーネント\物理</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>ソース ファイル\コンポーネント\物理</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>ソース ファイル\コンポーネント</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>ソース ファイル\コンポーネント</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCollider.cpp">
+      <Filter>ソース ファイル\コンポーネント</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\シーン</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト</Filter>
+    </ClCompile>
+    <ClCompile Include="Raycast.cpp">
+      <Filter>ソース ファイル\コンポーネント</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>ソース ファイル\便利</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>ソース ファイル\便利</Filter>
+    </ClCompile>
+    <ClCompile Include="direct3d.cpp">
+      <Filter>ソース ファイル\基本</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\基本</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\基本</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト\テクスチャ</Filter>
+    </ClCompile>
+    <ClCompile Include="WICTextureLoader.cpp">
+      <Filter>ソース ファイル\ゲームオブジェクト\テクスチャ</Filter>
+    </ClCompile>
+    <ClCompile Include="TextStream.cpp">
+      <Filter>ソース ファイル\基本\要素</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\基本\要素</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\基本\要素</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>ソース ファイル\基本\要素</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>ソース ファイル\コンポーネント\物理</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Background.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>ヘッダー ファイル\コンポーネント</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>ヘッダー ファイル\コンポーネント</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>ヘッダー ファイル\便利</Filter>
+    </ClInclude>
+    <ClInclude Include="direct3d.h">
+      <Filter>ヘッダー ファイル\基本</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>ヘッダー ファイル\基本</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>ヘッダー ファイル\便利</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ヘッダー ファイル\シーン</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダー ファイル\基本\要素</Filter>
+    </ClInclude>
+    <ClInclude Include="TextStream.h">
+      <Filter>ヘッダー ファイル\基本\要素</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>ヘッダー ファイル\基本\要素</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ヘッダー ファイル\基本\要素</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル\基本</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>ヘッダー ファイル\コンポーネント\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicAABBTree.h">
+      <Filter>ヘッダー ファイル\コンポーネント\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEventManager.h">
+      <Filter>ヘッダー ファイル\コンポーネント\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigidbody.h">
+      <Filter>ヘッダー ファイル\コンポーネント\物理</Filter>
+    </ClInclude>
+    <ClInclude Include="Raycast.h">
+      <Filter>ヘッダー ファイル\コンポーネント\レイ</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCollider.h">
+      <Filter>ヘッダー ファイル\コンポーネント\レイ</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト\テクスチャ</Filter>
+    </ClInclude>
+    <ClInclude Include="WICTextureLoader.h">
+      <Filter>ヘッダー ファイル\ゲームオブジェクト\テクスチャ</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>リソース ファイル</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="scene1.txt">
+      <Filter>ソース ファイル\ステージ</Filter>
+    </Text>
+    <Text Include="scene2.txt">
+      <Filter>ソース ファイル\ステージ</Filter>
+    </Text>
+    <Text Include="scene3.txt">
+      <Filter>ソース ファイル\ステージ</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
