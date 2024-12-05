@@ -67,7 +67,7 @@
     <Filter Include="ヘッダー ファイル\コンポーネント\レイ">
       <UniqueIdentifier>{1d0313e2-b3d4-4079-bc38-5ddcd6c4e640}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\ゲームオブジェクト\テクスチャ">
+    <Filter Include="ヘッダー ファイル\テクスチャ">
       <UniqueIdentifier>{057203c7-edc2-496e-b63b-9921fea002bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -159,9 +159,6 @@
     <ClCompile Include="WICTextureLoader.cpp">
       <Filter>ソース ファイル\ゲームオブジェクト\テクスチャ</Filter>
     </ClCompile>
-    <ClCompile Include="TextStream.cpp">
-      <Filter>ソース ファイル\基本\要素</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\基本\要素</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>ソース ファイル\コンポーネント\物理</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveLoad.cpp">
+      <Filter>ソース ファイル\基本\要素</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +230,6 @@
     <ClInclude Include="Camera.h">
       <Filter>ヘッダー ファイル\基本\要素</Filter>
     </ClInclude>
-    <ClInclude Include="TextStream.h">
-      <Filter>ヘッダー ファイル\基本\要素</Filter>
-    </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル\基本\要素</Filter>
     </ClInclude>
@@ -261,13 +258,13 @@
       <Filter>ヘッダー ファイル\コンポーネント\レイ</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
-      <Filter>ヘッダー ファイル\ゲームオブジェクト\テクスチャ</Filter>
+      <Filter>ヘッダー ファイル\テクスチャ</Filter>
     </ClInclude>
     <ClInclude Include="WICTextureLoader.h">
-      <Filter>ヘッダー ファイル\ゲームオブジェクト\テクスチャ</Filter>
+      <Filter>ヘッダー ファイル\テクスチャ</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="SaveLoad.h">
+      <Filter>ヘッダー ファイル\基本\要素</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

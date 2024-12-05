@@ -90,10 +90,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, 
 	Application::GetInstance().D3D_Create(hwnd);
 
 	// ƒRƒ“ƒ\[ƒ‹‚ğŠ„‚è“–‚Ä‚é
-	AllocConsole();
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	//AllocConsole();
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout);
+	//freopen_s(&fp, "CONOUT$", "w", stderr);
 
 #ifdef GUI_MODE
 

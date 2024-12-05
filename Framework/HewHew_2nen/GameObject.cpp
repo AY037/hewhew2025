@@ -43,6 +43,7 @@ void GameObject::Initialize(const std::string imgname, TextureManager& _textureM
 	hr = g_pDevice->CreateBuffer(&ibDesc, &irData, &m_pIndexBuffer);
 	// テクスチャ読み込み
 	m_pTextureView = _textureManager.GetTexture(imgname, m_pTextureView);
+	SetObjectTexName(imgname);
 }
 
 void GameObject::DrawObject(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)
@@ -175,13 +176,9 @@ std::string GameObject::GetName()
 	return name;
 }
 
-void GameObject::Init(TextureManager&)
-{
-
-}
-
 void GameObject::SetTexture(const std::string imgname, TextureManager& textureManager)
 {
+	textureName = imgname;
 	m_pTextureView = textureManager.GetTexture(imgname, m_pTextureView);
 }
 
@@ -198,4 +195,13 @@ void GameObject::SetObjID(const int id)
 int GameObject::GetObjID()
 {
 	return ObjID;
+}
+
+void GameObject::SetObjectTexName(std::string name) 
+{
+	textureName = name;
+}
+std::string GameObject::GetObjectTexName()
+{
+	return textureName;
 }

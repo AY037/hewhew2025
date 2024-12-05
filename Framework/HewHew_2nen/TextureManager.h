@@ -7,15 +7,16 @@ class TextureManager
 {
 public:
 	TextureManager(){
-		SetTexture("asset/char01.png");
-		SetTexture("asset/souan.png");
-		SetTexture("asset/macho.png");
-		SetTexture("asset/block.png");
-		SetTexture("asset/hikizuri.png");
+		IncludeTextureName("asset/char01.png");
+		IncludeTextureName("asset/souan.png");
+		IncludeTextureName("asset/macho.png");
+		IncludeTextureName("asset/block.png");
+		IncludeTextureName("asset/hikizuri.png");
+		IncludeTextureName("asset/Enemy.png");
 	}
 	~TextureManager(){}
 	//stringをstd::wstringと紐づけwstringからwchar_t*に変換するのでポインタを単一にする
-	void SetTexture(std::string imgname);
+	void IncludeTextureName(std::string imgname);
 	ID3D11ShaderResourceView* GetTexture(const std::string imgname, ID3D11ShaderResourceView*);//テクスチャの取得
 	std::vector<std::string> GetTextureNameList()
 	{

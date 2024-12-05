@@ -1,5 +1,6 @@
 #include "Raycast.h"
 #include "direct3d.h"
+using namespace DirectX;
 
 DirectX::XMFLOAT3 Raycast::Raycasting(DirectX::XMFLOAT2 mousePos, const DirectX::XMMATRIX& viewMat, const DirectX::XMMATRIX& projMat,DirectX::XMFLOAT3 cameraPos)
 {

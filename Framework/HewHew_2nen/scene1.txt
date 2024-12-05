@@ -5,7 +5,7 @@ Background :{
 		Z: 0
 	}
 	Size: {
-		X: 100
+		X: 1000
 		Y: 10
 		Z: 0
 	}
@@ -17,46 +17,12 @@ Background :{
 };
 Background :{
 	Position: {
-		X: 55
-		Y: 0
+		X: 0
+		Y: 65
 		Z: 0
 	}
 	Size: {
-		X: 10
-		Y: 60
-		Z: 0
-	}
-	Angle: {
-		X: 0
-		Y: 0
-		Z: 0
-	}
-};
-Background :{
-	Position: {
-		X: -55
-		Y: 0
-		Z: 0
-	}
-	Size: {
-		X: 10
-		Y: 60
-		Z: 0
-	}
-	Angle: {
-		X: 0
-		Y: 0
-		Z: 0
-	}
-};
-Player :{
-	Position: {
-		X: 0
-		Y: 40
-		Z: 0
-	}
-	Size: {
-		X: 10
+		X: 1000
 		Y: 10
 		Z: 0
 	}
@@ -68,42 +34,25 @@ Player :{
 };
 Player :{
 	Position: {
-		X: 0
+		X: -80.3207
+		Y: -9.9451
+		Z: 0
+	}
+	Size: {
+		X: 30
 		Y: 30
 		Z: 0
 	}
-	Size: {
-		X: 10
-		Y: 10
-		Z: 0
-	}
 	Angle: {
 		X: 0
 		Y: 0
 		Z: 0
 	}
 };
-Player :{
+Enemy :{
 	Position: {
-		X: 0
-		Y: 20
-		Z: 0
-	}
-	Size: {
-		X: 10
-		Y: 10
-		Z: 0
-	}
-	Angle: {
-		X: 0
-		Y: 0
-		Z: 0
-	}
-};
-Player :{
-	Position: {
-		X: 0
-		Y: 10
+		X: -50
+		Y: 9.81628
 		Z: 0
 	}
 	Size: {
@@ -117,10 +66,95 @@ Player :{
 		Z: 0
 	}
 };
-Player :{
+Enemy :{
 	Position: {
+		X: -50
+		Y: -0.175028
+		Z: 0
+	}
+	Size: {
+		X: 10
+		Y: 10
+		Z: 0
+	}
+	Angle: {
 		X: 0
 		Y: 0
+		Z: 0
+	}
+};
+Enemy :{
+	Position: {
+		X: -50
+		Y: -10.1246
+		Z: 0
+	}
+	Size: {
+		X: 10
+		Y: 10
+		Z: 0
+	}
+	Angle: {
+		X: 0
+		Y: 0
+		Z: 0
+	}
+};
+Enemy :{
+	Position: {
+		X: -50
+		Y: -20
+		Z: 0
+	}
+	Size: {
+		X: 10
+		Y: 10
+		Z: 0
+	}
+	Angle: {
+		X: 0
+		Y: 0
+		Z: 0
+	}
+};
+Enemy :{
+	Position: {
+		X: -39
+		Y: -0.0384464
+		Z: 0
+	}
+	Size: {
+		X: 10
+		Y: 10
+		Z: 0
+	}
+	Angle: {
+		X: 0
+		Y: 0
+		Z: 0
+	}
+};
+Enemy :{
+	Position: {
+		X: -39
+		Y: -10.0453
+		Z: 0
+	}
+	Size: {
+		X: 10
+		Y: 10
+		Z: 0
+	}
+	Angle: {
+		X: 0
+		Y: 0
+		Z: 0
+	}
+};
+Enemy :{
+	Position: {
+		X: -39
+		Y: -20
 		Z: 0
 	}
 	Size: {

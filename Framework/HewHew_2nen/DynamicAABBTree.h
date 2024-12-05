@@ -45,6 +45,7 @@ struct AABB
 		return 2.0f * (dx * dy);
 	}
 
+	//AABBが更新されているか確認
 	bool contains(const AABB& other)
 	{
 		if ((left == other.left && top == other.top) && (right == other.right && top == other.top))
@@ -68,6 +69,7 @@ struct AABBNode {
 		return left == -1 && right == -1;
 	}
 };
+
 class DynamicAABBTree {
 private:
 	std::vector<AABBNode> nodes; // ノードリスト
@@ -84,6 +86,7 @@ private:
 		return freeNode++;
 	}
 
+	//ノードの消去
 	void deallocateNode(int nodeIndex) {
 		nodes.erase(nodes.begin() + nodeIndex);
 		freeNode--;
@@ -126,7 +129,6 @@ private:
 		nodes[newParent].right = leaf;
 		nodes[current].parent = newParent;
 		nodes[leaf].parent = newParent;
-		//UpdateParentAABB(newParent);
 
 
 		if (oldParent == -1) {
@@ -144,6 +146,7 @@ private:
 		// 高さを更新
 		updateHeight(newParent);
 	}
+	//子ノードのAABBが更新されると親ノードのAABBも更新
 	void UpdateParentAABB(int node) {
 		while (node != -1) {
 			int left = nodes[node].left;
@@ -178,8 +181,10 @@ public:
 		return instance;
 	}
 
+	//オブジェクトの座標とサイズからAABBを計算
 	AABB GetAABB(std::shared_ptr<GameObject>& obj);
 
+	//ゲームオブジェクトのリストを渡す
 	void Init(std::unordered_map<int, std::shared_ptr<GameObject>>& _objects)
 	{
 		objects = &_objects;
@@ -195,6 +200,7 @@ public:
 		return nodeIndex;
 	}
 
+	//オブジェクトで葉を作る
 	void SetLeaf()
 	{
 		for (auto& iter : *objects)
@@ -205,24 +211,28 @@ public:
 		}
 	}
 
+	//ツリーの更新
 	void Update() {
 		for (auto& iter : *objects)
 		{
-			int objectID = iter.first;
-			AABB newAABB = GetAABB(iter.second);
-			int nodeIndex = objectToNodeMap[objectID]; // オブジェクトIDに対応するノードを取得
-			if (nodeIndex == -1) return;       // ノードが見つからなければ何もしない
+			if(&iter!=nullptr)
+			{
+				int objectID = iter.first;
+				AABB newAABB = GetAABB(iter.second);
+				int nodeIndex = objectToNodeMap[objectID]; // オブジェクトIDに対応するノードを取得
+				if (nodeIndex == -1) return;       // ノードが見つからなければ何もしない
 
-			// 古いAABBと新しいAABBが異なる場合
-			if (!nodes[nodeIndex].aabb.contains(newAABB)) {
-				int ID = nodes[nodeIndex].objectID;
-				remove(nodeIndex);         // 古いノードをツリーから削除
-				SetLeaf();
+				// 古いAABBと新しいAABBが異なる場合
+				if (!nodes[nodeIndex].aabb.contains(newAABB)) {
+					int ID = nodes[nodeIndex].objectID;
+					remove(nodeIndex);         // 古いノードをツリーから削除
+					SetLeaf();
+				}
 			}
 		}
 	}
 
-
+	//重なっているオブジェクトの探索
 	void query(int nodeID, const AABB& target, int& results) {
 		if (nodeID == -1) return; // 無効なノードは無視
 
@@ -243,6 +253,7 @@ public:
 		}
 	}
 
+	//ノード全体のAABBの更新
 	void updateAABB(int objID)
 	{
 		auto& obj = (*objects)[objID];
@@ -257,9 +268,10 @@ public:
 		}
 	}
 
-	//静的オブジェクト用
+	//重なっているオブジェクトを探す
 	void findOverlappingObjects(int _objectID);
 
+	//AABBフレーム描画用
 	void updateDebugFlame();
 	// オブジェクトを削除
 	void remove(int nodeIndex) {

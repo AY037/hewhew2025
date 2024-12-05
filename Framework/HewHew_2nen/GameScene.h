@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include"TextureManager.h"
-#include "TextStream.h"
+#include "SaveLoad.h"
 #include "Raycast.h"
 #include "RayCollider.h"
 #include <queue>
@@ -23,18 +23,10 @@ public:
 	{
 
 		// staticObjectsの解放
-		for (auto& pair : staticObjects) {
+		for (auto& pair : gameObjects) {
 			pair.second->Uninit();
 		}
-		staticObjects.clear(); // ベクタをクリア
-
-		// dynamicObjectsの解放
-		for (auto& pair : dynamicObjects) {
-			for (auto& obj : pair.second) {
-				obj->Uninit();
-			}
-		}
-		dynamicObjects.clear(); // ベクタをクリア
+		gameObjects.clear(); // ベクタをクリア
 
 		sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 	}
@@ -42,19 +34,20 @@ public:
 	void Update();	 // シーン内のオブジェクト更新。
 	void Draw();	 // シーン内のオブジェクトを描画
 	void Shutdown(); // シーンの終了処理。
-	void AddObject(const std::string& objectName, std::shared_ptr<GameObject> _gameObject);
+	void AddObject(std::shared_ptr<GameObject>_gameObject);
 	void RenderGameObjectProperties(std::shared_ptr<GameObject>& obj);//オブジェクトのGUI描画
 	void RenderTextureSelector(std::shared_ptr<GameObject>& gameObject);//オブジェクトのテクスチャリストのGUI
-	//void collider(GameObject&);//後でコンポーネント化
-	std::shared_ptr<GameObject> GetGameObject(const std::string&);
+	void ControlGUI();
+	//std::shared_ptr<GameObject> GetGameObject(const std::string&);
 private:
-	std::unordered_map<int, std::shared_ptr<GameObject>> staticObjects; // シーン内のゲームオブジェクトリスト
-	std::unordered_map<std::string, std::list<std::shared_ptr<GameObject>>> dynamicObjects; // 動的オブジェクトの管理
+	std::unordered_map<int, std::shared_ptr<GameObject>> gameObjects; // シーン内のゲームオブジェクトリスト
 	Input& input = Input::GetInstance();
 	TextureManager textureManager;
-	TextStream textStream;
+	SaveLoad saveload;
 	Debug& debug = Debug::GetInstance();
 	std::queue<int> availableIDs;//消されたオブジェクトのIDのキューFIFO
+
+
 	std::string selected_ObjectName;//選択しているオブジェクトの名前
 	Raycast raycast;
 	RayCollider collider;

@@ -4,7 +4,6 @@
 
 #define GUI_MODE
 
-using namespace DirectX;
 
 #define SCREEN_WIDTH (960)	// ウインドウの幅
 #define SCREEN_HEIGHT (720)	// ウインドウの高さ

@@ -6,10 +6,6 @@
 #include "Component.h"
 #include "ComponentManager.h"
 #include "PhysicsEventManager.h"
-//class IObject {
-//public:
-//	~IObject() {}
-//};
 class GameObject {
 
 private:
@@ -29,6 +25,8 @@ private:
 
 	//オブジェクトの名前
 	std::string name;
+	//オブジェクトのテクスチャ名
+	std::string textureName;
 	// 座標
 	DirectX::XMFLOAT3 pos = { 0.0f, 0.0f, 0.0f };
 	// 速度
@@ -50,14 +48,16 @@ private:
 	int splitX = 1;
 	int splitY = 1;
 
+	//シーン上でのオブジェクトのID
 	int ObjID = -1;
+
 
 	PhysicsEventManager physicsEventManager;
 
 protected:
 	ComponentManager<GameObject>& componentManager = ComponentManager<GameObject>::GetInstance();
 	std::list<std::shared_ptr<Component>> components;
-	bool objectType = false;;
+	bool objectType = false;//オブジェクトが静的か動的か
 public:
 	GameObject() {}
 	virtual ~GameObject() { Uninit(); }
@@ -66,7 +66,7 @@ public:
 	float numU = 0;
 	float numV = 0;
 
-	virtual void Init(TextureManager&);  //派生クラス用
+	virtual void Init(TextureManager&)=0;  //派生クラス用
 	virtual void Update() = 0;//派生クラス用
 	void Initialize(const std::string imgname, TextureManager&, int sx = 1, int sy = 1); //初期化
 	void DrawObject(DirectX::XMMATRIX&, DirectX::XMMATRIX&);                    //描画
@@ -79,6 +79,8 @@ public:
 	void SetColor(float r, float g, float b, float a); //色をセット
 	void SetObjID(const int id);
 	int GetObjID();
+	void SetObjectTexName(std::string name);
+	std::string GetObjectTexName();
 
 	std::string GetName(void);
 	DirectX::XMFLOAT3 GetPos(void);  //座標をゲット

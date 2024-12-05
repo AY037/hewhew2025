@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,10 +158,10 @@
     <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="RayCollider.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="sound.cpp" />
-    <ClCompile Include="TextStream.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
@@ -189,11 +189,10 @@
     <ClInclude Include="Raycast.h" />
     <ClInclude Include="RayCollider.h" />
     <ClInclude Include="Rigidbody.h" />
+    <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="sound.h" />
-    <ClInclude Include="TextStream.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform.h" />

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "direct3d.h"
+using namespace DirectX;
 
 //プロトタイプ宣言
 // 頂点シェーダーオブジェクトを生成、同時に頂点レイアウトも生成

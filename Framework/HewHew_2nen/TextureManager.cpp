@@ -1,6 +1,6 @@
 #include "TextureManager.h"
 //stringをstd::wstringと紐づけwstringからwchar_t*に変換するのでポインタを単一にする
-void TextureManager::SetTexture(std::string imgname)
+void TextureManager::IncludeTextureName(std::string imgname)
 {
 	std::wstring wstr(imgname.begin(), imgname.end());
 	imagePass[imgname] = wstr.c_str();
@@ -10,7 +10,7 @@ ID3D11ShaderResourceView* TextureManager::GetTexture(const std::string imgname, 
 {
 	auto _imagePass = imagePass.find(imgname);
 	if (_imagePass == imagePass.end()) {
-		SetTexture(imgname);
+		IncludeTextureName(imgname);
 	}
 
 	_imagePass = imagePass.find(imgname);

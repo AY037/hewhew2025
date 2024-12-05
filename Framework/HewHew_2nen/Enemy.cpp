@@ -1,7 +1,7 @@
 #include "Enemy.h"
 void Enemy::Init(TextureManager& _textureManager)
 {
-	Initialize("asset/yuusya_game.png", _textureManager); //プレイヤーを初期化
+	Initialize(GetObjectTexName(), _textureManager); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	for (auto& component : components)
 	{

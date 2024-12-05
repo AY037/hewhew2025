@@ -1,7 +1,7 @@
 #include "Background.h"
 void Background::Init(TextureManager& _textureManager)
 {
-	Initialize("asset/block.png", _textureManager);   //”wŒi‚ğ‰Šú‰»
+	Initialize(GetObjectTexName(), _textureManager);   //”wŒi‚ğ‰Šú‰»
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//Šp“x‚ğİ’è
 	for (auto& component : components)
 	{

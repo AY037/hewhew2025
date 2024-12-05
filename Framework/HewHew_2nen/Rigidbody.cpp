@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include <SimpleMath.h>
 
-using namespace DirectX::SimpleMath;
+using namespace DirectX;
 Rigidbody::Rigidbody()
 {
 }

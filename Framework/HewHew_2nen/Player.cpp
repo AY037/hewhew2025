@@ -2,7 +2,7 @@
 #include "EventManager.h"
 void Player::Init(TextureManager& _textureManager)
 {
-	Initialize("asset/char01.png",  _textureManager, 3, 4); //プレイヤーを初期化
+	Initialize(GetObjectTexName(),  _textureManager, 3, 4); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	for (auto& component : components)
 	{
