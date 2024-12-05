@@ -12,15 +12,13 @@ public:
     }
     // リスナーを追加する
     void AddListener(const std::string& eventName, std::function<void()> listener) {
-        listeners[eventName].push_back(listener);
+        listeners[eventName] =listener;
     }
 
     // イベントを送信する（イベント名に紐づくリスナーを実行する）
     void SendEvent(const std::string& eventName) {
         if (listeners.find(eventName) != listeners.end()) {
-            for (auto listener : listeners[eventName]) {
-                listener(); // リスナー（関数）を呼び出す
-            }
+            listeners[eventName];
         }
     }
 
@@ -32,5 +30,5 @@ private:
     EventManager(const EventManager&) = delete;
     EventManager& operator=(const EventManager&) = delete;
 
-    std::unordered_map<std::string, std::vector<std::function<void()>>> listeners; // イベントとリスナーのマッピング
+    std::unordered_map<std::string, std::function<void()>> listeners; // イベントとリスナーのマッピング
 };
