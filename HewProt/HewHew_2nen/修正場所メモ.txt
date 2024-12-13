@@ -1,0 +1,2 @@
+ColliderStructureのResolveOverlap関数剣への影響をなくすための条件分岐がきもい
+Playerのドロップが透過処理だから壁すり抜けに使える

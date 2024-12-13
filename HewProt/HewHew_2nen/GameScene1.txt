@@ -1,0 +1,340 @@
+{
+    "objects": [
+        {
+            "angle": 0.0,
+            "name": "Background",
+            "objectTexName": "asset/background.png",
+            "object_id": 0,
+            "position": [
+                0.0,
+                0.0,
+                199.0
+            ],
+            "size": [
+                1000.0,
+                1000.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Ground",
+            "objectTexName": "asset/block.png",
+            "object_id": 1,
+            "position": [
+                0.0,
+                -13.0,
+                0.0
+            ],
+            "size": [
+                10000.0,
+                40.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Ground",
+            "objectTexName": "asset/block.png",
+            "object_id": 2,
+            "position": [
+                0.0,
+                125.0,
+                0.0
+            ],
+            "size": [
+                10000.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Player",
+            "objectTexName": "asset/player.png",
+            "object_id": 3,
+            "position": [
+                -73.67306518554688,
+                17.112247467041016,
+                0.0
+            ],
+            "size": [
+                40.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 30.0,
+            "name": "DragSword",
+            "objectTexName": "asset/block.png",
+            "object_id": 4,
+            "position": [
+                -93.67306518554688,
+                17.112247467041016,
+                0.0
+            ],
+            "size": [
+                50.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 5,
+            "position": [
+                43.653594970703125,
+                22.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 6,
+            "position": [
+                53.879207611083984,
+                22.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 7,
+            "position": [
+                43.73814392089844,
+                12.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 8,
+            "position": [
+                53.91176223754883,
+                32.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 9,
+            "position": [
+                43.18589401245117,
+                32.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 10,
+            "position": [
+                54.07172393798828,
+                12.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 11,
+            "position": [
+                54.10832214355469,
+                42.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 12,
+            "position": [
+                65.115234375,
+                42.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 13,
+            "position": [
+                64.90280151367188,
+                32.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 14,
+            "position": [
+                64.7710952758789,
+                22.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 15,
+            "position": [
+                65.08724975585938,
+                12.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 16,
+            "position": [
+                76.14994812011719,
+                12.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 17,
+            "position": [
+                75.86620330810547,
+                22.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 18,
+            "position": [
+                75.8834228515625,
+                32.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 19,
+            "position": [
+                75.9787826538086,
+                42.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Enemy",
+            "objectTexName": "asset/Enemy.png",
+            "object_id": 20,
+            "position": [
+                43.07126998901367,
+                42.0,
+                0.0
+            ],
+            "size": [
+                10.0,
+                10.0,
+                0.0
+            ]
+        }
+    ]
+}
