@@ -43,17 +43,11 @@
     <Filter Include="ソース ファイル\Component">
       <UniqueIdentifier>{23315b39-c755-4740-bc25-beaf97b88e34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Component\物理">
-      <UniqueIdentifier>{0867be5e-02be-4a87-aa47-24e6945a9773}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{09b402a4-371b-4b28-a1fd-be70a58dde24}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Render">
       <UniqueIdentifier>{4aa6e326-7f87-4f5a-9c3b-49f899b5b35f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\GameObject">
-      <UniqueIdentifier>{1cb2345b-95d2-4a66-bf9d-6d12f592c0fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Component">
       <UniqueIdentifier>{80e5c2e8-9c92-4368-892f-e2430bed7056}</UniqueIdentifier>
@@ -84,6 +78,12 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Animation">
       <UniqueIdentifier>{0ed6af60-a7ed-4ec5-af9e-01a52ccdda91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GameObject">
+      <UniqueIdentifier>{1cb2345b-95d2-4a66-bf9d-6d12f592c0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Component\Physics">
+      <UniqueIdentifier>{0867be5e-02be-4a87-aa47-24e6945a9773}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,10 +121,10 @@
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="DynamicAABBTree.cpp">
-      <Filter>ソース ファイル\Component\物理</Filter>
+      <Filter>ソース ファイル\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>ソース ファイル\Component\物理</Filter>
+      <Filter>ソース ファイル\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>ソース ファイル\Component</Filter>
@@ -172,7 +172,7 @@
       <Filter>ソース ファイル\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
-      <Filter>ソース ファイル\Component\物理</Filter>
+      <Filter>ソース ファイル\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="GuiController.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -184,7 +184,7 @@
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="ColliderStructure.cpp">
-      <Filter>ソース ファイル\Component\物理</Filter>
+      <Filter>ソース ファイル\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Render</Filter>
@@ -217,13 +217,16 @@
       <Filter>ソース ファイル\Animation</Filter>
     </ClCompile>
     <ClCompile Include="StageCollider.cpp">
-      <Filter>ソース ファイル\Component\物理</Filter>
+      <Filter>ソース ファイル\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="DragAnimation.cpp">
       <Filter>ソース ファイル\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

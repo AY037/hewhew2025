@@ -38,5 +38,7 @@ private:
 	int selected_ObjectID = -1;//選択しているオブジェクトのID
 	bool isUsingGUI = false;//マウスカーソルがgui上にあるか
 	bool drawMakeObjSelecter = false;//オブジェクト生成のUI描画フラグ
+
+	bool runningGame=false;
 };
 

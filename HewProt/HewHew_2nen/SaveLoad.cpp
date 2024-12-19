@@ -4,8 +4,8 @@
 void SaveLoad::SaveScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects) {
     nlohmann::json sceneJson;
 
-    for (auto& iter : objects) {
-        auto& obj = iter.second;
+    for (auto& pair : objects) {
+        auto& obj = pair.second;
 
         DirectX::XMFLOAT3 pos = obj->GetPos();
         DirectX::XMFLOAT3 size = obj->GetSize();
@@ -33,7 +33,7 @@ void SaveLoad::SaveScene(const std::string& fileName, std::unordered_map<int, st
 }
 
 // シーンを読み込み
-void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, TextureManager& textureManager) {
+void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, std::vector<std::shared_ptr<GameObject>*>& objectList, TextureManager& textureManager) {
     nlohmann::json sceneJson;
 
     // ファイルを読み込む
@@ -50,7 +50,7 @@ void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, st
     for (const auto& objJson : sceneJson["objects"]) {
         std::shared_ptr<GameObject> tmpObj = GameObjectManager::GetInstance().GetObj(objJson["name"]);
         tmpObj->SetName(objJson["name"]);
-        int objID = objJson["object_id"];
+        int objID = objectList.size();
         tmpObj->SetObjID(objID);
 
         auto pos = objJson["position"];
@@ -59,7 +59,8 @@ void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, st
         tmpObj->SetSize(size[0], size[1], size[2]);
         tmpObj->SetAngle(objJson["angle"]);
         tmpObj->SetObjectTexName(objJson["objectTexName"]);
-        objects[objID] = tmpObj;
+        objects.insert({ objID ,tmpObj });
+        objectList.push_back(&objects[objID]);
     }
 }
 

@@ -92,6 +92,24 @@ float Input::GetRightTrigger(void)
 	return t / 255.0f;
 }
 
+// トリガーのデジタル入力（LT押し始め）
+bool Input::GetRightTriggerTrigger()  {
+	return controllerState_old.Gamepad.bRightTrigger <= triggerThreshold &&
+		controllerState.Gamepad.bRightTrigger > triggerThreshold;
+}
+
+// トリガーのリリース（LT離した瞬間）
+bool Input::GetRightTriggerRelease()  {
+	return controllerState_old.Gamepad.bRightTrigger > triggerThreshold &&
+		controllerState.Gamepad.bRightTrigger <= triggerThreshold;
+}
+
+// トリガーのプレス（LT押している間）
+bool Input::GetRightTriggerPress()  {
+	return controllerState.Gamepad.bRightTrigger > triggerThreshold;
+}
+
+
 //ボタン入力
 bool Input::GetButtonPress(WORD btn) //プレス
 {

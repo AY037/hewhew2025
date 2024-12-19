@@ -11,7 +11,7 @@ public:
     void SaveScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects);
 
     // シーンを読み込み
-    void LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, TextureManager& textureManager);
+    void LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, std::vector<std::shared_ptr<GameObject>*>& objectList, TextureManager& textureManager);
 
     // シーンのリセット
     void ResetScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects);

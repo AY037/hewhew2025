@@ -5,8 +5,8 @@ class BigAttackAnimation1:public GameObject
 public:
 	BigAttackAnimation1(TextureManager& _textureManager, const DirectX::XMFLOAT3 _pos) {
 		SetName("BigAttackAnimation");
-		SetPos(_pos.x + 40, _pos.y + 10, 0);
-		SetSize(50, 50, 0);
+		SetPos(_pos.x, _pos.y, 0);
+		SetSize(60, 60, 0);
 		SetAngle(30);
 		SetObjectTexName("asset/bigAttack.png");
 		Init(_textureManager);
@@ -18,5 +18,6 @@ public:
 	void Update();//çXêV
 	void Draw();  //ï`âÊ
 private:
+	int animation_cnt = 0;
 };
 

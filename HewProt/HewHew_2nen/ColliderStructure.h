@@ -7,10 +7,10 @@ class GameObject;
 struct AABB
 {
 	float left = 0.0f, top = 0.0f, right = 0.0f, bottom = 0.0f;
-	int objctID = -1;
+	int objectID = -1;
 	// オブジェクト同士の交差判定
 	bool intersects(const AABB& other) const {
-		if (objctID != other.objctID)
+		if (objectID != other.objectID)
 		{
 			if ((right >= other.left && left <= other.left) || (right >= other.right && left <= other.right))
 			{

@@ -2,23 +2,36 @@
 
 void Scene::AddObject(std::shared_ptr<GameObject>& _gameObject)
 {
-	int id = gameObjects.size()+1;
+	int size = gameObjects.size();
+	int id = size;
 	if (!availableIDs.empty()) {
 		id = availableIDs.front();
 		availableIDs.pop();
 	}
-	_gameObject->SetObjID(id);
-	_gameObject->Init(textureManager);
-	gameObjects.insert({ id,_gameObject });
+	while(1)
+	{
+		if (gameObjects.find(id) != gameObjects.end()) {
+			id++;
+		}
+		else {
+			_gameObject->SetObjID(id);
+			_gameObject->Init(textureManager);
+			gameObjects.insert({ id,_gameObject });
+			addObjects.push_back(id);
+			break;
+		}
+	}
 }
 
 void Scene::DeleteObject(int _ObjectID)
 {
-	gameObjects.erase(_ObjectID); // 削除
-	if(gameObjects.size()>= _ObjectID)
+	for (int i = 0; i < gameObjectList.size(); ++i)
 	{
-		availableIDs.push(_ObjectID);
+		if ((*gameObjectList[i])->GetObjID() == _ObjectID)gameObjectList.erase(gameObjectList.begin() + i);
 	}
+	gameObjects.erase(_ObjectID); // 削除
+	availableIDs.push(_ObjectID);
+
 }
 
 const TextureManager& Scene::GetTextureManager()
@@ -62,6 +75,12 @@ std::vector<int> Scene::FindObjID(const std::string& objName)
 		}
 	}
 	return ids;
+}
+
+//消去手予定のオブジェクトリストにプッシュ
+void Scene::AddRemoveObject(int objID)
+{
+	removeObjects.push_back(objID);
 }
 
 //void Scene::SetNameToIDs()

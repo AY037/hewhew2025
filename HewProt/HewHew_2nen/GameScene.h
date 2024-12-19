@@ -29,6 +29,7 @@ public:
 		sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 	}
 	void Init();	 // シーンの初期化。ここにオブジェクトを追加
+	void AddEventManager();
 	void Update();	 // シーン内のオブジェクト更新。
 	void Draw();	 // シーン内のオブジェクトを描画
 	void Shutdown(); // シーンの終了処理。
@@ -37,11 +38,14 @@ private:
 	Input& input = Input::GetInstance();
 	Debug& debug = Debug::GetInstance();
 
-	//斬撃のの飛ぶ高さ
-	float slash_height = 0.0f;
+	//斬撃の時間
+	int slash_time = 0;
 
 	//ヒットストップ用
 	int hit_stop = 0;
 	int stop_cnt = 0;
+
+	int PLAYER_ID = 0;
+	int DRAGSWORD_ID = 0;
 };
 

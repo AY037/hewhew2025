@@ -111,7 +111,17 @@ bool OBB::IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_pt
 	}
 	else
 	{
-		ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+		if (obj1->GetName() == "DragSword" || obj2->GetName() == "DragSword")
+		{
+			if (obj1->GetName() == "Debri" || obj2->GetName() == "Debri")
+			{
+				ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+			}
+		}
+		else
+		{
+			ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+		}
 	}
 	return true; // è’ìÀÇµÇƒÇ¢ÇÈ
 }

@@ -18,5 +18,6 @@ public:
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:
+	int animation_cnt = 0;
 };
 

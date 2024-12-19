@@ -6,18 +6,22 @@
 #include "BigAttackAnimation1.h"
 #include "BigAttackAnimation2.h"
 #include "DragAnimation.h"
+#include "BoxCollider.h"
 
 void Player::Init(TextureManager& _textureManager)
 {
-	Initialize(GetObjectTexName(), _textureManager); //プレイヤーを初期化
+	Initialize(GetObjectTexName(), _textureManager, 3, 2); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 
 	//コンポーネントの初期化
 	for (auto& component : components)
 	{
-		component->Init(*this);
+		component.second->Init(*this);
 	}
 	textureManager = &_textureManager;
+
+
+	EventManager::GetInstance().AddListener("damage", [this]() {if (!damage_flg)this->playerHP--; damage_flg = true; });
 }
 
 void Player::Update(void)
@@ -25,6 +29,26 @@ void Player::Update(void)
 	static int flame_cnt = 0;
 	DirectX::XMFLOAT3 pos = GetPos();
 	DirectX::XMFLOAT3 _velocity = GetVelocity();
+
+	//キャラクターアニメーション
+	if (runUV_cnt == 4 && numU == 2)
+	{
+		if (numV == 0)
+		{
+			numV = 1;
+		}
+		else
+		{
+			numV = 0;
+		}
+		numU = 0;
+	}
+	if (runUV_cnt == 4)
+	{
+		numU++;
+		runUV_cnt = 0;
+	}
+	runUV_cnt++;
 
 	//デバッグ用----------------------------------------
 	//if (input.GetKeyPress(VK_D))
@@ -39,79 +63,99 @@ void Player::Update(void)
 	//}
 	//--------------------------------------------------
 	
-	
 	//ジャンプ
-	if (input.GetKeyTrigger(VK_W) && jump_cnt < 2)
+	if ((input.GetButtonTrigger(XINPUT_UP) || (input.GetKeyTrigger(VK_W))) && jump_cnt < 2)
 	{
 		_velocity.y = 3.0f;
 		SetVelocity(_velocity);
 		jump_cnt++;
+		Sound::GetInstance().Play(SE_JUMP);
 	}
 	//ドロップ
-	if (input.GetKeyTrigger(VK_S))
+	if ((input.GetButtonTrigger(XINPUT_DOWN) && jump_cnt < 2) || (input.GetKeyTrigger(VK_S)))
 	{
 		StageCollider::GetInstance()->SetGhost();
 	}
 
-	static int enterCnt = 0;
-	if (input.GetKeyTrigger(VK_SPACE))
-	{
-		Sound::GetInstance().Play(SOUND_LABEL_SE000); //BGMを再生定
-		playerAnimations[DRAG_ANI] = std::make_shared<DragAnimation>(*textureManager, pos);
-	}
 
-	//引きずり中
-	if (input.GetKeyPress(VK_SPACE))
+	if (landing==true)
 	{
-		enterCnt++;
-		if(playerAnimations[DRAG_ANI] != nullptr)
+		EventManager::GetInstance().SendEvent("Vibration");
+
+		//引きずり中
+		if ((input.GetRightTriggerPress()) || (input.GetKeyPress(VK_SPACE)))
 		{
-			if (enterCnt > 0 && enterCnt < 60)
+			//引きずりトリガー
+			drag_o = drag_n;
+			drag_n = true;
+			if (drag_o == false && drag_n == true)
 			{
-				playerAnimations[DRAG_ANI]->SetPos(pos.x - 25, pos.y - 9, 0);
-				playerAnimations[DRAG_ANI]->SetColor(1.5f, 1.5f, 0.5f, 1.0f);
-				playerAnimations[DRAG_ANI]->SetSize(20.0f, 20.0f, 0.0f);
+				Sound::GetInstance().Play(SE_DRAG_ROOP);
+				//Sound::GetInstance().Play(SE_SPARK_ROOP);
+				playerAnimations[DRAG_ANI] = std::make_shared<DragAnimation>(*textureManager, pos);
+			}
+
+			enterCnt++;
+			if (playerAnimations[DRAG_ANI] != nullptr)
+			{
+				if (enterCnt > 0 && enterCnt < 60)
+				{
+					playerAnimations[DRAG_ANI]->SetPos(pos.x - 32, pos.y - 6, 0);
+					playerAnimations[DRAG_ANI]->SetSize(30.0f, 30.0f, 0.0f);
+				}
+				if (enterCnt >= 60 && enterCnt < 120)
+				{
+					playerAnimations[DRAG_ANI]->SetPos(pos.x - 38, pos.y + 2, 0);
+					playerAnimations[DRAG_ANI]->SetSize(40.0f, 40.0f, 0.0f);
+				}
+				if (enterCnt == 120)
+				{
+					playerAnimations[DRAG_ANI]->SetSize(50.0f, 50.0f, 0.0f);
+					playerAnimations[DRAG_ANI]->SetTexture("asset/hikizuri2.png", TextureManager::GetInstance());
+				}
+				if (enterCnt > 120)
+				{
+					playerAnimations[DRAG_ANI]->SetPos(pos.x - 42, pos.y + 4, 0);
+				}
+			}
+		}
+		else{
+			//引きずりのフラグのリセット
+			drag_o = false;
+			drag_n = false;
+		}
+
+		//引きずりを終了してため攻撃
+		if ((input.GetRightTriggerRelease()) || (input.GetKeyRelease(VK_SPACE)))
+		{
+			Sound::GetInstance().Stop(SE_DRAG_ROOP);
+			//Sound::GetInstance().Stop(SE_SPARK_ROOP);
+			Sound::GetInstance().Play(SE_ATTACK_NORMAL);
+			//攻撃イベントの送信
+			playerAnimations[ATTACK_ANI] = std::make_shared<AttackAnimation1>(*textureManager, pos);
+			if (enterCnt < 60)
+			{
+				EventManager::GetInstance().SendEvent("normalAttack");
 			}
 			if (enterCnt >= 60 && enterCnt < 120)
 			{
-				playerAnimations[DRAG_ANI]->SetPos(pos.x - 30, pos.y - 9, 0);
-				playerAnimations[DRAG_ANI]->SetColor(2.0f, 1.0f, 1.0f, 1.0f);
-				playerAnimations[DRAG_ANI]->SetSize(30.0f, 30.0f, 0.0f);
+				playerAnimations[BIG_ATTACK_ANI1] = std::make_shared<BigAttackAnimation1>(*textureManager, pos);
+				EventManager::GetInstance().SendEvent("normalAttack");
+				EventManager::GetInstance().SendEvent("attack1");
+				Sound::GetInstance().Play(SE_ATTACK_FLAME);
 			}
 			if (enterCnt >= 120)
 			{
-				playerAnimations[DRAG_ANI]->SetPos(pos.x - 35, pos.y - 9, 0);
-				playerAnimations[DRAG_ANI]->SetColor(1.0f, 1.0f, 2.0f, 1.0f);
-				playerAnimations[DRAG_ANI]->SetSize(40.0f, 40.0f, 0.0f);
+				playerAnimations[BIG_ATTACK_ANI2] = std::make_shared<BigAttackAnimation2>(*textureManager, pos);
+				EventManager::GetInstance().SendEvent("normalAttack");
+				EventManager::GetInstance().SendEvent("attack2");
+				Sound::GetInstance().Play(SE_ATTACK_FLAME);
 			}
-		}
-	}
+			enterCnt = 0;
 
-	//引きずりを終了してため攻撃
-	if (input.GetKeyRelease(VK_SPACE))
-	{
-		//攻撃イベントの送信
- 		playerAnimations[ATTACK_ANI] = std::make_shared<AttackAnimation1>(*textureManager, pos);
-		if (enterCnt < 60)
-		{
-			EventManager::GetInstance().SendEvent("normalAttack");
+			enterRelease = true;
+ 			playerAnimations.erase(DRAG_ANI);
 		}
-		if (enterCnt >= 60 && enterCnt < 120)
-		{
-			playerAnimations[BIG_ATTACK_ANI1] = std::make_shared<BigAttackAnimation1>(*textureManager, pos);
-			EventManager::GetInstance().SendEvent("attack1");
-		}
-		if (enterCnt >= 120)
-		{
-			playerAnimations[BIG_ATTACK_ANI2] = std::make_shared<BigAttackAnimation2>(*textureManager, pos);
-			EventManager::GetInstance().SendEvent("attack2");
-		}
-		enterCnt = 0;
-		Sound::GetInstance().Stop(SOUND_LABEL_SE000); //BGMを再生定
-		Sound::GetInstance().Play(SOUND_LABEL_SE001); //BGMを再生定
-
-		enterRelease = true;
-		playerAnimations.erase(DRAG_ANI);
 	}
 	//プレイヤーの速度の更新
 	_velocity.x = scrollVelocity;
@@ -119,19 +163,42 @@ void Player::Update(void)
 	//プレイヤーの座標計算
 	SetPos(pos.x + _velocity.x, pos.y + _velocity.y, pos.z + _velocity.z);
 
+	//=======================================================================
 	//コンポーネントの更新
+	//=======================================================================
+	//ステージオブジェクトとの当たり判定
+	bool land_check1 = boxColl.HitCheck(*this);
+	//その他との当たり判定
+	bool land_check2 = StageCollider::GetInstance()->HitCheck(*this);
+	//現状はRigidbodyのみ
 	for (auto& component : components)
 	{
-		component->Update();
+		component.second->Update();
 	}
-	//ステージオブジェクトとの当たり判定
-	StageCollider::GetInstance()->HitCheck(*this);
+	//地面との接触判定
+	if (runUV_cnt == 4)
+	{
+		if(land_check1 == true|| land_check2 == true)
+		{
+			landing = true;
+		}
+		else
+		{
+			landing = false;
+			//引きずりのリセット
+			drag_o = false;
+			drag_n = false;
+			playerAnimations.erase(DRAG_ANI); 
+			enterCnt = 0;
+		}
+	}
+
 
 	//アニメーションを消す
-	if (playerAnimations.size() != 0&& enterRelease==true)
+	if (playerAnimations.size() != 0 && enterRelease == true)
 	{
 		flame_cnt++;
-		if (flame_cnt == 30)
+		if (flame_cnt == 24)
 		{
 			playerAnimations.erase(ATTACK_ANI);
 			playerAnimations.erase(BIG_ATTACK_ANI1);
@@ -144,9 +211,33 @@ void Player::Update(void)
 	//アニメーションのアップデート
 	for (const auto& pair : playerAnimations)
 	{
-		if(pair.second)pair.second->Update();
+		if (pair.second)pair.second->Update();
 	}
 
+	//ダメージ受けた時の点滅
+	if (damage_flg == true)
+	{
+		invincibility_cnt++;
+		if (invincibility_cnt % 8 == 0)
+		{
+			SetColor(1.0f, 1.0f, 1.0f, 0.5f);
+		}
+		if (invincibility_cnt % 16 == 0)
+		{
+			SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+	}
+	if (invincibility_cnt == invincibility_time)
+	{
+		damage_flg = false;
+		invincibility_cnt = 0;
+		SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	if (playerHP == 0)
+	{
+		playerHP = 0;
+	}
 }
 
 //やば設計

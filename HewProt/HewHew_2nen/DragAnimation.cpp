@@ -9,20 +9,19 @@ void DragAnimation::Init(TextureManager& _textureManager)
 
 void DragAnimation::Update(void)
 {
-	static int animation_cnt = 0;
 	animation_cnt++;
-	if (animation_cnt == 5)
+	if (animation_cnt % 5==0)
 	{
 		numU++;
-		animation_cnt = 0;
+		//animation_cnt = 0;
 	}
 	if (numU == 5) {
 		numU = 0;
-		numV += 1;
-		if (numV = 3)
-		{
-			numV = 1;
-		}
+	}
+
+	if (animation_cnt == 60)
+	{
+		numV = 2;
 	}
 }
 

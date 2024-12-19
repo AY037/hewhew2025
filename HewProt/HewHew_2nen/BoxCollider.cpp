@@ -13,7 +13,7 @@ void BoxCollider::Update()
 {
 	HitCheck(*this->m_obj);
 }
-void BoxCollider::HitCheck(GameObject& obj)
+bool BoxCollider::HitCheck(GameObject& obj)
 {
-	tree.findOverlappingObjects(obj.GetObjID());
+	return tree.findOverlappingObjects(obj.GetObjID());
 }

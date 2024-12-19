@@ -9,7 +9,7 @@ public:
 	}
 	~BoxCollider() {}
 	void Init(GameObject& obj)override;
-	void HitCheck(GameObject& obj);
+	bool HitCheck(GameObject& obj);
 
 	void Update()override;
 

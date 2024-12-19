@@ -32,7 +32,7 @@ private:
 	// 速度
 	DirectX::XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
 	// 大きさ
-	DirectX::XMFLOAT3 size = { 100.0f, 100.0f, 0.0f };
+	DirectX::XMFLOAT3 size = { 10.0f, 10.0f, 0.0f };
 	// 角度
 	float angle = 0.0f;
 	// 色
@@ -55,7 +55,7 @@ private:
 
 protected:
 	ComponentManager& componentManager = ComponentManager::GetInstance();
-	std::list<std::shared_ptr<Component>> components;
+	std::unordered_map<std::string,std::shared_ptr<Component>> components;
 	bool isRigidbody = false;//オブジェクトが静的か動的か
 	bool isBoxColl = false;
 public:

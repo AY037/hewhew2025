@@ -3,7 +3,7 @@
 class Sword:public GameObject
 {
 public:
-	Sword(const DirectX::XMFLOAT3& _swordSpeed):swordSpeed(_swordSpeed){
+	Sword(const DirectX::XMFLOAT3& _swordSpeed,const int _alive_time):swordSpeed(_swordSpeed),alive_time(_alive_time){
 		AddComponent("BoxCollider");
 		isRigidbody = true;
 	}
@@ -18,4 +18,6 @@ public:
 	}
 private:
 	DirectX::XMFLOAT3 swordSpeed;
+	int alive_time;
+	int falme_cnt = 0;
 };

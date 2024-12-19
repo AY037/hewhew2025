@@ -74,6 +74,8 @@ private:
 
 	DirectX::XMFLOAT2 mousePos;
 
+	float triggerThreshold = 50.0f;//トリガーの入力の基準点
+
 	Input(); //コンストラクタ
 	~Input(); //デストラクタ
 public:
@@ -96,6 +98,10 @@ public:
 	//トリガー(コントローラー)
 	float GetLeftTrigger(void);
 	float GetRightTrigger(void);
+
+	bool GetRightTriggerTrigger();
+	bool GetRightTriggerRelease();
+	bool GetRightTriggerPress();
 
 	//ボタン入力(コントローラー)
 	bool GetButtonPress(WORD btn);   //プレス(押している間ずっと)

@@ -182,8 +182,9 @@ void GameObject::SetTexture(const std::string imgname, TextureManager& textureMa
 
 void GameObject::AddComponent(const std::string& name)
 {
-	components.push_back(componentManager.GetComponent(name));
+	components.insert({ name,componentManager.MakeComponent(name) });
 }
+
 
 void GameObject::SetObjID(const int id)
 {

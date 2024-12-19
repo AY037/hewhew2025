@@ -16,36 +16,39 @@ void GuiController::Update()
 }
 
 void GuiController::Draw() {
-	RenderHierarchyView();
 	RenderTopView();
-	RenderBottomView();
-	if (selected_ObjectID != NOSELECTED)
+	if(!runningGame)
 	{
-		auto& obj = (*gameObjects)[selected_ObjectID];
-		if (obj)
+		RenderHierarchyView();
+		RenderBottomView();
+		if (selected_ObjectID != NOSELECTED)
 		{
-			RenderGameObjectProperties(obj);
+			auto& obj = (*gameObjects)[selected_ObjectID];
+			if (obj)
+			{
+				RenderGameObjectProperties(obj);
+			}
 		}
-	}
-	else
-	{
-		const int width = SCREEN_WIDTH / 6.0f;
-		const int height = SCREEN_HEIGHT;
-		// 固定位置 (左上に表示)
-		ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - width, 0), ImGuiCond_Always);
-		// 固定サイズ (幅300, 高さ200)
-		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
-		//ImGui::SetNextWindowSizeConstraints(ImVec2(200, 100), ImVec2(800, 600)); // 最小サイズ200x100, 最大800x600
-
-		ImGui::Begin("GameObject Properties");
-
-		ImGui::Text("NOSELECTED");
-		if (drawMakeObjSelecter == true)
+		else
 		{
-			GameObjectSelector(m_rayPos);
-		}
+			const int width = SCREEN_WIDTH / 6.0f;
+			const int height = SCREEN_HEIGHT;
+			// 固定位置 (左上に表示)
+			ImGui::SetNextWindowPos(ImVec2(SCREEN_WIDTH - width, 0), ImGuiCond_Always);
+			// 固定サイズ (幅300, 高さ200)
+			ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
+			//ImGui::SetNextWindowSizeConstraints(ImVec2(200, 100), ImVec2(800, 600)); // 最小サイズ200x100, 最大800x600
 
-		ImGui::End();
+			ImGui::Begin("GameObject Properties");
+
+			ImGui::Text("NOSELECTED");
+			if (drawMakeObjSelecter == true)
+			{
+				GameObjectSelector(m_rayPos);
+			}
+
+			ImGui::End();
+		}
 	}
 }
 
@@ -293,7 +296,7 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 				currentMakeObjectName = makeObjectName.first; // 選択中のテクスチャ名を更新
 				std::shared_ptr<GameObject> obj = gameObjMng.GetObj(currentMakeObjectName);
 				obj->SetPos(pos.x, pos.y, 0);
-				obj->SetSize(10, 10, 0);
+				//obj->SetSize(10, 10, 0);
 				obj->SetName(currentMakeObjectName);
 				obj->Init(textureManager);
 				scene->AddObject(obj);
@@ -371,7 +374,6 @@ void GuiController::RenderTopView() {
 	ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 	if (ImGui::Begin("TopView", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
 	{
-		static bool runningGame = false;
 		if(runningGame==false)
 		{
 			if (ImGui::Button("StartGame", ImVec2(100, 30))) { // 幅200、高さ100のボタン

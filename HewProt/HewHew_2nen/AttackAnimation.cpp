@@ -16,6 +16,8 @@ void AttackAnimation1::Update(void)
 		numU++;
 		animation_cnt = 0;
 	}
+	if (numU == 8&& animation_cnt == 0) {
+	}
 	if (numU >= 10) {
 	}
 }

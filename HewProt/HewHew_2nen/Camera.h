@@ -16,7 +16,7 @@ public:
 	void Update(const DirectX::XMFLOAT3& playerPos = { 0,0,0 },bool stop_flg=false); //更新   
 	void EngineCameraUpdate(); //更新   
 	void Uninit(); //終了
-
+	void CameraVibration();
 	DirectX::XMMATRIX SetViewMatrix();			   //プロジェクション変換行列のセット
 	DirectX::XMMATRIX SetProjectionMatrix();	   //プロジェクション変換行列のセット
 	DirectX::XMVECTOR GetRotationQuaternion();
@@ -30,4 +30,6 @@ private:
 	DirectX::XMFLOAT3 cameraPos = { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT3 cameraAngle= { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT2 mousePos = { 0.0f, 0.0f};
+	DirectX::XMFLOAT3 playerPos = { 0.0f,0.0f ,0.0f };
+	int flame_cnt = 0;
 };

@@ -6,12 +6,14 @@ void Sword::Init(TextureManager& _textureManager)
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//Šp“x‚ðÝ’è
 	for (auto& component : components)
 	{
-		component->Init(*this);
+		component.second->Init(*this);
 	}
 }
 
 void Sword::Update(void)
 {
+	falme_cnt++;
+
 	DirectX::XMFLOAT3 _pos = GetPos();
 
 	SetVelocity(swordSpeed);
@@ -19,7 +21,12 @@ void Sword::Update(void)
 
 	for (auto& component : components)
 	{
-		component->Update();
+		component.second->Update();
+	}
+
+	if (falme_cnt == alive_time)
+	{
+
 	}
 }
 

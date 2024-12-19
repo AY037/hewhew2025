@@ -2,7 +2,7 @@
 #include "EventManager.h"
 void SceneManager::Init()
 {
-	EventManager::GetInstance().SetChangeSceneFunc([this](const std::string sceneName) {this->SwitchScene(sceneName); });
+	EventManager::GetInstance().AddChangeSceneFunc([this](const std::string sceneName) {this->SwitchScene(sceneName); });
 }
 void SceneManager::AddScene(const std::string& sceneName, Scene* scene) {
 	scenes[sceneName]=std::move(scene);  // Š—LŒ ‚ğˆÚ“®‚µ‚Ä’Ç‰Á

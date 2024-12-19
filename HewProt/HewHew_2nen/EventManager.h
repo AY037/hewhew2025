@@ -11,26 +11,15 @@ public:
         return instance;            // 常に同じインスタンスを返す
     }
     // リスナーを追加する
-    void AddListener(const std::string& eventName, std::function<void()> listener) {
-        listeners[eventName] =listener;
-    }
+    void AddListener(const std::string& eventName, std::function<void()> listener);
 
     // イベントを送信する（イベント名に紐づくリスナーを実行する）
-    void SendEvent(const std::string& eventName) {
-        if (listeners.find(eventName) != listeners.end()) {
-            listeners[eventName]();
-        }
-    }
+    void SendEvent(const std::string& eventName);
 
-    void SetChangeSceneFunc(const std::function<void(const std::string&)>& _changeSceneFunc)
-    {
-        changeSceneFunc = _changeSceneFunc;
-    }
+    void AddChangeSceneFunc(const std::function<void(const std::string&)>& _changeSceneFunc);
 
-    void SendChangeScene(std::string sceneName)
-    {
-        changeSceneFunc(sceneName);
-    }
+    void SendChangeScene(std::string sceneName);
+
 private:
     // コンストラクタをプライベートにすることで外部からのインスタンス生成を禁止
     EventManager() {}

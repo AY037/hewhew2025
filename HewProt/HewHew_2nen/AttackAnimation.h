@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "EventManager.h"
 class AttackAnimation1 :public GameObject
 {
 public:
@@ -12,7 +13,9 @@ public:
 		Init(_textureManager);
 		isRigidbody = false;
 	}
-	~AttackAnimation1() {}
+	~AttackAnimation1() {
+		EventManager::GetInstance().SendEvent("deleteSword");
+	}
 
 	void Init(TextureManager& _textureManager);  //‰Šú‰»
 	void Update();//XV

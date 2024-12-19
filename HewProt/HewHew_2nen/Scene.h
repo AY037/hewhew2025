@@ -26,6 +26,7 @@ public:
 
     //オブジェクトの追加と消去
     void AddObject(std::shared_ptr<GameObject>&_gameObject);
+    void AddRemoveObject(int);
     void DeleteObject(int _ObjectID);
 
     //ゲッター
@@ -39,8 +40,11 @@ public:
 
 protected:
     std::unordered_map<int, std::shared_ptr<GameObject>> gameObjects; // シーン内のゲームオブジェクトリスト
+    std::vector<std::shared_ptr<GameObject>*> gameObjectList; // シーン内のゲームオブジェクトリスト
     std::queue<int> availableIDs;//消されたオブジェクトのIDのキューFIFO
     //std::unordered_map<std::string, std::vector<int>> nameToIDs; // オブジェクト名が同じオブジェクトのIDを検索
+    std::vector<int> addObjects;//追加予定のオブジェクトリスト
+    std::vector<int> removeObjects;//消去予定のオブジェクトリスト
     TextureManager& textureManager = TextureManager::GetInstance();
     SaveLoad saveload;
     std::unique_ptr<Camera> camera; // シーンごとのカメラ

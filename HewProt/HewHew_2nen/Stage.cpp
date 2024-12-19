@@ -5,7 +5,7 @@ void Stage::Init(TextureManager& _textureManager)
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
 	for (auto& component : components)
 	{
-		component->Init(*this);
+		component.second->Init(*this);
 	}
 }
 
@@ -13,7 +13,7 @@ void Stage::Update(void)
 {
 	for (auto& component : components)
 	{
-		component->Update();
+		component.second->Update();
 	}
 }
 

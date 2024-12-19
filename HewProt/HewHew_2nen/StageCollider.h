@@ -2,6 +2,7 @@
 #include "Component.h"
 #include <vector>
 #include <memory>
+#include "ColliderStructure.h"
 
 class StageCollider:public Component
 {
@@ -14,12 +15,13 @@ public:
 		return instance;
 	}
 	void Init(GameObject& obj)override;
-	void HitCheck(GameObject& obj);
+	bool HitCheck(GameObject& obj);
 	void Update()override;
 
 	void SetGhost();
 private:
 	std::vector<GameObject*> stageObjects;
+	OBB obb;
 	bool pGhostFlg = false;
 };
 

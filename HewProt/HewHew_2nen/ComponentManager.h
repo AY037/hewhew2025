@@ -19,7 +19,7 @@ public:
         return instance;
     }
 
-    std::shared_ptr<Component> GetComponent(const std::string& name) const
+    std::shared_ptr<Component> MakeComponent(const std::string& name) const
     {
         auto it = componentList.find(name);
         if (it != componentList.end()) {

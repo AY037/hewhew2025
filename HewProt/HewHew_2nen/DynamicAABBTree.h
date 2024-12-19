@@ -63,7 +63,7 @@ public:
 	void updateAABB(int objID);
 
 	//重なっているオブジェクトを探す
-	void findOverlappingObjects(int _objectID);
+	bool findOverlappingObjects(int _objectID);
 
 	// オブジェクトを削除
 	void remove();

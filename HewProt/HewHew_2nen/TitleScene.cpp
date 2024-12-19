@@ -6,7 +6,7 @@ void TitleScene::Init()// シーンの初期化。
     camera->Init();
 
     //シーンのロード
-    saveload.LoadScene("TitleScene.txt", gameObjects, textureManager);
+    saveload.LoadScene("TitleScene.txt", gameObjects, gameObjectList, textureManager);
 
     //オブジェクトの初期化
     for (auto& obj : gameObjects)

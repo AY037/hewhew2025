@@ -85,15 +85,15 @@ void Rigidbody::StaticCollision(GameObject& obj, GameObject& other,DirectX::XMFL
 	// 計算結果を保存
 	XMStoreFloat2(&velocity, finalVelocityVec);
 
-    const float threshold = 0.05f;
-    if (fabs(velocity.x) < threshold && fabs(velocity.y) < threshold) {
-        velocity.x = 0.0f;
-        velocity.y = 0.0f;
-    }
-    if (fabs(velocity.x) < threshold && fabs(velocity.y) < threshold) {
-        velocity.x = 0.0f;
-        velocity.y = 0.0f;
-    }
+    //const float threshold = 0.05f;
+    //if (fabs(velocity.x) < threshold && fabs(velocity.y) < threshold) {
+    //    velocity.x = 0.0f;
+    //    velocity.y = 0.0f;
+    //}
+    //if (fabs(velocity.x) < threshold && fabs(velocity.y) < threshold) {
+    //    velocity.x = 0.0f;
+    //    velocity.y = 0.0f;
+    //}
 
 	v1Float3 = { velocity.x,velocity.y,0 };
 	// 動的オブジェクトの速度を更新

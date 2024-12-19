@@ -8,6 +8,7 @@ public:
 		AddComponent("BoxCollider");
 		SetObjectTexName("asset/Enemy.png");
 		isRigidbody = true;
+		SetSize(16, 20, 0);
 	}
 	~Enemy() {}
 	void Init(TextureManager& _textureManager);  //‰Šú‰»

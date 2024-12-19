@@ -5,7 +5,7 @@ void Enemy::Init(TextureManager& _textureManager)
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//Šp“x‚ðÝ’è
 	for (auto& component : components)
 	{
-		component->Init(*this);
+		component.second->Init(*this);
 	}
 }
 
@@ -17,7 +17,7 @@ void Enemy::Update(void)
 	SetPos(_pos.x + _velocity.x, _pos.y + _velocity.y, _pos.z + _velocity.z);
 	for (auto& component : components)
 	{
-		component->Update();
+		component.second->Update();
 	}
 }
 

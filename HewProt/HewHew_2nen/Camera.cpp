@@ -1,6 +1,7 @@
 #include "Camera.h"
+#include "EventManager.h"
 #include <random>
-int GenerateRandomInt(int min, int max) {
+float GenerateRandomInt(int min, int max) {
 	// ランダムエンジンを初期化（1回だけ実行される）
 	static std::random_device rd;  // シードを提供
 	static std::mt19937 engine(rd());  // メルセンヌ・ツイスタを使用
@@ -9,7 +10,8 @@ int GenerateRandomInt(int min, int max) {
 	std::uniform_int_distribution<int> dist(min, max);
 
 	// 乱数を生成
-	return dist(engine);
+	int num = dist(engine);
+   	return num /10.0f;
 }
 
 void Camera::Init()
@@ -17,28 +19,56 @@ void Camera::Init()
 #ifdef GUI_MODE
 	SetCameraPos(0, 30, -200);//カメラ初期位置
 #else
-	SetCameraPos(0, 0, -200);//カメラ初期位置
+	SetCameraPos(0, 30, -200);//カメラ初期位置
 #endif
+	EventManager::GetInstance().AddListener("Vibration", [this]() { CameraVibration(); });
 }
 
-void Camera::Update(const DirectX::XMFLOAT3& playerPos , bool stop_flg)
+void Camera::Update(const DirectX::XMFLOAT3& _playerPos , bool stop_flg)
 {
+	playerPos = _playerPos;
+	const DirectX::XMFLOAT2 adjust_cameraPos = { 120,60 };
 	if(stop_flg==false)
 	{
-		cameraPos.x = playerPos.x + 100;
-		cameraPos.y = 30;
+		cameraPos.x = playerPos.x + adjust_cameraPos.x;
+		cameraPos.y = adjust_cameraPos.y;
 	}
 	else
 	{
-		const int vibration=20;
-		cameraPos.x = playerPos.x + 100+ GenerateRandomInt(-vibration, vibration);
-		cameraPos.y = 30 + GenerateRandomInt(-vibration, vibration);
+		const int vibration=300;
+		cameraPos.x = playerPos.x + adjust_cameraPos.x + GenerateRandomInt(-vibration, vibration);
+		cameraPos.y = adjust_cameraPos.y + GenerateRandomInt(-vibration, vibration);
 	}
+	cameraPos.z = -160;
+}
 
-	//mousePos = input.GetMousePos();
-	//DirectX::XMFLOAT2 midPos;
-	//cameraAngle.x = -(SCREEN_WIDTH / 2 - mousePos.x)/8;
-	//cameraAngle.y = -(SCREEN_HEIGHT / 2 - mousePos.y)/8;
+void Camera::CameraVibration()
+{
+	const DirectX::XMFLOAT2 adjust_cameraPos = { 120,60 };
+	if ((input.GetRightTriggerPress()) || (input.GetKeyPress(VK_SPACE)))
+	{
+		flame_cnt++;
+		int vibration = 0;
+		if (flame_cnt < 60)
+		{
+			vibration = 3;
+		}
+		if (60 <= flame_cnt && flame_cnt < 120)
+		{
+			vibration = 6;
+		}
+		if (flame_cnt >= 120)
+		{
+			vibration = 10;
+		}
+
+		cameraPos.x = playerPos.x + adjust_cameraPos.x + GenerateRandomInt(-vibration, vibration);
+		cameraPos.y = adjust_cameraPos.y + GenerateRandomInt(-vibration, vibration);
+	}
+	if ((input.GetRightTriggerRelease()) || (input.GetKeyRelease(VK_SPACE)))
+	{
+		flame_cnt = 0;
+	}
 }
 
 void Camera::EngineCameraUpdate()
@@ -59,6 +89,7 @@ void Camera::EngineCameraUpdate()
 	{
 		cameraPos.x += 2;
 	}
+	cameraPos.z = -200;
 }
 
 DirectX::XMMATRIX Camera::SetViewMatrix()

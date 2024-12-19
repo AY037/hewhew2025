@@ -10,7 +10,7 @@ void StageCollider::Init(GameObject& obj)
 }
 
 //プレイヤーオブジェクトとステージオブジェクトが当たっているか
-void StageCollider::HitCheck(GameObject& pObj)
+bool StageCollider::HitCheck(GameObject& pObj)
 {
 	DirectX::XMFLOAT3 pPos = pObj.GetPos();
 	DirectX::XMFLOAT3 pSize = pObj.GetSize();
@@ -18,7 +18,8 @@ void StageCollider::HitCheck(GameObject& pObj)
 	float pRight = pPos.x + (pSize.x / 2);
 
 	bool anyHit = false;
-	if (stageObjects.size() == 0)return;
+	GameObject* obj=nullptr;
+	float overlap = 0.0f;
 	for (auto& tmp : stageObjects)
 	{
 		GameObject& stgObj = *tmp;
@@ -44,12 +45,8 @@ void StageCollider::HitCheck(GameObject& pObj)
 					pGhostFlg = true;
 				}
 				anyHit = true;
-				//透過状態じゃないとき
-				if(pGhostFlg==false)
-				{
-					XMFLOAT2 normal = { 0,1 };
-					pObj.GetPhysicsEventManager().SendOnCollisionEvent(stgObj, normal);
-				}
+				obj = &stgObj;
+				overlap = math::Min(pTop- stgBottom, pBottom - stgTop);
 			}
 			//ステージがプレイヤーの中にいる場合に備えて
 			if ((stgBottom < pTop && pBottom < stgBottom) || (stgTop < pTop && pBottom < stgTop))
@@ -59,12 +56,8 @@ void StageCollider::HitCheck(GameObject& pObj)
 					pGhostFlg = true;
 				}
 				anyHit = true;
-				//透過状態じゃないとき
-				if (pGhostFlg == false)
-				{
-					XMFLOAT2 normal = { 0,1 };
-					pObj.GetPhysicsEventManager().SendOnCollisionEvent(stgObj, normal);
-				}
+				obj = &stgObj;
+				overlap = math::Min(pTop - stgBottom, pBottom - stgTop);
 			}
 		}
 		else
@@ -86,12 +79,8 @@ void StageCollider::HitCheck(GameObject& pObj)
 						pGhostFlg = true;
 					}
 					anyHit = true;
-					//透過状態じゃないとき
-					if (pGhostFlg == false)
-					{
-						XMFLOAT2 normal = { 0,1 };
-						pObj.GetPhysicsEventManager().SendOnCollisionEvent(stgObj, normal);
-					}
+					obj = &stgObj;
+					overlap = math::Min(pTop - stgBottom, pBottom - stgTop);
 				}
 				//ステージがプレイヤーの中にいる場合に備えて
 				if ((stgBottom < pTop && pBottom < stgBottom) || (stgTop < pTop && pBottom < stgTop))
@@ -101,20 +90,29 @@ void StageCollider::HitCheck(GameObject& pObj)
 						pGhostFlg = true;
 					}
 					anyHit = true;
-					//透過状態じゃないとき
-					if (pGhostFlg == false)
-					{
-						XMFLOAT2 normal = { 0,1 };
-						pObj.GetPhysicsEventManager().SendOnCollisionEvent(stgObj, normal);
-					}
+					obj = &stgObj;
+					overlap = math::Min(pTop - stgBottom, pBottom - stgTop);
 				}
 			}
 		}
 	}
+
 	//どのオブジェクトにも当たらなかったら
 	if (pGhostFlg == true && anyHit==false)
 	{
 		pGhostFlg = false;
+	}
+
+	if (pGhostFlg == false && anyHit == true)
+	{
+		XMFLOAT2 normal = { 0,1 };
+		obb.ResolveOverlap(pObj, *obj, normal, -overlap);
+		pObj.GetPhysicsEventManager().SendOnCollisionEvent(*obj, normal);
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
