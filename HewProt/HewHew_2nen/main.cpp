@@ -140,7 +140,12 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 	//SetWindowLong(hwnd, GWL_STYLE, WS_POPUP);
 	//SetWindowPos(hwnd, HWND_TOP, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_FRAMECHANGED | SWP_NOZORDER);
 	//ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+	
+	//=============================================
+	// フルスクリーン
 	//g_pSwapChain->SetFullscreenState(true, NULL);
+	//=============================================
+	
 	// エンジン初期化
 #ifdef GUI_MODE
 	Engine& engine= Engine::GetInstance();

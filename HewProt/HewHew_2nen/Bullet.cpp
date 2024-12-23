@@ -30,7 +30,7 @@ void Bullet::Update(void)
 
 	if (boxcoll.HitCheck(*this, "Player"))
 	{
-		EventManager::GetInstance().SendObjIdEvent("Delete",GetObjID());
+ 		EventManager::GetInstance().SendObjIdEvent("Delete",GetObjID());
 		EventManager::GetInstance().SendEvent("damage");
 	}
 	if (!flip)

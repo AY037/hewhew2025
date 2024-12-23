@@ -1199,6 +1199,38 @@
                 20.0,
                 0.0
             ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/FlyEnemy.png",
+            "object_id": 75,
+            "position": [
+                45.332679748535156,
+                83.24452209472656,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/FlyEnemy.png",
+            "object_id": 76,
+            "position": [
+                56.332679748535156,
+                83.24452209472656,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
         }
     ]
 }

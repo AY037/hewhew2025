@@ -75,11 +75,11 @@ void Camera::EngineCameraUpdate()
 {
 	if (input.GetKeyPress(VK_W))
 	{
-		cameraPos.y++;
+		cameraPos.y+=1;
 	}
 	if (input.GetKeyPress(VK_S))
 	{
-		cameraPos.y--;
+		cameraPos.y-=1;
 	}
 	if (input.GetKeyPress(VK_A))
 	{

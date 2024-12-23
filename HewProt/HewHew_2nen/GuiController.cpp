@@ -171,6 +171,7 @@ void GuiController::ControlGUI()
 				copyObj->SetAngle((*gameObjects)[selected_ObjectID]->GetAngle());
 				copyObj->Init(textureManager);
 				scene->AddObject(copyObj);
+				scene->AddAndDelete();
 			}
 		}
 		if (input.GetKeyTrigger(VK_Z))
@@ -356,6 +357,16 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
+
+		if (ImGui::Button("Ground", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("Ground");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("Ground");
+			obj->Init(textureManager);
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
 	
 }
 
@@ -405,40 +416,47 @@ void GuiController::RenderBottomView() {
 		if (ImGui::Button("TitleScene", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("TitleScene");
 			curentSceneName = "TitleScene";
+			selected_ObjectID = NOSELECTED;
 		}
 
 		ImGui::SameLine(); // 横並びに配置
 		if (ImGui::Button("ResultScene", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("ResultScene");
 			curentSceneName = "ResultScene";
+			selected_ObjectID = NOSELECTED;
 		}
 
 		if (ImGui::Button("Stage1", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("Stage1");
 			curentSceneName = "Stage1";
+			selected_ObjectID = NOSELECTED;
 		}
 
 		ImGui::SameLine(); // 横並びに配置
 		if (ImGui::Button("Stage2", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("Stage2");
 			curentSceneName = "Stage2";
+			selected_ObjectID = NOSELECTED;
 		}
 
 		if (ImGui::Button("Stage3", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("Stage3");
 			curentSceneName = "Stage3";
+			selected_ObjectID = NOSELECTED;
 		}
 
 		ImGui::SameLine(); // 横並びに配置
 		if (ImGui::Button("Stage4", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("Stage4");
 			curentSceneName = "Stage4";
+			selected_ObjectID = NOSELECTED;
 		}
 
 
 		if (ImGui::Button("Stage5", ImVec2(100, 50))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene("Stage5");
 			curentSceneName = "Stage5";
+			selected_ObjectID = NOSELECTED;
 		}
 	}
 
@@ -461,6 +479,7 @@ void GuiController::RenderTopView() {
 				std::string textName = curentSceneName + std::string(".txt");
 				scene->GetSaveLoad().SaveScene(textName, *gameObjects);//シーンの保存
 				Sound::GetInstance().Play(SOUND_LABEL_BGM001);
+				selected_ObjectID = NOSELECTED;
 			}
 		}
 		if (runningGame == true)
@@ -476,6 +495,14 @@ void GuiController::RenderTopView() {
 		ImGui::SameLine(); // 横並びに配置
 		if (ImGui::Button("ResetScene", ImVec2(100, 30))) { // 幅200、高さ100のボタン
 			EventManager::GetInstance().SendChangeScene(curentSceneName);
+		}
+		if (runningGame == false)
+		{
+			ImGui::SameLine(); // 横並びに配置
+			if (ImGui::Button("SaveScene", ImVec2(100, 30))) {
+				std::string textName = curentSceneName + std::string(".txt");
+				scene->GetSaveLoad().SaveScene(textName, *gameObjects);//シーンの保存
+			}
 		}
 	}
 

@@ -38,7 +38,16 @@ void BulletFlyEnemy::Update(void)
 		}
 		_velocity.x = 1.0f;//移動速度スクロール速度より若干遅いくらい
 		SetVelocity(_velocity);
-		components["BoxCollider"]->Update();
+		if (boxColl.HitCheck(*this, "Sword"))
+		{
+			EventManager::GetInstance().SendObjIdEvent("TransDebri",GetObjID());
+			SetIsBoxColl(true);
+		}
+		if (boxColl.HitCheck(*this, "Debri"))
+		{
+			EventManager::GetInstance().SendObjIdEvent("TransDebri", GetObjID());
+			SetIsBoxColl(true);
+		}
 	}
 	//--------------------------------------------------------------------------
 	else

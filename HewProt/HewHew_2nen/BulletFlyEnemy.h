@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "BoxCollider.h"
 class BulletFlyEnemy :public GameObject
 {
 public:
@@ -16,6 +17,7 @@ public:
 	void Update();//更新
 	void Draw();  //描画
 private:
+	BoxCollider boxColl;
 	int shoot_cnt = 0;//bullet生成用フレームカウント
 	const int shoot_time = 120;//Bullet生成のレート低くすれば速くなる
 };
