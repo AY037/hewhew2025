@@ -83,11 +83,11 @@ void Camera::EngineCameraUpdate()
 	}
 	if (input.GetKeyPress(VK_A))
 	{
-		cameraPos.x -= 2;
+		cameraPos.x -= 4;
 	}
 	if (input.GetKeyPress(VK_D))
 	{
-		cameraPos.x += 2;
+		cameraPos.x += 4;
 	}
 	cameraPos.z = -200;
 }

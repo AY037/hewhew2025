@@ -458,6 +458,9 @@ void GuiController::RenderTopView() {
 			if (ImGui::Button("StartGame", ImVec2(100, 30))) { // 幅200、高さ100のボタン
 				EventManager::GetInstance().SendEvent("StartGame");
 				runningGame = true;
+				std::string textName = curentSceneName + std::string(".txt");
+				scene->GetSaveLoad().SaveScene(textName, *gameObjects);//シーンの保存
+				Sound::GetInstance().Play(SOUND_LABEL_BGM001);
 			}
 		}
 		if (runningGame == true)
@@ -466,6 +469,8 @@ void GuiController::RenderTopView() {
 				EventManager::GetInstance().SendEvent("EndGame");
 				runningGame = false;
 				selected_ObjectID = NOSELECTED;
+				Sound::GetInstance().Stop(SOUND_LABEL_BGM001);
+				EventManager::GetInstance().SendChangeScene(curentSceneName);
 			}
 		}
 		ImGui::SameLine(); // 横並びに配置

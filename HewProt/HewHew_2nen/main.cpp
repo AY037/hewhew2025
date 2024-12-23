@@ -136,6 +136,11 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 	ImGui_ImplDX11_Init(g_pDevice, g_pDeviceContext);
 #endif
 
+	// フルスクリーン用のスタイルに変更
+	//SetWindowLong(hwnd, GWL_STYLE, WS_POPUP);
+	//SetWindowPos(hwnd, HWND_TOP, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_FRAMECHANGED | SWP_NOZORDER);
+	//ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+	//g_pSwapChain->SetFullscreenState(true, NULL);
 	// エンジン初期化
 #ifdef GUI_MODE
 	Engine& engine= Engine::GetInstance();
@@ -168,19 +173,9 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 
 
 	// Main loop
-	bool done = false;
-	while (!done)
+	while (1)
 	{
 		MSG msg;
-		while (::PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
-		{
-			::TranslateMessage(&msg);
-			::DispatchMessage(&msg);
-			if (msg.message == WM_QUIT)
-				done = true;
-		}
-		if (done)
-			break;
 		QueryPerformanceCounter(&liWork);// 現在時間を取得
 		nowCount = liWork.QuadPart;
 		// 1/60秒が経過したか？
@@ -191,6 +186,10 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 				::DispatchMessage(&msg);
 			}
 			g_SwapChainOccluded = false;
+			// 「WM_QUIT」メッセージを受け取ったらループを抜ける
+			if (msg.message == WM_QUIT) {
+				break;
+			}
 
 #ifdef GUI_MODE
 			// Handle window resize (we don't resize directly in the WM_SIZE handler)
@@ -329,20 +328,21 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 	{
 		::PostQuitMessage(0);
-		return 0;
+		break;
 	}
 
 	case WM_CLOSE:  // 「x」ボタンが押されたら
 	{
-		int res = MessageBoxA(NULL, "終了しますか？", "確認", MB_OKCANCEL);
-		if (res == IDOK) {
-			DestroyWindow(hWnd);  // 「WM_DESTROY」メッセージを送る
-		}
+		//int res = MessageBoxA(NULL, "終了しますか？", "確認", MB_OKCANCEL);
+		//if (res == IDOK) {
+		DestroyWindow(hWnd);  // 「WM_DESTROY」メッセージを送る
+		//}
 		break;
 	}
 	case WM_KEYDOWN: //キー入力があったメッセージ
 	{
 		if (LOWORD(wParam) == VK_ESCAPE) { //入力されたキーがESCAPEなら
+			g_pSwapChain->SetFullscreenState(false, NULL);
 			PostMessage(hWnd, WM_CLOSE, wParam, lParam);//「WM_CLOSE」を送る
 		}
 		break;

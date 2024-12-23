@@ -53,7 +53,6 @@ void GameScene::Init()// ƒV[ƒ“‚Ì‰Šú‰»B
 #endif
 
 	SetEventManager();
-	Sound::GetInstance().Play(SOUND_LABEL_BGM001);
 }
 
 
