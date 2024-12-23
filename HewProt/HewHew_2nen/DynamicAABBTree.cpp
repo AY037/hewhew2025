@@ -74,10 +74,34 @@ void DynamicAABBTree::insertLeaf(int leaf) {
 			nodes[oldParent].right = newParent;
 		}
 	}
-
+	updateTree();
 	// 高さを更新
 	updateHeight(newParent);
 }
+
+void DynamicAABBTree::updateTree() {
+	if (root == -1) return;
+
+	// 全ノードのAABBを再計算
+	updateAABB(root);
+}
+
+void DynamicAABBTree::updateAABB(int node) {
+	if (node == -1 || (nodes[node].left == -1 && nodes[node].right == -1)) {
+		// 葉ノードの場合はそのまま
+		return;
+	}
+
+	int left = nodes[node].left;
+	int right = nodes[node].right;
+
+	// 左右の子ノードをマージしてAABBを更新
+	updateAABB(left);
+	updateAABB(right);
+
+	nodes[node].aabb = AABB::merge(nodes[left].aabb, nodes[right].aabb);
+}
+
 
 //子ノードのAABBが更新されると親ノードのAABBも更新
 void DynamicAABBTree::UpdateParentAABB(int node) {
@@ -180,6 +204,28 @@ bool DynamicAABBTree::findOverlappingObjects(int _objectID) {
 	{
 		return true;
 	}
+	return false;
+}
+
+bool DynamicAABBTree::findOverlappingObjects(int _objectID, std::string& targetName,int* enemyId) {
+	const AABB& target = GetAABB((*objects)[_objectID]);
+
+	std::unordered_map<int, DirectX::XMFLOAT2> results;
+	query(root, target, results, targetName); // ルートから探索
+
+
+	if (results.size() != 0)
+	{
+		for (auto& _result : results)
+		{
+			if(enemyId !=nullptr)
+			{
+				*enemyId = _result.first;
+			}
+		}
+		return true;
+	}
+	return false;
 }
 
 // オブジェクトを挿入
@@ -197,17 +243,14 @@ void DynamicAABBTree::SetLeaf()
 	nodes.resize(objects->size());
 	for (auto& iter : *objects)
 	{
-		if (iter.second->GetIsBoxColl() == true)
-		{
-			auto& obj = iter.second;
-			AABB aabb = GetAABB(obj);
-			int id2 = insert(aabb, iter.first);
-		}
+		auto& obj = iter.second;
+		AABB aabb = GetAABB(obj);
+		insert(aabb, iter.first);
 	}
 }
 
 void DynamicAABBTree::Update() {
-	remove();         // 古いノードをツリーから削除
+	reset();         // 古いノードをツリーから削除
 	SetLeaf();
 }
 
@@ -215,128 +258,135 @@ void DynamicAABBTree::Update() {
 void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<int, DirectX::XMFLOAT2>& results) {
 	if (nodeID == -1) return; // 無効なノードは無視
 
-	for (const AABBNode& node : nodes)
+	// AABBが重なっている場合のみ処理
+	if (nodes[nodeID].aabb.intersects(target))
 	{
-		// AABBが重なっている場合のみ処理
-		if (node.aabb.intersects(target))
+		if (!nodes[nodeID].isLeaf())
 		{
-			if (node.isLeaf()) {
-				int objID1 = node.objectID;
-				int objID2 = target.objectID;
-				std::shared_ptr<GameObject>& obj1 = (*objects)[objID1];
-				std::shared_ptr<GameObject>& obj2 = (*objects)[objID2];
-				DirectX::XMFLOAT2 normal;
+			query(nodes[nodeID].left, target, results);
+			query(nodes[nodeID].right, target, results);
+		}
+		if (nodes[nodeID].isLeaf()) {
+			int objID1 = nodes[nodeID].objectID;
+			int objID2 = target.objectID;
+			std::shared_ptr<GameObject>& obj1 = (*objects)[objID1];
+			std::shared_ptr<GameObject>& obj2 = (*objects)[objID2];
+			DirectX::XMFLOAT2 normal;
 
-				//PlayerはGround以外透過
-				if (obj1->GetName() == "Player" || obj2->GetName() == "Player")
+			if (obj1->GetIsBoxColl() == true && obj2->GetIsBoxColl() == true)
+			{
+				//OBBで重なってるかチェック
+				if (obb.IntersectsWithNormal(obj1, obj2, normal))
 				{
-					if (obj1->GetName() == "Ground" || obj2->GetName() == "Ground")
+					//PlayerはGround以外透過
+					if (obj1->GetObjTypeName() == "Player" || obj2->GetObjTypeName() == "Player")
 					{
-						if (obj1->GetObjectType() == true)
-						{
-							//OBBで重なってるかチェック
-							if (obb.IntersectsWithNormal(obj1, obj2, normal))
-							{
-								// リーフノードなら、オブジェクトIDを結果に追加
-								results[target.objectID] = normal;
-							}
-						}
-						if (obj2->GetObjectType() == true)
-						{
-							//OBBで重なってるかチェック
-							if (obb.IntersectsWithNormal(obj2, obj1, normal))
-							{
-								// リーフノードなら、オブジェクトIDを結果に追加
-								results[node.objectID] = normal;
-							}
-						}
-					}
-					if (obj1->GetName() == "Enemy" || obj2->GetName() == "Enemy")
-					{
-						if (obj1->GetObjectType() == true)
-						{
-							EventManager::GetInstance().SendEvent("damage");
-						}
-					}
-				}
-				else
-				{
-					if (obj1->GetName() == "DragSword" || obj2->GetName() == "DragSword")
-					{
-						if (obj1->GetName() == "Debri" || obj2->GetName() == "Debri")
+						if (obj1->GetObjTypeName() == "Ground" || obj2->GetObjTypeName() == "Ground")
 						{
 							if (obj1->GetObjectType() == true)
 							{
-								//OBBで重なってるかチェック
-								if (obb.IntersectsWithNormal((*objects)[objID1], (*objects)[objID2], normal))
-								{
-									// リーフノードなら、オブジェクトIDを結果に追加
-									results[node.objectID] = normal;
-								}
+								results[target.objectID] = normal;
 							}
 							if (obj2->GetObjectType() == true)
 							{
-								//OBBで重なってるかチェック
-								if (obb.IntersectsWithNormal((*objects)[objID2], (*objects)[objID1], normal))
-								{
-									// リーフノードなら、オブジェクトIDを結果に追加
-									results[target.objectID] = normal;
-								}
+								results[nodes[nodeID].objectID] = normal;
+							}
+						}
+						if (obj1->GetObjTypeName() == "Enemy" || obj2->GetObjTypeName() == "Enemy")
+						{
+							if (obj1->GetObjectType() == true)
+							{
+								EventManager::GetInstance().SendEvent("damage");
 							}
 						}
 					}
 					else
 					{
-
-						if (obj1->GetObjectType() == true)
+						if (obj1->GetObjTypeName() == "DragSword" || obj2->GetObjTypeName() == "DragSword")
 						{
-							//残骸の移動速度が早ければ
-							if (obj2->GetName() == "Debri")
+							if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
 							{
-								if (math::Max(std::fabs(obj2->GetVelocity().x), std::fabs(obj2->GetVelocity().y)) > 1.0f)
+								if (obj1->GetObjectType() == true)
 								{
-									Sound::GetInstance().Play(SE_DESTROY);
-								}
-							}
-							//残骸の移動速度が早ければ
-							if (obj1->GetName() == "Debri")
-							{
-								if (math::Max(std::fabs(obj1->GetVelocity().x), std::fabs(obj1->GetVelocity().y)) > 1.0f)
-								{
-									Sound::GetInstance().Play(SE_DESTROY);
-								}
-							}
+									results[nodes[nodeID].objectID] = normal;
 
-							//攻撃が敵に命中したとき
-							if (obj2->GetName() == "Sword" && obj1->GetName() == "Enemy")
-							{
-								obj1->SetSize(5.0f, 5.0f, 0);
-								obj1->SetName("Debri");
-								Sound::GetInstance().Play(SE_HIT);
-							}
-							if (obj1->GetName() == "Sword" && obj2->GetName() == "Enemy")
-							{
-								obj2->SetSize(5.0f, 5.0f, 0);
-								obj2->SetName("Debri");
-								Sound::GetInstance().Play(SE_HIT);
-							}
-						}
-						if (obj2->GetName() == "Debri" && obj1->GetName() == "Debri")
-						{
-							//OBBで重なってるかチェック
-							if (obb.IntersectsWithNormal((*objects)[objID1], (*objects)[objID2], normal))
-							{
-								// リーフノードなら、オブジェクトIDを結果に追加
-								results[node.objectID] = normal;
+								}
+								if (obj2->GetObjectType() == true)
+								{
+									results[target.objectID] = normal;
+
+								}
 							}
 						}
 						else
 						{
-							//OBBで重なってるかチェック
-							if (obb.IntersectsWithNormal((*objects)[objID1], (*objects)[objID2], normal))
+
+							if (obj1->GetObjectType() == true)
+							{
+								//残骸の移動速度が早ければ
+								if (obj2->GetObjTypeName() == "Debri")
+								{
+									if (math::Max(std::fabs(obj2->GetVelocity().x), std::fabs(obj2->GetVelocity().y)) > 1.0f)
+									{
+										Sound::GetInstance().Play(SE_DESTROY);
+									}
+								}
+								//残骸の移動速度が早ければ
+								if (obj1->GetObjTypeName() == "Debri")
+								{
+									if (math::Max(std::fabs(obj1->GetVelocity().x), std::fabs(obj1->GetVelocity().y)) > 1.0f)
+									{
+										Sound::GetInstance().Play(SE_DESTROY);
+									}
+								}
+
+								//攻撃が敵に命中したとき
+								if (obj2->GetObjTypeName() == "Sword" && obj1->GetObjTypeName() == "Enemy")
+								{
+									obj1->SetSize(5.0f, 5.0f, 0);
+									obj1->SetObjTypeName("Debri");
+									obj1->SetName("Debri");
+									Sound::GetInstance().Play(SE_HIT);
+								}
+								if (obj1->GetObjTypeName() == "Sword" && obj2->GetObjTypeName() == "Enemy")
+								{
+									obj2->SetSize(5.0f, 5.0f, 0);
+									obj2->SetObjTypeName("Debri");
+									obj2->SetName("Debri");
+									Sound::GetInstance().Play(SE_HIT);
+								}
+							}
+							if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
+							{
+								if (obj1->GetObjTypeName() == "Enemy")
+								{
+									obj1->SetSize(5.0f, 5.0f, 0);
+									obj1->SetObjTypeName("Debri");
+									obj1->SetName("Debri");
+									Sound::GetInstance().Play(SE_HIT);
+									results[nodes[nodeID].objectID] = normal;
+								}
+								if (obj2->GetObjTypeName() == "Enemy")
+								{
+									obj2->SetSize(5.0f, 5.0f, 0);
+									obj2->SetObjTypeName("Debri");
+									obj2->SetName("Debri");
+									Sound::GetInstance().Play(SE_HIT);
+									results[nodes[nodeID].objectID] = normal;
+
+								}
+								if (obj1->GetObjTypeName() == "Sword" || obj2->GetObjTypeName() == "Sword")
+								{
+									// リーフノードなら、オブジェクトIDを結果に追加
+									results[nodes[nodeID].objectID] = normal;
+
+								}
+							}
+							else
 							{
 								// リーフノードなら、オブジェクトIDを結果に追加
-								results[node.objectID] = normal;
+								results[nodes[nodeID].objectID] = normal;
+
 							}
 						}
 					}
@@ -344,25 +394,42 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 			}
 		}
 	}
+
 }
 
-//ノード全体のAABBの更新
-void DynamicAABBTree::updateAABB(int objID)
+//特定の重なっているオブジェクトの探索
+void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<int, DirectX::XMFLOAT2>& results, std::string& targetName)
 {
-	auto& obj = (*objects)[objID];
-	nodes[objectToNodeMap[objID]].aabb = GetAABB(obj);
-	int size = nodes.size();
-	for (int i = 0; i < size; ++i)
+	if (nodeID == -1) return; // 無効なノードは無視
+
+	// AABBが重なっている場合のみ処理
+	if (nodes[nodeID].aabb.intersects(target))
 	{
-		if (nodes[i].left != -1 && nodes[i].right != -1)
-		{
-			UpdateParentAABB(i);
+		query(nodes[nodeID].left, target, results, targetName);
+		query(nodes[nodeID].right, target, results, targetName);
+		if (nodes[nodeID].isLeaf()) {
+			int objID1 = target.objectID;
+			int objID2 = nodes[nodeID].objectID;
+			std::shared_ptr<GameObject>& obj1 = (*objects)[objID1];
+			std::shared_ptr<GameObject>& obj2 = (*objects)[objID2];
+			DirectX::XMFLOAT2 normal;
+
+			if (obj2->GetObjTypeName() == targetName)
+			{
+				//OBBで重なってるかチェック
+				if (obb.IntersectsWithNormal(obj1, obj2, normal))
+				{
+					results[objID2] = normal;
+				}
+			}
 		}
 	}
+
 }
 
+
 // オブジェクトを削除
-void DynamicAABBTree::remove() {
+void DynamicAABBTree::reset() {
 	nodes.clear();
 	objectToNodeMap.clear();
 	root = -1;

@@ -55,9 +55,9 @@ void GameObject::DrawObject(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)
 	//インデックスバッファをセット
 	g_pDeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 
-	ID3D11ShaderResourceView* pSRV = m_pTextureView.Get();
+	ID3D11ShaderResourceView* textureView = m_pTextureView.Get();
 	// テクスチャをピクセルシェーダーに渡す
-	g_pDeviceContext->PSSetShaderResources(0, 1, &pSRV);
+	g_pDeviceContext->PSSetShaderResources(0, 1, &textureView);
 
 
 	//定数バッファを更新
@@ -73,6 +73,48 @@ void GameObject::DrawObject(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)
 	cb.matrixView = DirectX::XMMatrixTranspose(_vm);
 
 	cb.matrixProj = DirectX::XMMatrixTranspose(_pm);
+
+	// UVアニメーションの行列作成
+	float u = (float)numU / splitX;
+	float v = (float)numV / splitY;
+	cb.matrixTex = DirectX::XMMatrixTranslation(u, v, 0.0f);
+	cb.matrixTex = DirectX::XMMatrixTranspose(cb.matrixTex);
+
+	//頂点カラーのデータを作成
+	cb.color = color;
+
+	// 行列をシェーダーに渡す
+	g_pDeviceContext->UpdateSubresource(g_pConstantBuffer, 0, NULL, &cb, 0, 0);
+
+	g_pDeviceContext->Draw(4, 0); // 描画命令
+}
+
+void GameObject::DrawUiObject(DirectX::XMMATRIX& _pm)
+{
+	//頂点バッファを設定
+	UINT strides = sizeof(Vertex);
+	UINT offsets = 0;
+	g_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &strides, &offsets);
+
+	ID3D11ShaderResourceView* textureView = m_pTextureView.Get();
+	// テクスチャをピクセルシェーダーに渡す
+	g_pDeviceContext->PSSetShaderResources(0, 1, &textureView);
+
+	//定数バッファを更新
+	ConstBuffer cb;
+
+	// プロジェクション変換行列を作成
+	cb.matrixProj = DirectX::XMMatrixOrthographicLH(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 3.0f);
+	cb.matrixProj = DirectX::XMMatrixTranspose(cb.matrixProj);
+
+	cb.matrixView = DirectX::XMMatrixIdentity();
+
+	// ワールド変換行列の作成
+	// →オブジェクトの位置・大きさ・向きを指定
+	cb.matrixWorld = DirectX::XMMatrixScaling(size.x, size.y, 0);
+	cb.matrixWorld *= DirectX::XMMatrixRotationZ(angle * 3.14f / 180);
+	cb.matrixWorld *= DirectX::XMMatrixTranslation(pos.x, pos.y, 0);
+	cb.matrixWorld = DirectX::XMMatrixTranspose(cb.matrixWorld);
 
 	// UVアニメーションの行列作成
 	float u = (float)numU / splitX;
@@ -121,10 +163,18 @@ void GameObject::SetSize(float x, float y, float z)
 	size.z = z;
 }
 
-void GameObject::SetAngle(float z)
+void GameObject::SetAngle(float a)
 {
+	if (a > 360.0f)
+	{
+		a -= 360;
+	}
+	if (a < 0.0f)
+	{
+		a += 360;
+	}
 	//角度をセットする
-	angle = z;
+	angle = a;
 }
 void GameObject::SetColor(float r, float g, float b, float a)
 {
@@ -174,6 +224,16 @@ std::string& GameObject::GetName()
 	return name;
 }
 
+void GameObject::SetObjTypeName(std::string _name)
+{
+	objTypeName = _name;
+}
+
+std::string& GameObject::GetObjTypeName(void)
+{
+	return objTypeName;
+}
+
 void GameObject::SetTexture(const std::string imgname, TextureManager& textureManager)
 {
 	textureName = imgname;
@@ -206,6 +266,7 @@ std::string& GameObject::GetObjectTexName()
 	return textureName;
 }
 
+//汎用コライダーを利用しない
 void GameObject::SetIsBoxColl(const bool tf)
 {
 	isBoxColl = tf;

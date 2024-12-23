@@ -1,14 +1,13 @@
 #pragma once
 #include "GameObject.h"
-class Ground :public GameObject
+class DragSword :public GameObject
 {
 public:
-	Ground() {
+	DragSword() {
 		AddComponent("BoxCollider");
-		SetObjectTexName("asset/Ground.jpg");
-		SetObjTypeName("Ground");
+		SetObjTypeName("DragSword");
 	}
-	~Ground() {}
+	~DragSword() {}
 	void Init(TextureManager& _textureManager);  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ

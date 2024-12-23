@@ -136,6 +136,7 @@
     <ClCompile Include="BigAttackAnimation2.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletFlyEnemy.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColliderStructure.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -143,11 +144,14 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DragAnimation.cpp" />
+    <ClCompile Include="DragSword.cpp" />
     <ClCompile Include="DynamicAABBTree.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FlyEnemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -166,6 +170,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="RayCollider.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -177,6 +182,7 @@
     <ClCompile Include="AttackAnimation.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +191,7 @@
     <ClInclude Include="BigAttackAnimation2.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletFlyEnemy.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColliderStructure.h" />
     <ClInclude Include="Component.h" />
@@ -192,11 +199,14 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="direct3d.h" />
     <ClInclude Include="DragAnimation.h" />
+    <ClInclude Include="DragSword.h" />
     <ClInclude Include="DynamicAABBTree.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FlyEnemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GameScene.h" />
@@ -208,6 +218,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Raycast.h" />
     <ClInclude Include="RayCollider.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Scene.h" />
@@ -220,6 +231,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="WICTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -233,11 +245,12 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="GameScene1.txt" />
-    <Text Include="GameScene2.txt" />
+    <Text Include="Stage3.txt" />
+    <Text Include="Stage1.txt" />
+    <Text Include="Stage5.txt" />
     <Text Include="TitleScene.txt" />
-    <Text Include="scene2.txt" />
-    <Text Include="GameScene.txt" />
+    <Text Include="Stage4.txt" />
+    <Text Include="Stage2.txt" />
     <Text Include="修正場所メモ.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

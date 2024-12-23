@@ -1,22 +1,20 @@
 #pragma once
 #include "GameObject.h"
-#include "BoxCollider.h"
-class Enemy :public GameObject
+class FlyEnemy :public GameObject
 {
 public:
-	Enemy() {
+	FlyEnemy(){
 		AddComponent("Rigidbody");
-		//AddComponent("BoxCollider");
-		SetObjectTexName("asset/Enemy.png");
+		AddComponent("BoxCollider");
+		SetObjectTexName("asset/FlyEnemy.png");//を実行するとかすると色々派生して動きを作れるかも
 		SetObjTypeName("Enemy");
 		isRigidbody = true;
-		SetSize(16, 20, 0);
 	}
-	~Enemy() {}
+	~FlyEnemy() {}
 	void Init(TextureManager& _textureManager);  //初期化
 	void Update();//更新
 	void Draw();  //描画
 private:
-	BoxCollider boxColl;
+	const float speed = 1.0f;
 };
 

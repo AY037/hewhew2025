@@ -1,13 +1,13 @@
 #pragma once
 #include "Scene.h"
-class TitleScene:public Scene
+class ResultScene :public Scene
 {
 public:
-	TitleScene(const std::string& _sceneName)
+	ResultScene(const std::string& _sceneName)
 	{
 		sceneName = _sceneName;
 	}
-	~TitleScene()
+	~ResultScene()
 	{
 
 		sound.Stop(SOUND_LABEL_BGM000); //BGM‚ð’âŽ~

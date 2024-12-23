@@ -102,18 +102,18 @@ bool OBB::IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_pt
 	outNormal = bestAxis;
 
 	//PlayerはGround以外透過
-	if (obj1->GetName() == "Player" || obj2->GetName() == "Player")
+	if (obj1->GetObjTypeName() == "Player" || obj2->GetObjTypeName() == "Player")
 	{
-		if (obj1->GetName() == "Ground" || obj2->GetName() == "Ground")
+		if (obj1->GetObjTypeName() == "Ground" || obj2->GetObjTypeName() == "Ground")
 		{
 			ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
 		}
 	}
 	else
 	{
-		if (obj1->GetName() == "DragSword" || obj2->GetName() == "DragSword")
+		if (obj1->GetObjTypeName() == "DragSword" || obj2->GetObjTypeName() == "DragSword")
 		{
-			if (obj1->GetName() == "Debri" || obj2->GetName() == "Debri")
+			if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
 			{
 				ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
 			}
@@ -152,7 +152,7 @@ void OBB::ResolveOverlap(GameObject& obj1, GameObject& obj2, const DirectX::XMFL
 
 	//きもプログラム
 	//剣だった場合当たったオブジェクトのみ重なり解決
-	if (obj1.GetName() != "Sword")
+	if (obj1.GetObjTypeName() != "Sword")
 	{
 		position1.x -= correction.x;
 		position1.y -= correction.y;
@@ -162,7 +162,7 @@ void OBB::ResolveOverlap(GameObject& obj1, GameObject& obj2, const DirectX::XMFL
 		correction.x *= 2;
 		correction.y *= 2;
 	}
-	if (obj2.GetName() != "Sword")
+	if (obj2.GetObjTypeName() != "Sword")
 	{
 		position2.x += correction.x;
 		position2.y += correction.y;

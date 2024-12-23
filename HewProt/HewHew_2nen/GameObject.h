@@ -25,6 +25,8 @@ private:
 
 	//オブジェクトの名前
 	std::string name;
+	//オブジェクト属性の名前
+	std::string objTypeName;
 	//オブジェクトのテクスチャ名
 	std::string textureName;
 	// 座標
@@ -71,8 +73,10 @@ public:
 	virtual void Draw(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm) {}
 	void Initialize(const std::string imgname, TextureManager&, int sx = 1, int sy = 1); //初期化
 	void DrawObject(DirectX::XMMATRIX&, DirectX::XMMATRIX&);                    //描画
+	void DrawUiObject(DirectX::XMMATRIX& _pm);
 	void Uninit();                           //終了
 	void SetName(std::string);
+	void SetObjTypeName(std::string);
 	void SetPos(float x, float y, float z);  //座標をセット
 	void SetVelocity(DirectX::XMFLOAT3 v);  //速度をセット
 	void SetSize(float x, float y, float z); //大きさをセット
@@ -80,6 +84,7 @@ public:
 	void SetColor(float r, float g, float b, float a); //色をセット
 	void SetObjID(const int id);
 	void SetObjectTexName(std::string name);
+	//汎用コライダーを利用しない
 	void SetIsBoxColl(const bool tf);
 	virtual float GetMass();
 
@@ -88,6 +93,7 @@ public:
 
 	std::string& GetObjectTexName();
 	std::string& GetName(void);
+	std::string& GetObjTypeName(void);
 	DirectX::XMFLOAT3 GetPos(void);  //座標をゲット
 	DirectX::XMFLOAT3 GetVelocity(void);  //座標をゲット
 	DirectX::XMFLOAT3 GetSize(void); //大きさをゲット

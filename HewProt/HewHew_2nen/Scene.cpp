@@ -23,7 +23,7 @@ void Scene::AddObject(std::shared_ptr<GameObject>& _gameObject)
 	}
 }
 
-void Scene::DeleteObject(int _ObjectID)
+void Scene::DeleteObject(const int _ObjectID)
 {
 	for (int i = 0; i < gameObjectList.size(); ++i)
 	{
@@ -61,10 +61,10 @@ SaveLoad& Scene::GetSaveLoad()
 
 void Scene::EngineUpdate()
 {
-	camera->EngineCameraUpdate();
+	camera.EngineCameraUpdate();
 }
 
-std::vector<int> Scene::FindObjID(const std::string& objName)
+std::vector<int> Scene::FindObjID(const std::string objName)
 {
 	std::vector<int> ids;
 	for (const auto& pair : gameObjects)
@@ -81,6 +81,22 @@ std::vector<int> Scene::FindObjID(const std::string& objName)
 void Scene::AddRemoveObject(int objID)
 {
 	removeObjects.push_back(objID);
+}
+
+
+void Scene::AddAndDelete()
+{
+	for (const auto& id : addObjects)
+	{
+		gameObjectList.push_back(&gameObjects[id]);
+	}
+	addObjects.clear();
+	// ループ終了後に削除を実行
+	for (const auto& key : removeObjects)
+	{
+		DeleteObject(key);
+	}
+	removeObjects.clear();
 }
 
 //void Scene::SetNameToIDs()

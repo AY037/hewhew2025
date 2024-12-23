@@ -5,7 +5,9 @@
 #include "Bullet.h"
 #include "Background.h"
 #include "EventManager.h"
+#include "GameManager.h"
 #include "Engine.h"
+#include "UI.h"
 
 //オブジェクトID
 //#define PLAYER_ID (3)
@@ -15,10 +17,11 @@ using namespace DirectX;
 
 void GameScene::Init()// シーンの初期化。
 {
-	camera->Init();
+	camera.Init();
 
 	//シーンのロード
-	saveload.LoadScene("GameScene2.txt", gameObjects, gameObjectList, textureManager);
+	std::string txtName = sceneName + std::string(".txt");
+	saveload.LoadScene(txtName, gameObjects, gameObjectList, textureManager);
 
 	for (auto& obj : gameObjectList)
 	{
@@ -27,24 +30,29 @@ void GameScene::Init()// シーンの初期化。
 
 	for (auto& obj : gameObjectList)
 	{
-		if ((*obj)->GetName()=="Player") PLAYER_ID= (*obj)->GetObjID();
+		if ((*obj)->GetName() == "Player") PLAYER_ID = (*obj)->GetObjID();
 		if ((*obj)->GetName() == "DragSword") DRAGSWORD_ID = (*obj)->GetObjID();
 	}
-	//オブジェクトの初期化
-	//for (auto& obj : gameObjects)
-	//{
-	//	if (obj.second) obj.second->Init(textureManager);
-	//}
+
+	int size = GameManager::GetInstance().GetPlayerHP();
+	for (int i = 1; i <= size; ++i)
+	{
+		std::shared_ptr<UI> heart=std::make_shared<UI>();
+		heart->SetSize(SCREEN_WIDTH / 20, SCREEN_WIDTH / 20, 0);
+		heart->SetPos(-SCREEN_WIDTH / 2 + SCREEN_WIDTH / 20 * i, SCREEN_HEIGHT / 2 - (SCREEN_HEIGHT / 20 * 3), 0);
+		heart->Initialize("asset/Heart.png",TextureManager::GetInstance());
+		uiObjectList.push_back(heart);
+	}
 
 	//Collieder二分木初期化
 	DynamicAABBTree::GetInstance().Init(gameObjects);
 	DynamicAABBTree::GetInstance().SetLeaf();
 
 #ifdef GUI_MODE
-	Engine::GetInstance().GetGuiController().Init(this);
+	Engine::GetInstance().GetGuiController().Init(this, sceneName);
 #endif
 
-	AddEventManager();
+	SetEventManager();
 	Sound::GetInstance().Play(SOUND_LABEL_BGM001);
 }
 
@@ -58,7 +66,7 @@ void GameScene::Update()// シーン内のオブジェクト更新。
 	}
 	if (stop_cnt == hit_stop)
 	{
-		camera->Update(playerPos, false);
+		camera.Update(playerPos, false);
 		hit_stop = 0;
 		stop_cnt = 0;
 		//Colliderの二分岐アップデート
@@ -69,7 +77,10 @@ void GameScene::Update()// シーン内のオブジェクト更新。
 		{
 			if ((*obj))
 			{
-				(*obj)->Update();
+				if ((*obj)->GetPos().x > playerPos.x - 50&& (*obj)->GetPos().x < playerPos.x + 300)
+				{
+					(*obj)->Update();
+				}
 
 				// 画面外にいったオブジェクトの消去
 				//if ((*obj)->GetPos().x < playerPos.x - 100)
@@ -92,21 +103,17 @@ void GameScene::Update()// シーン内のオブジェクト更新。
 			gameObjects[DRAGSWORD_ID]->SetPos(playerPos.x, 300, 0);//引きずっていないときは画面外へ
 		}
 
-		for (const auto& id : addObjects)
-		{
-			gameObjectList.push_back(&gameObjects[id]);
-		}
-		addObjects.clear();
-		// ループ終了後に削除を実行
-		for (const auto& key : removeObjects)
-		{
-			DeleteObject(key);
-		}
-		removeObjects.clear();
+		//オブジェクトの追加と消去
+		AddAndDelete();
 	}
 	else
 	{
-		camera->Update(playerPos, true);
+		camera.Update(playerPos, true);
+	}
+	//プレイヤーのhpと画面上のハートの数を合わせる
+	if (uiObjectList.size() != GameManager::GetInstance().GetPlayerHP())
+	{
+		uiObjectList.erase(uiObjectList.begin() + uiObjectList.size()-1);
 	}
 }
 
@@ -114,9 +121,9 @@ void GameScene::Update()// シーン内のオブジェクト更新。
 void GameScene::Draw()// シーン内のオブジェクトを描画
 {
 	//ビュー変換行列
-	vm = camera->SetViewMatrix();
+	vm = camera.SetViewMatrix();
 	// プロジェクション変換行列を作成
-	pm = camera->SetProjectionMatrix();
+	pm = camera.SetProjectionMatrix();
 
 	for (auto& obj : gameObjectList)
 	{
@@ -127,17 +134,45 @@ void GameScene::Draw()// シーン内のオブジェクトを描画
 	}
 	//プレイヤーのアニメーション描画
 	gameObjects[PLAYER_ID]->Draw(vm, pm);
-	//debug.DrawNode(vm, pm);
+
+	//UIの描画
+	for (auto& obj : uiObjectList)
+	{
+		if (obj) {
+			obj->DrawUiObject(pm);
+		}
+	}
 
 }
 
 
 void GameScene::Shutdown()// シーンの終了処理。
 {
+	//二分木のリセット
+	DynamicAABBTree::GetInstance().reset();
 }
 
-void GameScene::AddEventManager()
+
+void GameScene::SetEventManager()
 {
+	EventManager::GetInstance().SetObjectIdFunc("Shoot", [this]( const int objId) {
+		std::shared_ptr<GameObject> obj = GameObjectManager::GetInstance().GetObj("Bullet");
+		DirectX::XMFLOAT3 pos = gameObjects[objId]->GetPos();
+		obj->SetPos(pos.x,pos.y,pos.z);
+		this->AddObject(obj);
+		});
+
+	EventManager::GetInstance().SetObjectIdFunc("Delete", [this]( const int objId) {AddRemoveObject(objId); });
+
+	EventManager::GetInstance().SetObjectIdFunc("TransDebri", [this](const int objId) {
+	gameObjects[objId]->SetSize(7.0f,7.0f,0.0f);
+	gameObjects[objId]->SetName("Debri");
+	gameObjects[objId]->SetObjTypeName("Debri"); 
+	gameObjects[objId]->SetIsBoxColl(true);
+		});
+
+
+	//剣当たり判定の消去
 	EventManager::GetInstance().AddListener("deleteSword", [this]() {
 		std::vector<int> tmp = this->FindObjID("Sword");
 		if (tmp.size() != 0)
@@ -155,8 +190,8 @@ void GameScene::AddEventManager()
 			}
 			else
 			{
-				DirectX::XMFLOAT3 velocity = { 3.0f, 1.1f, 0.0f };
-				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 30);
+				DirectX::XMFLOAT3 velocity = { 4.0f, 1.1f, 0.0f };
+				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 16);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x, gameObjects[PLAYER_ID]->GetPos().y, 0);
 				obj->SetSize(20, 50, 0);
@@ -169,8 +204,8 @@ void GameScene::AddEventManager()
 	EventManager::GetInstance().AddListener("attack1", [this]()
 		{
 			{
-				DirectX::XMFLOAT3 velocity = { 3.5f, 1.4f, 0.0f };
-				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 30);
+				DirectX::XMFLOAT3 velocity = { 4.5f, 1.4f, 0.0f };
+				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 25);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x, gameObjects[PLAYER_ID]->GetPos().y, 0);
 				obj->SetSize(20, 40, 0);
@@ -189,7 +224,7 @@ void GameScene::AddEventManager()
 					//引きずってる剣の近くのオブジェクトのみ集める
 					if ((pos.x > playerPos.x - 50 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
 					{
-						//gameObjects[objID]->SetPos(gameObjects[PLAYER_ID]->GetPos().x + 30, gameObjects[PLAYER_ID]->GetPos().y + 10, 0);
+						//gameObjects[objID]->SetPos(pos.x + 10, pos.y + 5, 0);
 						gameObjects[objID]->SetVelocity(velocity);
 					}
 				}
@@ -201,7 +236,7 @@ void GameScene::AddEventManager()
 		{
 			{
 				DirectX::XMFLOAT3 velocity = { 6.0f, 2.0f, 0.0f };
-				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 30);
+				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 25);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x, gameObjects[PLAYER_ID]->GetPos().y, 0);
 				obj->SetSize(20, 50, 0);
@@ -220,12 +255,11 @@ void GameScene::AddEventManager()
 					//引きずってる剣の近くのオブジェクトのみ集める
 					if ((pos.x > playerPos.x - 50 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
 					{
-						//gameObjects[objID]->SetPos(gameObjects[PLAYER_ID]->GetPos().x + 30, gameObjects[PLAYER_ID]->GetPos().y + 10, 0);
+						//gameObjects[objID]->SetPos(pos.x + 10, pos.y + 5, 0);
 						gameObjects[objID]->SetVelocity(velocity);
 					}
 				}
 			}
 			hit_stop = 20;//ヒットストップの継続時間
 		});
-
 }

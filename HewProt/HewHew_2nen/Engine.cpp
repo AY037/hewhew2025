@@ -1,14 +1,9 @@
 #include "Engine.h"
-#include "GameScene.h"
-#include "TitleScene.h"
 #include "EventManager.h"
 void Engine::Init(HWND hWnd)
 {
 	Sound::GetInstance().Init();
-	sceneManager = new SceneManager;
-	sceneManager->AddScene("TitleScene", new TitleScene);//シーンの追加
-	sceneManager->AddScene("GameScene", new GameScene);//シーンの追加
-	sceneManager->SwitchScene("GameScene");
+	sceneManager->SwitchScene("Stage1");
 
 	EventManager::GetInstance().AddListener("StartGame", [this]() {this->isRunning = true; });
 	EventManager::GetInstance().AddListener("EndGame", [this]() {this->isRunning = false; });
@@ -47,8 +42,7 @@ void Engine::Draw(void)
 
 void Engine::Uninit(void)
 {
-	delete sceneManager;
-	sceneManager = nullptr;
+	sceneManager.reset();
 	Sound::GetInstance().Uninit();
 	Application::GetInstance().D3D_Release();//DirectXを終了
 }

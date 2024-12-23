@@ -45,6 +45,8 @@ void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, st
     else {
         throw std::runtime_error("Failed to open file for reading.");
     }
+    objects.clear();
+    objectList.clear();
 
     // JSON データをオブジェクトとして復元
     for (const auto& objJson : sceneJson["objects"]) {

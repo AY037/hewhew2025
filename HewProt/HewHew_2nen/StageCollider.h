@@ -17,8 +17,12 @@ public:
 	void Init(GameObject& obj)override;
 	bool HitCheck(GameObject& obj);
 	void Update()override;
-
 	void SetGhost();
+
+	void reset() {
+		pGhostFlg = false;
+		stageObjects.clear();
+	}
 private:
 	std::vector<GameObject*> stageObjects;
 	OBB obb;

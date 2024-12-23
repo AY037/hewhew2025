@@ -13,6 +13,7 @@ class Player :public GameObject
 public:
 	Player(){
 		AddComponent("Rigidbody");
+		SetObjTypeName("Player");
 		isRigidbody = true;
 	}
 	~Player() { playerAnimations.clear(); }
@@ -34,7 +35,7 @@ private:
 	bool landing = false;    //地面にいるか
 	bool new_landing = false;//地面にいるか
 	bool old_landing = false;//地面にいるか
-	int playerHP = 3;//hp
+	int playerHP = 5;//hp
 	bool damage_flg = false;//ダメージを受けた時true
 	const int invincibility_time =120;//無敵時間
 	int invincibility_cnt = 0;

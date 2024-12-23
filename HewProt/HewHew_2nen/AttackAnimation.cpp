@@ -4,7 +4,7 @@ void AttackAnimation1::Init(TextureManager& _textureManager)
 {
 	Initialize(GetObjectTexName(), _textureManager, 10, 1); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
-	numU = 4;
+	numU = 6;
 }
 
 void AttackAnimation1::Update(void)
@@ -16,10 +16,7 @@ void AttackAnimation1::Update(void)
 		numU++;
 		animation_cnt = 0;
 	}
-	if (numU == 8&& animation_cnt == 0) {
-	}
-	if (numU >= 10) {
-	}
+	SetPos(playerPos.x, playerPos.y, 0);
 }
 
 void AttackAnimation1::Draw(void)

@@ -12,6 +12,7 @@ void Sword::Init(TextureManager& _textureManager)
 
 void Sword::Update(void)
 {
+	DirectX::XMFLOAT3 size = GetSize();
 	falme_cnt++;
 
 	DirectX::XMFLOAT3 _pos = GetPos();
@@ -26,8 +27,9 @@ void Sword::Update(void)
 
 	if (falme_cnt == alive_time)
 	{
-
+		EventManager::GetInstance().SendEvent("deleteSword");
 	}
+	SetSize(size.x, size.y * 1.02, 0);
 }
 
 void Sword::Draw(void)

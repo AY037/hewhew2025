@@ -12,8 +12,17 @@
 
 class Scene {
 public:
-    Scene() : camera(nullptr) {} // cameraの初期化
+    Scene(){
+    } // cameraの初期化
     virtual ~Scene() {
+        for (auto& pair : gameObjects) {
+            pair.second->Uninit();
+        }
+        gameObjects.clear(); // ベクタをクリア
+        for (auto& obj : uiObjectList) {
+            obj->Uninit();
+        }
+        uiObjectList.clear(); // ベクタをクリア
     }
 
     virtual void Init() = 0;    // シーンの初期化。ここにオブジェクトを追加
@@ -27,30 +36,36 @@ public:
     //オブジェクトの追加と消去
     void AddObject(std::shared_ptr<GameObject>&_gameObject);
     void AddRemoveObject(int);
-    void DeleteObject(int _ObjectID);
+    void DeleteObject(const int);
+
+    //オブジェクトの追加リストと消去リストの解決アップデートの最後
+    void AddAndDelete();
 
     //ゲッター
     const TextureManager& GetTextureManager();
     std::unordered_map<int, std::shared_ptr<GameObject>>* GetGameObjects();
     const DirectX::XMMATRIX& GetViewMatrix();
     const DirectX::XMMATRIX& GetProjectionMatrix();
-    const std::unique_ptr<Camera>& GetCamera(){ return camera; }
-    std::vector<int> FindObjID(const std::string& objName);
+    Camera& GetCamera(){ return camera; }
+    std::vector<int> FindObjID(const std::string objName);
     SaveLoad& GetSaveLoad();
 
 protected:
     std::unordered_map<int, std::shared_ptr<GameObject>> gameObjects; // シーン内のゲームオブジェクトリスト
     std::vector<std::shared_ptr<GameObject>*> gameObjectList; // シーン内のゲームオブジェクトリスト
+    std::vector<std::shared_ptr<GameObject>> uiObjectList; // シーン内のゲームオブジェクトリスト
     std::queue<int> availableIDs;//消されたオブジェクトのIDのキューFIFO
     //std::unordered_map<std::string, std::vector<int>> nameToIDs; // オブジェクト名が同じオブジェクトのIDを検索
     std::vector<int> addObjects;//追加予定のオブジェクトリスト
     std::vector<int> removeObjects;//消去予定のオブジェクトリスト
     TextureManager& textureManager = TextureManager::GetInstance();
     SaveLoad saveload;
-    std::unique_ptr<Camera> camera; // シーンごとのカメラ
+    Camera camera; // シーンごとのカメラ
     Sound& sound = Sound::GetInstance();
     DirectX::XMMATRIX vm;
     DirectX::XMMATRIX pm;
+	//読み込むファイル名
+	std::string sceneName;
 };
 
 

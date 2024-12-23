@@ -1,33 +1,66 @@
 #include "Bullet.h"
-#include <cstdio>
-#include "iostream"
-void Bullet::Init()
+#include "GameManager.h"
+#include "EventManager.h"
+
+void Bullet::Init(TextureManager& _textureManager)
 {
-	// コンソールを割り当てる
-	/*AllocConsole();
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);*/
+	Initialize(GetObjectTexName(), _textureManager); //プレイヤーを初期化
+	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
+	SetSize(5, 10, 0);
+	
+	SetIsBoxColl(false);//汎用コライダーを利用しない
+
+	DirectX::XMFLOAT3 _pos = GetPos();
+	const DirectX::XMFLOAT3 _playerPos = GameManager::GetInstance().GetPlayerPos();
+
+	float angle_rad = std::atan2(_playerPos.y - _pos.y, _playerPos.x - _pos.x);
+	shoot_angle = angle_rad * (180.0f / DirectX::XM_PI)-90;
+	SetAngle(shoot_angle);
 }
-//テスト
+
 void Bullet::Update(void)
 {
-	DirectX::XMFLOAT3 direction;
-	float pitch = shootAngle.y;
-	float yaw = shootAngle.x+90;
-	// 弾の方向を計算 (yaw: 水平角度, pitch: 垂直角度)
-	direction.x = cos(DirectX::XMConvertToRadians(pitch)) * cos(DirectX::XMConvertToRadians(yaw));
-	direction.y = sin(DirectX::XMConvertToRadians(pitch));
-	direction.z = cos(DirectX::XMConvertToRadians(pitch)) * sin(DirectX::XMConvertToRadians(yaw));
+	DirectX::XMFLOAT3 _pos = GetPos();
+	DirectX::XMFLOAT3 _velocity = GetVelocity();
 
-	DirectX::XMFLOAT3 pos=GetPos();
-	// 現在の位置に移動量を加算
-	pos.x -= direction.x * speed;
-	pos.y -= direction.y * speed;
-	pos.z += direction.z * speed;
+	_velocity.x = -sin(DirectX::XMConvertToRadians(shoot_angle)) * speed;
+	_velocity.y = cos(DirectX::XMConvertToRadians(shoot_angle)) * speed;;
+	_velocity.x += 1.3f;//スクロール速度ぶん加算
 
-	// 弾の新しい位置を設定
-	SetPos(pos.x, pos.y, pos.z);
+
+	if (boxcoll.HitCheck(*this, "Player"))
+	{
+		EventManager::GetInstance().SendObjIdEvent("Delete",GetObjID());
+		EventManager::GetInstance().SendEvent("damage");
+	}
+	if (!flip)
+	{
+		if (boxcoll.HitCheck(*this, "Sword"))
+		{
+			shoot_angle += 180;
+			SetAngle(shoot_angle);
+			flip = true;
+		}
+	}
+
+	if(flip)
+	{
+		int enemyId=-1;
+		if (boxcoll.HitCheck(*this, "Enemy", &enemyId))
+		{
+			EventManager::GetInstance().SendObjIdEvent("Delete", GetObjID());
+			if (enemyId != -1)
+			{
+				EventManager::GetInstance().SendObjIdEvent("TransDebri", enemyId);
+			}
+		}
+	}
+
+	//プレイヤーの速度の更新
+	SetVelocity(_velocity);
+	_pos.x += _velocity.x;
+	_pos.y += _velocity.y;
+	SetPos(_pos.x, _pos.y, 0);
 }
 
 void Bullet::Draw(void)

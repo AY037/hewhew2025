@@ -1,13 +1,13 @@
-#include "TitleScene.h"
+#include "ResultScene.h"
 #include "UI.h"
 #include "Engine.h"
-void TitleScene::Init()// シーンの初期化。
+void ResultScene::Init()// シーンの初期化。
 {
     camera.Init();
     //シーンのロード
     //saveload.LoadScene(txtName, gameObjects, gameObjectList, textureManager);
-    std::shared_ptr<GameObject> titleObj=std::make_shared<UI>();
-    titleObj->SetObjectTexName("asset/Title.png");
+    std::shared_ptr<GameObject> titleObj = std::make_shared<UI>();
+    titleObj->SetObjectTexName("asset/Result.png");
     titleObj->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     titleObj->Init(textureManager);
     uiObjectList.push_back(titleObj);
@@ -21,7 +21,7 @@ void TitleScene::Init()// シーンの初期化。
     Engine::GetInstance().GetGuiController().Init(this, sceneName);
 #endif
 }
-void TitleScene::Update()// シーン内のオブジェクト更新。
+void ResultScene::Update()// シーン内のオブジェクト更新。
 {
     for (auto& pair : gameObjects)
     {
@@ -32,7 +32,7 @@ void TitleScene::Update()// シーン内のオブジェクト更新。
     }
     camera.Update();
 }
-void TitleScene::Draw()// シーン内のオブジェクトを描画
+void ResultScene::Draw()// シーン内のオブジェクトを描画
 {
     //ビュー変換行列
     DirectX::XMMATRIX vm = camera.SetViewMatrix();
@@ -51,6 +51,6 @@ void TitleScene::Draw()// シーン内のオブジェクトを描画
         }
     }
 }
-void TitleScene::Shutdown()// シーンの終了処理。
+void ResultScene::Shutdown()// シーンの終了処理。
 {
 }

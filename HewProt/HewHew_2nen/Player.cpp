@@ -7,6 +7,7 @@
 #include "BigAttackAnimation2.h"
 #include "DragAnimation.h"
 #include "BoxCollider.h"
+#include "GameManager.h"
 
 void Player::Init(TextureManager& _textureManager)
 {
@@ -22,6 +23,9 @@ void Player::Init(TextureManager& _textureManager)
 
 
 	EventManager::GetInstance().AddListener("damage", [this]() {if (!damage_flg)this->playerHP--; damage_flg = true; });
+	boxColl.Init(*this);
+	//プレイヤーのHPをGameManagerに登録
+	GameManager::GetInstance().SetPlayerHP(playerHP);
 }
 
 void Player::Update(void)
@@ -29,6 +33,11 @@ void Player::Update(void)
 	static int flame_cnt = 0;
 	DirectX::XMFLOAT3 pos = GetPos();
 	DirectX::XMFLOAT3 _velocity = GetVelocity();
+
+	//プレイヤーの座標をGameManagerに登録
+	GameManager::GetInstance().SetPlayerPos(pos);
+	//プレイヤーのHPをGameManagerに登録
+	GameManager::GetInstance().SetPlayerHP(playerHP);
 
 	//キャラクターアニメーション
 	if (runUV_cnt == 4 && numU == 2)
@@ -125,14 +134,24 @@ void Player::Update(void)
 			drag_n = false;
 		}
 
+	}
+	else
+	{
+		if (enterCnt != 0)
+		{
+			enterCnt--;
+		}
+	}
+	if(enterCnt!=0)
+	{
 		//引きずりを終了してため攻撃
 		if ((input.GetRightTriggerRelease()) || (input.GetKeyRelease(VK_SPACE)))
 		{
 			Sound::GetInstance().Stop(SE_DRAG_ROOP);
 			//Sound::GetInstance().Stop(SE_SPARK_ROOP);
 			Sound::GetInstance().Play(SE_ATTACK_NORMAL);
-			//攻撃イベントの送信
 			playerAnimations[ATTACK_ANI] = std::make_shared<AttackAnimation1>(*textureManager, pos);
+			//攻撃イベントの送信
 			if (enterCnt < 60)
 			{
 				EventManager::GetInstance().SendEvent("normalAttack");
@@ -140,21 +159,19 @@ void Player::Update(void)
 			if (enterCnt >= 60 && enterCnt < 120)
 			{
 				playerAnimations[BIG_ATTACK_ANI1] = std::make_shared<BigAttackAnimation1>(*textureManager, pos);
-				EventManager::GetInstance().SendEvent("normalAttack");
 				EventManager::GetInstance().SendEvent("attack1");
 				Sound::GetInstance().Play(SE_ATTACK_FLAME);
 			}
 			if (enterCnt >= 120)
 			{
 				playerAnimations[BIG_ATTACK_ANI2] = std::make_shared<BigAttackAnimation2>(*textureManager, pos);
-				EventManager::GetInstance().SendEvent("normalAttack");
 				EventManager::GetInstance().SendEvent("attack2");
 				Sound::GetInstance().Play(SE_ATTACK_FLAME);
 			}
 			enterCnt = 0;
 
 			enterRelease = true;
- 			playerAnimations.erase(DRAG_ANI);
+			playerAnimations.erase(DRAG_ANI);
 		}
 	}
 	//プレイヤーの速度の更新
@@ -188,8 +205,8 @@ void Player::Update(void)
 			//引きずりのリセット
 			drag_o = false;
 			drag_n = false;
-			playerAnimations.erase(DRAG_ANI); 
-			enterCnt = 0;
+			playerAnimations.erase(DRAG_ANI);
+			Sound::GetInstance().Stop(SE_DRAG_ROOP);
 		}
 	}
 
@@ -198,7 +215,7 @@ void Player::Update(void)
 	if (playerAnimations.size() != 0 && enterRelease == true)
 	{
 		flame_cnt++;
-		if (flame_cnt == 24)
+		if (flame_cnt == 25)
 		{
 			playerAnimations.erase(ATTACK_ANI);
 			playerAnimations.erase(BIG_ATTACK_ANI1);
@@ -236,7 +253,7 @@ void Player::Update(void)
 
 	if (playerHP == 0)
 	{
-		playerHP = 0;
+		EventManager::GetInstance().SendChangeScene("ResultScene");
 	}
 }
 

@@ -2,12 +2,12 @@
 #include "imgui.h"
 #include "EventManager.h"
 using namespace DirectX;
-void GuiController::Init(Scene* _scene)
+void GuiController::Init(Scene* _scene,const std::string& txtName)
 {
 	scene = _scene;
 	gameObjects = scene->GetGameObjects();
 	textureManager = scene->GetTextureManager();
-	curentSceneName = "GameScene2";
+	curentSceneName = txtName;
 }
 
 void GuiController::Update()
@@ -70,7 +70,7 @@ void GuiController::ControlGUI()
 		int nearObjectID = NOSELECTED;
 		bool selected = false;//どのオブジェクトにもレイが当たっていなかった時
 		DirectX::XMFLOAT3 rayPos = raycast.Raycasting(input.GetMousePos(), scene->GetViewMatrix(),
-			scene->GetProjectionMatrix(), scene->GetCamera()->GetCameraPos());//マウスポインタの座標をワールド座標に変換z=0v
+			scene->GetProjectionMatrix(), (scene->GetCamera().GetCameraPos()));//マウスポインタの座標をワールド座標に変換z=0v
 
 		//修正予定全オブジェクトとのcolliderを動かしてるのでオブジェクトが増えすぎると重い
 		//----------------------------------------------------
@@ -115,7 +115,7 @@ void GuiController::ControlGUI()
 					trigger_n = true;
 				}
 				DirectX::XMFLOAT3 rayPos = raycast.Raycasting(input.GetMousePos(), scene->GetViewMatrix(),
-					scene->GetProjectionMatrix(), scene->GetCamera()->GetCameraPos());//マウスポインタの座標をワールド座標に変換z=0v
+					scene->GetProjectionMatrix(), (scene->GetCamera().GetCameraPos()));//マウスポインタの座標をワールド座標に変換z=0v
 
 				DirectX::XMVECTOR rayVec = DirectX::XMLoadFloat3(&rayPos);
 				DirectX::XMFLOAT3 objPos = { 0,0,0 };
@@ -141,7 +141,7 @@ void GuiController::ControlGUI()
 	if ((input.GetKeyTrigger(VK_RBUTTON) == true) && isUsingGUI == false)//GUIを操作している時は実行されない
 	{
 		m_rayPos = raycast.Raycasting(input.GetMousePos(), scene->GetViewMatrix(),
-			scene->GetProjectionMatrix(), scene->GetCamera()->GetCameraPos());//マウスポインタの座標をワールド座標に変換z=0v
+			scene->GetProjectionMatrix(), scene->GetCamera().GetCameraPos());//マウスポインタの座標をワールド座標に変換z=0v
 		drawMakeObjSelecter = true;
 	}
 
@@ -277,37 +277,86 @@ void GuiController::RenderTextureSelector(std::shared_ptr<GameObject>& gameObjec
 	}
 }
 
+//void GuiController::GameObjectSelector(const XMFLOAT3& pos)
+//{
+//	// テクスチャ名のリストを取得
+//	std::unordered_map<std::string, std::function<std::shared_ptr<GameObject>()>>& makeObjectNames = gameObjMng.GetMakeObjectList();
+//
+//	// 選択中のテクスチャ名を保持する変数
+//	static std::string currentMakeObjectName = "planeObject";
+//
+//	// ImGuiのドロップダウンリストを作成
+//	if (ImGui::BeginCombo("Select Object", currentMakeObjectName.c_str()))
+//	{
+//		for (const auto& makeObjectName : makeObjectNames)
+//		{
+//			bool isSelected = (currentMakeObjectName == makeObjectName.first); // 現在選択中か確認
+//			if (ImGui::Selectable(makeObjectName.first.c_str(), isSelected))
+//			{
+//				currentMakeObjectName = makeObjectName.first; // 選択中のテクスチャ名を更新
+//				std::shared_ptr<GameObject> obj = gameObjMng.GetObj(currentMakeObjectName);
+//				obj->SetPos(pos.x, pos.y, 0);
+//				//obj->SetSize(10, 10, 0);
+//				obj->SetName(currentMakeObjectName);
+//				obj->Init(textureManager);
+//				scene->AddObject(obj);
+//				scene->AddAndDelete();
+//			}
+//
+//			// 現在選択されている項目にチェックをつける
+//			if (isSelected)
+//				ImGui::SetItemDefaultFocus();
+//		}
+//		ImGui::EndCombo();
+//	}
+//}
+
 void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 {
-	// テクスチャ名のリストを取得
-	std::unordered_map<std::string, std::function<std::shared_ptr<GameObject>()>>& makeObjectNames = gameObjMng.GetMakeObjectList();
 
-	// 選択中のテクスチャ名を保持する変数
-	static std::string currentMakeObjectName = "planeObject";
 
-	// ImGuiのドロップダウンリストを作成
-	if (ImGui::BeginCombo("Select Object", currentMakeObjectName.c_str()))
-	{
-		for (const auto& makeObjectName : makeObjectNames)
-		{
-			bool isSelected = (currentMakeObjectName == makeObjectName.first); // 現在選択中か確認
-			if (ImGui::Selectable(makeObjectName.first.c_str(), isSelected))
-			{
-				currentMakeObjectName = makeObjectName.first; // 選択中のテクスチャ名を更新
-				std::shared_ptr<GameObject> obj = gameObjMng.GetObj(currentMakeObjectName);
-				obj->SetPos(pos.x, pos.y, 0);
-				//obj->SetSize(10, 10, 0);
-				obj->SetName(currentMakeObjectName);
-				obj->Init(textureManager);
-				scene->AddObject(obj);
-			}
-
-			// 現在選択されている項目にチェックをつける
-			if (isSelected)
-				ImGui::SetItemDefaultFocus();
+		if (ImGui::Button("Stage", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("Stage");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("Stage");
+			obj->Init(textureManager);
+			scene->AddObject(obj);
+			scene->AddAndDelete();
 		}
-		ImGui::EndCombo();
-	}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("NormalEnemy", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("Enemy");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("Enemy");
+			obj->Init(textureManager);
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		if (ImGui::Button("FlyEnemy", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("FlyEnemy");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("FlyEnemy");
+			obj->Init(textureManager);
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("BulletFlyEnemy", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("BulletFlyEnemy");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("BulletFlyEnemy");
+			obj->Init(textureManager);
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+	
 }
 
 void GuiController::RenderHierarchyView() {
@@ -357,9 +406,39 @@ void GuiController::RenderBottomView() {
 			EventManager::GetInstance().SendChangeScene("TitleScene");
 			curentSceneName = "TitleScene";
 		}
-		if (ImGui::Button("GameScene2", ImVec2(100, 50))) { // 幅200、高さ100のボタン
-			EventManager::GetInstance().SendChangeScene("GameScene");
-			curentSceneName = "GameScene2";
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("ResultScene", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("ResultScene");
+			curentSceneName = "ResultScene";
+		}
+
+		if (ImGui::Button("Stage1", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("Stage1");
+			curentSceneName = "Stage1";
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("Stage2", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("Stage2");
+			curentSceneName = "Stage2";
+		}
+
+		if (ImGui::Button("Stage3", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("Stage3");
+			curentSceneName = "Stage3";
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("Stage4", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("Stage4");
+			curentSceneName = "Stage4";
+		}
+
+
+		if (ImGui::Button("Stage5", ImVec2(100, 50))) { // 幅200、高さ100のボタン
+			EventManager::GetInstance().SendChangeScene("Stage5");
+			curentSceneName = "Stage5";
 		}
 	}
 
@@ -386,12 +465,12 @@ void GuiController::RenderTopView() {
 			if (ImGui::Button("EndGame", ImVec2(100, 30))) { // 幅200、高さ100のボタン
 				EventManager::GetInstance().SendEvent("EndGame");
 				runningGame = false;
+				selected_ObjectID = NOSELECTED;
 			}
 		}
 		ImGui::SameLine(); // 横並びに配置
 		if (ImGui::Button("ResetScene", ImVec2(100, 30))) { // 幅200、高さ100のボタン
-			std::string textName = curentSceneName + std::string(".txt");
-			scene->GetSaveLoad().ResetScene(textName,*gameObjects);//シーンのリセット
+			EventManager::GetInstance().SendChangeScene(curentSceneName);
 		}
 	}
 

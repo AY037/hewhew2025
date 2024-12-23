@@ -1,6 +1,7 @@
 #pragma once
 #include "ColliderStructure.h"
 #include <unordered_map>
+#include <string>
 
 struct AABBNode {
 	AABB aabb; // ノードが管理するAABB
@@ -38,6 +39,8 @@ public:
 	//ノードの消去
 	void deallocateNode(int nodeIndex);
 
+	void updateAABB(int node);
+	void updateTree();
 	// AABBを持つオブジェクトをツリーに挿入
 	void insertLeaf(int leaf);
 
@@ -59,14 +62,17 @@ public:
 	//重なっているオブジェクトの探索
 	void query(int nodeID, const AABB& target, std::unordered_map<int, DirectX::XMFLOAT2>& results);
 
-	//ノード全体のAABBの更新
-	void updateAABB(int objID);
+	//特定の重なっているオブジェクトの探索
+	void query(int nodeID, const AABB& target, std::unordered_map<int, DirectX::XMFLOAT2>& results, std::string& targetName);;
 
 	//重なっているオブジェクトを探す
 	bool findOverlappingObjects(int _objectID);
 
+	//特定の重なっているオブジェクトを探す
+	bool findOverlappingObjects(int _objectID, std::string& targetName, int* enemyId =nullptr);
+
 	// オブジェクトを削除
-	void remove();
+	void reset();
 
 	//AABBフレーム描画用
 	void updateDebugFlame();

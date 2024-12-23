@@ -9,20 +9,16 @@ class SceneManager
 public:
 	SceneManager() { Init(); }
 	~SceneManager() {
-		for (auto& scene : scenes)
-		{
-			delete scene.second;
-		}
 		scenes.clear(); // マップ自体をクリア
 	}
 	void Init();
-	void AddScene(const std::string& sceneName, Scene*);				   //シーンの追加。
+	void AddScene(const std::string& sceneName);	   //シーンの追加。
 	void SwitchScene(const std::string& sceneName);	   //シーンの切り替え。
 	void Update();				       // 現在のシーンの更新
 	void EngineUpdate();			   // 現在のシーンの更新（エンジン使用時）
 	void Draw();                       // 現在のシーンの描画
 private:
-	std::unordered_map<std::string,Scene*> scenes; // すべてのシーンのリスト。
-	Scene* currentScene;		// 現在アクティブなシーン。
+	std::unordered_map<std::string,std::shared_ptr<Scene>> scenes; // すべてのシーンのリスト。
+	std::string currentSceneName;		// 現在アクティブなシーン。
 };
 

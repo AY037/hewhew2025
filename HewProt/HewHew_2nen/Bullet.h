@@ -1,24 +1,24 @@
 #pragma once
 #include "GameObject.h"
-#include "Player.h"
+#include "BoxCollider.h"
 class Bullet :public GameObject
 {
 public:
-	Bullet(TextureManager& _textureManager,DirectX::XMFLOAT3 playerPos, DirectX::XMFLOAT3 playerAngle) {
-		Init();
-		Initialize("asset/char01.png",_textureManager, 3, 4); //プレイヤーを初期化
-		SetPos(playerPos.x, playerPos.y, playerPos.z);      //位置を設定
-		SetSize(10.0f, 10.0f, 0.0f);	 //大きさを設定
-		SetAngle(0.0f);                  //角度を設定
-		SetColor(1.0f, 1.0f, 1.0f, 0.5f);//角度を設定
-		shootAngle = playerAngle;
+	Bullet() {
+		//AddComponent("Rigidbody");　　      地面とか貫通して追いかけるために両方オフにしている。実際に使うときはコンポーネントを読み込んで
+		//AddComponent("BoxCollider");　      アップデートを止める。プレイヤーに一度接触したことを確認したらフラグでコンポーネントのアップデート
+		SetObjectTexName("asset/Bullet.png");//を実行するとかすると色々派生して動きを作れるかも
+		SetObjTypeName("Bullet");
+		//isRigidbody = true;
 	}
-	~Bullet() {  }
-	void Init();  //初期化
+	~Bullet() {}
+	void Init(TextureManager& _textureManager);  //初期化
 	void Update();//更新
 	void Draw();  //描画
 private:
-	DirectX::XMFLOAT3 shootAngle;
-	const float speed = 10.0f;
+	const float speed = 3.0f;
+	BoxCollider boxcoll;
+	float shoot_angle=0.0f;
+	bool flip = false;//弾の反転フラグ
 };
 

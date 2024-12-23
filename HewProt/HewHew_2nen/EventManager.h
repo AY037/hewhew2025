@@ -15,10 +15,15 @@ public:
 
     // イベントを送信する（イベント名に紐づくリスナーを実行する）
     void SendEvent(const std::string& eventName);
+    // オブジェクトID関連の処理
+    void SendObjIdEvent(const std::string eventName,const int _objID);
 
-    void AddChangeSceneFunc(const std::function<void(const std::string&)>& _changeSceneFunc);
-
+    //シーン切り替え関数の登録
+    void SetChangeSceneFunc(const std::function<void(const std::string&)>& _changeSceneFunc);
+    //シーン切り替えイベント用
     void SendChangeScene(std::string sceneName);
+    //オブジェクトの削除関数登録用
+    void SetObjectIdFunc(const std::string eventName, const std::function<void(const int)>& _deleteObjectFunc);
 
 private:
     // コンストラクタをプライベートにすることで外部からのインスタンス生成を禁止
@@ -30,5 +35,8 @@ private:
 
     std::unordered_map<std::string, std::function<void()>> listeners; // イベントとリスナーのマッピング
 
+    //シーン切り替え用
     std::function<void(const std::string&)> changeSceneFunc;
+    //オブジェクト消去
+    std::unordered_map<std::string,std::function<void(const int)>> deleteObjectFunc;
 };

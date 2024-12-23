@@ -7,6 +7,7 @@ void Enemy::Init(TextureManager& _textureManager)
 	{
 		component.second->Init(*this);
 	}
+	boxColl.Init(*this);
 }
 
 void Enemy::Update(void)
@@ -15,10 +16,12 @@ void Enemy::Update(void)
 	DirectX::XMFLOAT3 _velocity = GetVelocity();
 
 	SetPos(_pos.x + _velocity.x, _pos.y + _velocity.y, _pos.z + _velocity.z);
+
 	for (auto& component : components)
 	{
 		component.second->Update();
 	}
+	boxColl.Update();
 }
 
 void Enemy::Draw(void)

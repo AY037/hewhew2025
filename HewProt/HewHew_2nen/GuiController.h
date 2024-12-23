@@ -9,7 +9,7 @@ public:
 	GuiController(){}
 	~GuiController() {}
 
-	void Init(Scene* _scene);
+	void Init(Scene* _scene, const std::string& txtName);
 	void Update();
 	void Draw();
 	void SetGameObjects(std::unordered_map<int, std::shared_ptr<GameObject>>* _gameObject)
