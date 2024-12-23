@@ -68,7 +68,7 @@
             "angle": 0.0,
             "name": "Player",
             "objectTexName": "asset/player.png",
-            "object_id": 8,
+            "object_id": 4,
             "position": [
                 -167.3303985595703,
                 19.182710647583008,
@@ -84,7 +84,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 4,
+            "object_id": 5,
             "position": [
                 2512.20654296875,
                 44.999996185302734,
@@ -100,7 +100,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 5,
+            "object_id": 6,
             "position": [
                 2466.9931640625,
                 44.99999237060547,
@@ -116,7 +116,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 6,
+            "object_id": 7,
             "position": [
                 2466.02001953125,
                 57.59123229980469,
@@ -132,7 +132,7 @@
             "angle": 0.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 7,
+            "object_id": 8,
             "position": [
                 0.0,
                 -13.0,
@@ -1172,7 +1172,7 @@
             "angle": 0.0,
             "name": "BulletFlyEnemy",
             "objectTexName": "asset/FlyEnemy.png",
-            "object_id": 74,
+            "object_id": 73,
             "position": [
                 328.20068359375,
                 67.20701599121094,
@@ -1188,7 +1188,7 @@
             "angle": 0.0,
             "name": "BulletFlyEnemy",
             "objectTexName": "asset/FlyEnemy.png",
-            "object_id": 73,
+            "object_id": 74,
             "position": [
                 331.62200927734375,
                 90.72868347167969,

@@ -16,7 +16,7 @@ public:
 		SetObjTypeName("Player");
 		isRigidbody = true;
 	}
-	~Player() { playerAnimations.clear(); }
+	~Player();
 	void Init(TextureManager& _textureManager);  //‰Šú‰»
 	void Update();//XV
 	void Draw(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)override;  //•`‰æ

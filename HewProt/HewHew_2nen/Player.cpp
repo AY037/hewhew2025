@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "EventManager.h"
 #include "sound.h"
+#include "EventManager.h"
 #include "StageCollider.h"
 #include "AttackAnimation.h"
 #include "BigAttackAnimation1.h"
@@ -8,6 +8,10 @@
 #include "DragAnimation.h"
 #include "BoxCollider.h"
 #include "GameManager.h"
+Player::~Player() {
+	playerAnimations.clear();
+	Sound::GetInstance().Stop(SE_DRAG_ROOP);
+}
 
 void Player::Init(TextureManager& _textureManager)
 {
@@ -103,8 +107,10 @@ void Player::Update(void)
 				//Sound::GetInstance().Play(SE_SPARK_ROOP);
 				playerAnimations[DRAG_ANI] = std::make_shared<DragAnimation>(*textureManager, pos);
 			}
-
-			enterCnt++;
+			if (enterCnt != 180)
+			{
+				enterCnt++;
+			}
 			if (playerAnimations[DRAG_ANI] != nullptr)
 			{
 				if (enterCnt > 0 && enterCnt < 60)

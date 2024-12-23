@@ -149,6 +149,9 @@ void GameScene::Shutdown()// シーンの終了処理。
 {
 	//二分木のリセット
 	DynamicAABBTree::GetInstance().reset();
+	StageCollider::GetInstance()->reset();
+
+	sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 }
 
 

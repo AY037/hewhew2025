@@ -9,6 +9,7 @@ void DragAnimation::Init(TextureManager& _textureManager)
 
 void DragAnimation::Update(void)
 {
+	DirectX::XMFLOAT3 size = GetSize();
 	animation_cnt++;
 	if (animation_cnt % 5==0)
 	{
@@ -19,7 +20,11 @@ void DragAnimation::Update(void)
 		numU = 0;
 	}
 
-	if (animation_cnt == 60)
+	if(size.x==30)
+	{
+		numV = 0;
+	}
+	if (size.x == 40|| size.x == 50)
 	{
 		numV = 2;
 	}
