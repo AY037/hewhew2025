@@ -20,5 +20,12 @@ private:
 	BoxCollider boxColl;
 	int shoot_cnt = 0;//bullet生成用フレームカウント
 	const int shoot_time = 120;//Bullet生成のレート低くすれば速くなる
+
+	float move_angle = 0.0f;
+	int firecnt = 0;//何回玉を撃ったか。3回撃ったら終わり
+
+	bool attack_fg = false;//3回玉をうつとアタックする
+	bool hit_attack = false;//当たったかどうか
+
 };
 
