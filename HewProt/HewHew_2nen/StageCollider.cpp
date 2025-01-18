@@ -40,7 +40,7 @@ bool StageCollider::HitCheck(GameObject& pObj)
 			//オブジェクトのエッジでチェック
 			if ((pBottom < stgTop && stgBottom < pBottom) || (pTop < stgTop && stgBottom < pTop))
 			{
-				if (stgBottom > pPos.y)
+				if (stgTop > pPos.y)
 				{
 					pGhostFlg = true;
 				}
@@ -51,7 +51,7 @@ bool StageCollider::HitCheck(GameObject& pObj)
 			//ステージがプレイヤーの中にいる場合に備えて
 			if ((stgBottom < pTop && pBottom < stgBottom) || (stgTop < pTop && pBottom < stgTop))
 			{
-				if (stgBottom > pPos.y)
+				if (stgTop > pPos.y)
 				{
 					pGhostFlg = true;
 				}
@@ -74,7 +74,7 @@ bool StageCollider::HitCheck(GameObject& pObj)
 				//オブジェクトのエッジでチェック
 				if ((pBottom < stgTop && stgBottom < pBottom) || (pTop < stgTop && stgBottom < pTop))
 				{
-					if (stgBottom > pPos.y)
+					if (stgTop > pPos.y)
 					{
 						pGhostFlg = true;
 					}
@@ -85,7 +85,7 @@ bool StageCollider::HitCheck(GameObject& pObj)
 				//ステージがプレイヤーの中にいる場合に備えて
 				if ((stgBottom < pTop && pBottom < stgBottom) || (stgTop < pTop && pBottom < stgTop))
 				{
-					if (stgBottom > pPos.y)
+					if (stgTop > pPos.y)
 					{
 						pGhostFlg = true;
 					}

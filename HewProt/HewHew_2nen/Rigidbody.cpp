@@ -5,6 +5,7 @@
 #include "Math.h"
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 Rigidbody::Rigidbody()
 {
 }
@@ -14,21 +15,24 @@ void Rigidbody::Init(GameObject& obj)
 	this->m_obj->GetPhysicsEventManager().AddonCollisionEvent(
 		[this](GameObject& other,DirectX::XMFLOAT2& normal) {this->ResolveCollision(other, normal); });
 }
+
 void Rigidbody::Update()
 {
 	GameObject& obj = *static_cast<GameObject*>(this->m_obj);
-	XMFLOAT3 velocity = obj.GetVelocity();
-	//ベクトルに変換
-	XMVECTOR velocity_vec = XMLoadFloat3(&velocity);
-
+	Vector3 velocity = obj.GetVelocity();
 
 	XMVECTOR gravity_vec = XMLoadFloat3(&gravity);
-	XMVECTOR airResi_vec = -velocity_vec * airResistance;
-	velocity_vec += gravity_vec;
-	velocity_vec += airResi_vec;
+	Vector3 airResi_vec = -velocity * airResistance;
+    velocity += gravity_vec;
+    velocity += airResi_vec;
+    if (obj.GetName() == "Player")
+    {
+        if(velocity.y>0)
+        {
+            velocity += airResi_vec;
+        }
+    }
 
-
-	XMStoreFloat3(&velocity, velocity_vec);
 
 	obj.SetVelocity(velocity);
 }
@@ -96,8 +100,11 @@ void Rigidbody::StaticCollision(GameObject& obj, GameObject& other,DirectX::XMFL
     //}
 
 	v1Float3 = { velocity.x,velocity.y,0 };
-	// 動的オブジェクトの速度を更新
-	obj.SetVelocity(v1Float3);
+  /*  if(obj.GetName()!="Player")
+    {*/
+        // 動的オブジェクトの速度を更新
+        obj.SetVelocity(v1Float3);
+    //}
 }
 
 
@@ -141,7 +148,7 @@ void Rigidbody::DynamicCollision(GameObject& obj1, GameObject& obj2) {
     float v2t = XMVectorGetX(XMVector3Dot(vec2, tangent)); // obj2の接線方向速度
 
     // 衝突後の法線方向速度を計算（運動量保存則 + 反発係数）
-    float e = coefficient; // 反発係数（完全弾性衝突の場合1.0）
+    float e = 1.1f; // 反発係数（完全弾性衝突の場合1.0）
     float v1n_new = (v1n * (m1 - e * m2) + (1 + e) * m2 * v2n) / (m1 + m2);
     float v2n_new = (v2n * (m2 - e * m1) + (1 + e) * m1 * v1n) / (m1 + m2);
 
@@ -177,6 +184,15 @@ void Rigidbody::DynamicCollision(GameObject& obj1, GameObject& obj2) {
     if (fabs(v2Float3.x) < threshold && fabs(v2Float3.y) < threshold) {
         v2Float3.x = 0.0f;
         v2Float3.y = 0.0f;
+    }
+
+    if (obj2.GetName() == "Sword")
+    {
+        v1Float3.y = 2;
+    }
+    if(obj1.GetName()=="Sword")
+    {
+        v2Float3.y = 2;
     }
 
     obj1.SetVelocity(v1Float3);

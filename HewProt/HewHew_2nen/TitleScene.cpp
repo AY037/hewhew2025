@@ -9,12 +9,12 @@ void TitleScene::Init()// シーンの初期化。
     std::shared_ptr<GameObject> titleObj=std::make_shared<UI>();
     titleObj->SetObjectTexName("asset/Title.png");
     titleObj->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-    titleObj->Init(textureManager);
+    titleObj->Init();
     uiObjectList.push_back(titleObj);
     //オブジェクトの初期化
     for (auto& obj : gameObjects)
     {
-        if (obj.second) obj.second->Init(textureManager);
+        if (obj.second) obj.second->Init();
     }
 
 #ifdef GUI_MODE

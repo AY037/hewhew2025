@@ -4,18 +4,18 @@
 class AttackAnimation1 :public GameObject
 {
 public:
-	AttackAnimation1(TextureManager& _textureManager, DirectX::XMFLOAT3& _pos):playerPos(_pos) {
+	AttackAnimation1(DirectX::XMFLOAT3& _pos):playerPos(_pos) {
 		SetName("AttackAnimation");
 		SetSize(70, 70, 0);
 		SetAngle(-45);
 		SetObjectTexName("asset/Attack.png");
-		Init(_textureManager);
+		Init();
 		isRigidbody = false;
 	}
 	~AttackAnimation1() {
 	}
 
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:

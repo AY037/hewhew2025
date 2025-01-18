@@ -27,7 +27,7 @@ void EventManager::SendChangeScene(std::string sceneName)
 }
 
 //オブジェクトの削除関数登録用
-void EventManager::SetObjectIdFunc(const std::string eventName, const std::function<void(const int)>& _deleteObjectFunc)
+void EventManager::AddObjectIdEvent(const std::string eventName, const std::function<void(const int)>& _deleteObjectFunc)
 {
     deleteObjectFunc[eventName] = _deleteObjectFunc;
 }

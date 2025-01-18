@@ -12,7 +12,7 @@ public:
 		//isRigidbody = true;
 	}
 	~Bullet() {}
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:

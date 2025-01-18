@@ -7,13 +7,13 @@ public:
 	BulletFlyEnemy() {
 		AddComponent("Rigidbody");
 		AddComponent("BoxCollider");
-		SetObjectTexName("asset/FlyEnemy.png");
+		SetObjectTexName("asset/bulletFlyEnemy.png");
 		SetName("BulletFlyEnemy");
 		SetObjTypeName("Enemy");//オブジェクトの属性エネミー共通の処理で使う用に
 		isRigidbody = true;//静的か動的か
 	}
 	~BulletFlyEnemy() {}
-	void Init(TextureManager& _textureManager);  //初期化
+	void Init();  //初期化
 	void Update();//更新
 	void Draw();  //描画
 private:
@@ -26,6 +26,6 @@ private:
 
 	bool attack_fg = false;//3回玉をうつとアタックする
 	bool hit_attack = false;//当たったかどうか
-
+	int debriTime_cnt = 0;
 };
 

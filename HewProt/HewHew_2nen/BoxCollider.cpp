@@ -19,6 +19,12 @@ bool BoxCollider::HitCheck(GameObject& obj)
 	return tree.findOverlappingObjects(obj.GetObjID());
 }
 
+//当たり判定全オブジェクトとの比較用
+std::unordered_map<std::string, std::shared_ptr<GameObject>> BoxCollider::HitObjectName(GameObject& obj)
+{
+	return tree.findOverlappingObjectName(obj.GetObjID());
+}
+
 //当たり判定特定オブジェクトとの比較用
 bool BoxCollider::HitCheck(GameObject& obj, std::string targetName, int* enemyId)
 {

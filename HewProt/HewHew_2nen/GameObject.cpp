@@ -1,13 +1,18 @@
 #include "GameObject.h"
-void GameObject::Initialize(const std::string imgname, TextureManager& _textureManager, int sx, int sy)
+#include <SimpleMath.h>
+
+void GameObject::Initialize(const std::string imgname, int sx, int sy)
 {
 	//UV座標を設定
 	splitX = sx;
 	splitY = sy;
-	vertexList[1].u = 1.0f / splitX;
-	vertexList[2].v = 1.0f / splitY;
-	vertexList[3].u = 1.0f / splitX;
-	vertexList[3].v = 1.0f / splitY;
+
+	SetUV(numU,numV,splitX,splitY);
+
+	vertexList[1].u = 1.0f;
+	vertexList[2].v = 1.0f;
+	vertexList[3].u = 1.0f;
+	vertexList[3].v = 1.0f;
 
 	// 頂点バッファを作成する
 	// ※頂点バッファ→VRAMに頂点データを置くための機能
@@ -42,7 +47,7 @@ void GameObject::Initialize(const std::string imgname, TextureManager& _textureM
 
 	hr = g_pDevice->CreateBuffer(&ibDesc, &irData, &m_pIndexBuffer);
 	// テクスチャ読み込み
-	m_pTextureView = _textureManager.GetTexture(imgname, m_pTextureView);
+	m_pTextureView = TextureManager::GetInstance().GetTexture(imgname);
 	SetObjectTexName(imgname);
 }
 
@@ -74,11 +79,16 @@ void GameObject::DrawObject(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)
 
 	cb.matrixProj = DirectX::XMMatrixTranspose(_pm);
 
+
 	// UVアニメーションの行列作成
-	float u = (float)numU / splitX;
-	float v = (float)numV / splitY;
-	cb.matrixTex = DirectX::XMMatrixTranslation(u, v, 0.0f);
-	cb.matrixTex = DirectX::XMMatrixTranspose(cb.matrixTex);
+	float u = (float)numU;
+	float v = (float)numV;
+	float uw = 1 / (float)splitX;
+	float vh = 1 / (float)splitY;
+	//UVの行列作成
+	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateScale(uw, vh, 1.0f);
+	mat *= DirectX::SimpleMath::Matrix::CreateTranslation(u, v, 0.0f).Transpose();
+	cb.matrixTex = mat;
 
 	//頂点カラーのデータを作成
 	cb.color = color;
@@ -117,10 +127,14 @@ void GameObject::DrawUiObject(DirectX::XMMATRIX& _pm)
 	cb.matrixWorld = DirectX::XMMatrixTranspose(cb.matrixWorld);
 
 	// UVアニメーションの行列作成
-	float u = (float)numU / splitX;
-	float v = (float)numV / splitY;
-	cb.matrixTex = DirectX::XMMatrixTranslation(u, v, 0.0f);
-	cb.matrixTex = DirectX::XMMatrixTranspose(cb.matrixTex);
+	float u = (float)numU;
+	float v = (float)numV;
+	float uw = 1/ (float)splitX;
+	float vh = 1 / (float)splitY;
+	//UVの行列作成
+	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateScale(uw, vh, 1.0f);
+	mat *= DirectX::SimpleMath::Matrix::CreateTranslation(u, v, 0.0f).Transpose();
+	cb.matrixTex = mat;
 
 	//頂点カラーのデータを作成
 	cb.color = color;
@@ -237,7 +251,7 @@ std::string& GameObject::GetObjTypeName(void)
 void GameObject::SetTexture(const std::string imgname, TextureManager& textureManager)
 {
 	textureName = imgname;
-	m_pTextureView = textureManager.GetTexture(imgname, m_pTextureView);
+	m_pTextureView = textureManager.GetTexture(imgname);
 }
 
 void GameObject::AddComponent(const std::string& name)
@@ -280,4 +294,30 @@ bool GameObject::GetIsBoxColl()
 float GameObject::GetMass()
 {
 	return size.x * size.y;
+}
+
+// UV座標を指定
+void GameObject::SetUV(const float& u, const float& v, const float& sx, const float& sy)
+{
+	numU = u;
+	numV = v;
+	splitX = sx;
+	splitY = sy;
+}
+
+
+void GameObject::SetHp(int hp)
+{
+	m_Hp = hp;
+}
+
+
+int GameObject::GetHp()
+{
+	return m_Hp;
+}
+
+DirectX::XMFLOAT3 GameObject::GetBoxSize()
+{
+	return size;
 }

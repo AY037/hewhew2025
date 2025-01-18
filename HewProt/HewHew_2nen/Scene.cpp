@@ -15,7 +15,7 @@ void Scene::AddObject(std::shared_ptr<GameObject>& _gameObject)
 		}
 		else {
 			_gameObject->SetObjID(id);
-			_gameObject->Init(textureManager);
+			_gameObject->Init();
 			gameObjects.insert({ id,_gameObject });
 			addObjects.push_back(id);
 			break;

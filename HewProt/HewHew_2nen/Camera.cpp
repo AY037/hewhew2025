@@ -11,7 +11,7 @@ float GenerateRandomInt(int min, int max) {
 
 	// 乱数を生成
 	int num = dist(engine);
-   	return num /10.0f;
+	return num / 10.0f;
 }
 
 void Camera::Init()
@@ -22,29 +22,54 @@ void Camera::Init()
 	SetCameraPos(0, 30, -200);//カメラ初期位置
 #endif
 	EventManager::GetInstance().AddListener("Vibration", [this]() { CameraVibration(); });
+	const DirectX::XMFLOAT2 adjust_cameraPos = { 80,40 };
+	cameraPos.x = playerPos.x + adjust_cameraPos.x;
+	cameraPos.y = playerPos.y + adjust_cameraPos.y;
 }
 
-void Camera::Update(const DirectX::XMFLOAT3& _playerPos , bool stop_flg)
+void Camera::Update(const DirectX::XMFLOAT3& _playerPos, bool stop_flg)
 {
+	cameraPos.x -= vibrationVector.x;
+	cameraPos.y -= vibrationVector.y;
+	vibrationVector = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+
 	playerPos = _playerPos;
-	const DirectX::XMFLOAT2 adjust_cameraPos = { 120,60 };
-	if(stop_flg==false)
+	const DirectX::XMFLOAT2 adjust_cameraPos = { 80,40 };
+	if (!stop_flg)
 	{
-		cameraPos.x = playerPos.x + adjust_cameraPos.x;
-		cameraPos.y = adjust_cameraPos.y;
+		//カメラのスクロール
+		cameraPos.x += scrollVelocity;
+
+		//x軸はカメラをプレイヤーに位置に合わせる
+		float targetPointX = playerPos.x + adjust_cameraPos.x;
+		if (targetPointX - 1.0f > cameraPos.x || targetPointX + 1.0f < cameraPos.x)
+		{
+			cameraPos.x += (targetPointX > cameraPos.x) ? 1.0f : -1.0f;
+		}
+
+		//y軸は画面外にいった場合合わせる
+		if (playerPos.y< cameraPos.y - adjust_cameraPos.y || playerPos.y > cameraPos.y + adjust_cameraPos.y)
+		{
+			float targetPointY = playerPos.y + adjust_cameraPos.y;
+			if (targetPointY - 1.0f > cameraPos.y || targetPointY + 1.0f < cameraPos.y)
+			{
+				cameraPos.y += (targetPointY > cameraPos.y) ? 1.0f : -1.0f;
+			}
+		}
 	}
 	else
 	{
-		const int vibration=300;
-		cameraPos.x = playerPos.x + adjust_cameraPos.x + GenerateRandomInt(-vibration, vibration);
-		cameraPos.y = adjust_cameraPos.y + GenerateRandomInt(-vibration, vibration);
+		const int vibration = 600;
+		vibrationVector = DirectX::XMFLOAT3(GenerateRandomInt(-vibration, vibration), GenerateRandomInt(-vibration, vibration), 0.0f);
+		cameraPos.x += vibrationVector.x;
+		cameraPos.y += vibrationVector.y;
 	}
 	cameraPos.z = -160;
 }
 
 void Camera::CameraVibration()
 {
-	const DirectX::XMFLOAT2 adjust_cameraPos = { 120,60 };
+	const DirectX::XMFLOAT2 adjust_cameraPos = { 80,40 };
 	if ((input.GetRightTriggerPress()) || (input.GetKeyPress(VK_SPACE)))
 	{
 		flame_cnt++;
@@ -62,12 +87,14 @@ void Camera::CameraVibration()
 			vibration = 10;
 		}
 
-		cameraPos.x = playerPos.x + adjust_cameraPos.x + GenerateRandomInt(-vibration, vibration);
-		cameraPos.y = adjust_cameraPos.y + GenerateRandomInt(-vibration, vibration);
+		vibrationVector = DirectX::XMFLOAT3(GenerateRandomInt(-vibration, vibration), GenerateRandomInt(-vibration, vibration), 0.0f);
+		cameraPos.x += vibrationVector.x;
+		cameraPos.y += vibrationVector.y;
 	}
 	if ((input.GetRightTriggerRelease()) || (input.GetKeyRelease(VK_SPACE)))
 	{
 		flame_cnt = 0;
+		//cameraPos.x -= 50;
 	}
 }
 
@@ -75,11 +102,11 @@ void Camera::EngineCameraUpdate()
 {
 	if (input.GetKeyPress(VK_W))
 	{
-		cameraPos.y+=1;
+		cameraPos.y += 1;
 	}
 	if (input.GetKeyPress(VK_S))
 	{
-		cameraPos.y-=1;
+		cameraPos.y -= 1;
 	}
 	if (input.GetKeyPress(VK_A))
 	{

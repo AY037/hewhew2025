@@ -6,17 +6,18 @@ class Enemy :public GameObject
 public:
 	Enemy() {
 		AddComponent("Rigidbody");
-		//AddComponent("BoxCollider");
+		AddComponent("BoxCollider");
 		SetObjectTexName("asset/Enemy.png");
 		SetObjTypeName("Enemy");
 		isRigidbody = true;
 		SetSize(16, 20, 0);
 	}
 	~Enemy() {}
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:
-	BoxCollider boxColl;
+	bool m_DebriFlg = false;//cŠ[‚É‚È‚Á‚½‚©
+	int debriTime_cnt = 0;
 };
 

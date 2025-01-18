@@ -47,8 +47,8 @@ private:
 	ComPtr<ID3D11ShaderResourceView> m_pTextureView = nullptr;
 
 	//テクスチャが縦横に何分割されているか
-	int splitX = 1;
-	int splitY = 1;
+	float splitX = 1.0f;
+	float splitY = 1.0f;
 
 	//シーン上でのオブジェクトのID
 	int ObjID = -1;
@@ -60,6 +60,7 @@ protected:
 	std::unordered_map<std::string,std::shared_ptr<Component>> components;
 	bool isRigidbody = false;//オブジェクトが静的か動的か
 	bool isBoxColl = false;
+	int m_Hp = 100;
 public:
 	GameObject() {}
 	virtual ~GameObject() { Uninit(); }
@@ -68,10 +69,10 @@ public:
 	float numU = 0;
 	float numV = 0;
 
-	virtual void Init(TextureManager&)=0;  //派生クラス用
+	virtual void Init()=0;  //派生クラス用
 	virtual void Update() = 0;//派生クラス用
 	virtual void Draw(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm) {}
-	void Initialize(const std::string imgname, TextureManager&, int sx = 1, int sy = 1); //初期化
+	void Initialize(const std::string imgname, int sx = 1, int sy = 1); //初期化
 	void DrawObject(DirectX::XMMATRIX&, DirectX::XMMATRIX&);                    //描画
 	void DrawUiObject(DirectX::XMMATRIX& _pm);
 	void Uninit();                           //終了
@@ -90,6 +91,12 @@ public:
 
 	void SetTexture(const std::string imgname, TextureManager& textureManager);
 	void AddComponent(const std::string& name);
+	template <class T>
+	std::shared_ptr<T> GetComponent(const std::string& name)
+	{
+		auto component = std::dynamic_pointer_cast<T>(components[name]);
+		return component;
+	}
 
 	std::string& GetObjectTexName();
 	std::string& GetName(void);
@@ -102,6 +109,9 @@ public:
 	int GetObjID();
 	bool GetIsBoxColl();
 
+	void SetUV(const float& u, const float& v, const float& sx, const float& sy);
+	void SetHp(int hp);
+	int GetHp();
 
 	PhysicsEventManager& GetPhysicsEventManager() {
 		return physicsEventManager;
@@ -109,4 +119,6 @@ public:
 	bool GetObjectType() {
 		return isRigidbody;
 	}
+
+	virtual DirectX::XMFLOAT3 GetBoxSize();
 };

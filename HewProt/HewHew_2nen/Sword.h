@@ -7,10 +7,11 @@ public:
 		AddComponent("BoxCollider");
 		SetObjTypeName("Sword");
 		isRigidbody = true;
+		SetVelocity(_swordSpeed);
 	}
 	~Sword() {}
 	
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 	float GetMass() override

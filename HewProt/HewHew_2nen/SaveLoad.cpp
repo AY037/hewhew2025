@@ -33,7 +33,7 @@ void SaveLoad::SaveScene(const std::string& fileName, std::unordered_map<int, st
 }
 
 // シーンを読み込み
-void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, std::vector<std::shared_ptr<GameObject>*>& objectList, TextureManager& textureManager) {
+void SaveLoad::LoadScene(const std::string& fileName, std::unordered_map<int, std::shared_ptr<GameObject>>& objects, std::vector<std::shared_ptr<GameObject>*>& objectList) {
     nlohmann::json sceneJson;
 
     // ファイルを読み込む

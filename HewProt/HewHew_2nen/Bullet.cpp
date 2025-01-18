@@ -2,9 +2,9 @@
 #include "GameManager.h"
 #include "EventManager.h"
 
-void Bullet::Init(TextureManager& _textureManager)
+void Bullet::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager); //プレイヤーを初期化
+	Initialize(GetObjectTexName()); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	SetSize(5, 10, 0);
 	

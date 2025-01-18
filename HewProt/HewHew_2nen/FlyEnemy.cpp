@@ -2,9 +2,9 @@
 #include "GameManager.h"
 #include "EventManager.h"
 
-void FlyEnemy::Init(TextureManager& _textureManager)
+void FlyEnemy::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager); //プレイヤーを初期化
+	Initialize(GetObjectTexName()); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	SetSize(20, 20, 0);
 	for (const auto& pair : components)
@@ -21,6 +21,7 @@ void FlyEnemy::Update(void)
 	_pos.x += _velocity.x;
 	_pos.y += _velocity.y;
 	SetPos(_pos.x, _pos.y, 0);
+
 	if(GetObjTypeName()!="Debri")
 	{
 		const DirectX::XMFLOAT3 _playerPos = GameManager::GetInstance().GetPlayerPos();

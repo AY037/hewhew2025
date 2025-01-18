@@ -19,7 +19,7 @@ public:
 		return instance;
 	}
 
-	ComPtr<ID3D11ShaderResourceView> GetTexture(const std::string imgname, ComPtr<ID3D11ShaderResourceView>);//テクスチャの取得
+	ComPtr<ID3D11ShaderResourceView> GetTexture(const std::string imgname);//テクスチャの取得
 	std::vector<std::string> GetTextureNameList()
 	{
 		return textureNames;

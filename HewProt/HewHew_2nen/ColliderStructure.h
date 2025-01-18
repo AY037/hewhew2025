@@ -12,12 +12,9 @@ struct AABB
 	bool intersects(const AABB& other) const {
 		if (objectID != other.objectID)
 		{
-			if ((right >= other.left && left <= other.left) || (right >= other.right && left <= other.right))
-			{
-				if ((bottom <= other.top && top >= other.top) || (bottom <= other.bottom && top >= other.bottom))
-				{
-					return true;
-				}
+			if (right >= other.left && left <= other.right &&
+				top >= other.bottom && bottom <= other.top) {
+				return true;
 			}
 		}
 		return false;
@@ -68,7 +65,7 @@ struct OBB {
 	// ベクトルの絶対値
 	float AbsDot(const DirectX::XMFLOAT2& a, const DirectX::XMFLOAT2& b);
 
-	bool IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_ptr<GameObject>& obj2,DirectX::XMFLOAT2& normal);
+	bool IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_ptr<GameObject>& obj2, DirectX::XMFLOAT2& normal, bool useResolve = true);
 
 	//重なりの解決
 	void ResolveOverlap(GameObject& obj1, GameObject& obj2, const DirectX::XMFLOAT2& normal, float overlap);

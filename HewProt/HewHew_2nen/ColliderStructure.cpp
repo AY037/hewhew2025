@@ -8,7 +8,7 @@ DirectX::XMFLOAT2 OBB::GetDirection2D(GameObject& obj) {
 OBB& OBB::GetObb(GameObject& obj) {
 	OBB obb;
 	DirectX::XMFLOAT3 pos = obj.GetPos();
-	DirectX::XMFLOAT3 size = obj.GetSize();
+	DirectX::XMFLOAT3 size = obj.GetBoxSize();
 	obb.center = { pos.x, pos.y };
 	obb.halfSize = { size.x / 2, size.y / 2 };
 
@@ -29,7 +29,7 @@ float OBB::AbsDot(const DirectX::XMFLOAT2& a, const DirectX::XMFLOAT2& b) {
 	return std::fabs(Dot(a, b));
 }
 
-bool OBB::IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_ptr<GameObject>& obj2, DirectX::XMFLOAT2& outNormal) {
+bool OBB::IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_ptr<GameObject>& obj2, DirectX::XMFLOAT2& outNormal,bool useResolve) {
 	using namespace DirectX;
 
 	// OBB情報を取得
@@ -101,26 +101,29 @@ bool OBB::IntersectsWithNormal(std::shared_ptr<GameObject>& obj1, std::shared_pt
 	// 法線ベクトルとして最小オーバーラップの軸を返す
 	outNormal = bestAxis;
 
-	//PlayerはGround以外透過
-	if (obj1->GetObjTypeName() == "Player" || obj2->GetObjTypeName() == "Player")
+	if(useResolve)
 	{
-		if (obj1->GetObjTypeName() == "Ground" || obj2->GetObjTypeName() == "Ground")
+		//PlayerはGround以外透過
+		if (obj1->GetObjTypeName() == "Player" || obj2->GetObjTypeName() == "Player")
 		{
-			ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
-		}
-	}
-	else
-	{
-		if (obj1->GetObjTypeName() == "DragSword" || obj2->GetObjTypeName() == "DragSword")
-		{
-			if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
+			if (obj1->GetObjTypeName() == "Ground" || obj2->GetObjTypeName() == "Ground")
 			{
 				ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
 			}
 		}
 		else
 		{
-			ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+			if (obj1->GetObjTypeName() == "DragSword" || obj2->GetObjTypeName() == "DragSword")
+			{
+				if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
+				{
+					ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+				}
+			}
+			else
+			{
+				ResolveOverlap(dynamic_cast<GameObject&>(*obj1), dynamic_cast<GameObject&>(*obj2), bestAxis, minOverlap);
+			}
 		}
 	}
 	return true; // 衝突している

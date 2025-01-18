@@ -1,7 +1,8 @@
 #include "TextureManager.h"
 
 TextureManager::TextureManager() {
-	IncludeTextureName("asset/player.png");
+	IncludeTextureName("asset/player_Run.png");
+	IncludeTextureName("asset/player_Attack.png");
 	IncludeTextureName("asset/souan.png");
 	IncludeTextureName("asset/macho.png");
 	IncludeTextureName("asset/block.png");
@@ -10,6 +11,8 @@ TextureManager::TextureManager() {
 	IncludeTextureName("asset/Attack.png");
 	IncludeTextureName("asset/Ground.jpg");
 	IncludeTextureName("asset/Stage.jpg");
+	IncludeTextureName("asset/BulletFlyEnemy.png");
+	IncludeTextureName("asset/background.png");
 }
 
 //stringをstd::wstringと紐づけwstringからwchar_t*に変換するのでポインタを単一にする
@@ -18,8 +21,9 @@ void TextureManager::IncludeTextureName(std::string imgname)
 	std::wstring wstr(imgname.begin(), imgname.end());
 	imagePass[imgname] = wstr.c_str();
 	textureNames.push_back(imgname);
+	//GetTexture(imgname);
 }
-ComPtr<ID3D11ShaderResourceView> TextureManager::GetTexture(const std::string imgname, ComPtr<ID3D11ShaderResourceView> m_pTextureView)//テクスチャの貼り付け
+ComPtr<ID3D11ShaderResourceView> TextureManager::GetTexture(const std::string imgname)//テクスチャの貼り付け
 {
 	auto _imagePass = imagePass.find(imgname);
 	if (_imagePass == imagePass.end()) {

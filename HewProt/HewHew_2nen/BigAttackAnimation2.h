@@ -4,18 +4,18 @@
 class BigAttackAnimation2 :public GameObject
 {
 public:
-	BigAttackAnimation2(TextureManager& _textureManager, const DirectX::XMFLOAT3 _pos) {
+	BigAttackAnimation2(const DirectX::XMFLOAT3 _pos) {
 		SetName("BigAttackAnimation2");
 		SetPos(_pos.x, _pos.y, 0);
 		SetSize(80, 80, 0);
-		SetAngle(30);
+		SetAngle(20);
 		SetObjectTexName("asset/bigAttack2.png");
-		Init(_textureManager);
+		Init();
 		isRigidbody = false;
 	}
 	~BigAttackAnimation2() {}
 
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:

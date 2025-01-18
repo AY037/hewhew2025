@@ -4,6 +4,7 @@
 enum AnimationState
 {
 	ATTACK_ANI,		//通常攻撃
+	BIG_ATTACK_ANI0,//通常衝撃波
 	BIG_ATTACK_ANI1,//ため攻撃
 	BIG_ATTACK_ANI2,//強ため攻撃
 	DRAG_ANI		//引きずり
@@ -11,37 +12,44 @@ enum AnimationState
 class Player :public GameObject
 {
 public:
-	Player(){
-		AddComponent("Rigidbody");
-		SetObjTypeName("Player");
-		isRigidbody = true;
-	}
+	Player();
 	~Player();
-	void Init(TextureManager& _textureManager);  //初期化
+	void Init();  //初期化
 	void Update();//更新
 	void Draw(DirectX::XMMATRIX& _vm, DirectX::XMMATRIX& _pm)override;  //描画
 	void ResetJumpCnt()
 	{
 		jump_cnt = 0;
 	}
+	DirectX::XMFLOAT3 GetBoxSize()override;
 private:
 	Input& input = Input::GetInstance();
 	std::unordered_map<AnimationState, std::shared_ptr<GameObject>> playerAnimations; // プレイヤーが管理するゲームオブジェクトリスト
-	TextureManager* textureManager=nullptr;
 	BoxCollider boxColl;
-	const float scrollVelocity = 1.3f;//スクロールの速度
+	float scrollVelocity = 1.3f;//スクロールの速度
 	int jump_cnt=0;
 	bool enterRelease = false;
 	bool landing = false;    //地面にいるか
 	bool new_landing = false;//地面にいるか
 	bool old_landing = false;//地面にいるか
-	int playerHP = 5;//hp
+	int playerHP = 300;//hp
 	bool damage_flg = false;//ダメージを受けた時true
 	const int invincibility_time =120;//無敵時間
 	int invincibility_cnt = 0;
 	int runUV_cnt = 0;
 
 	int enterCnt = 0;
+	int enterCnt_Old = 0;
 	bool drag_n = 0;
 	bool drag_o = 0;
+
+	int m_Flame_cnt = 0;
+
+	int changeAngleCnt = 0;//角度を変更したらカウント開始
+	bool changeAngle = false;
+
+	bool m_AttackFlg = false;
+	int m_AttackCnt = 0;
+
+	int m_UpdateAniFlame = 4;
 };

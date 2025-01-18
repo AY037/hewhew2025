@@ -23,7 +23,7 @@ public:
     //シーン切り替えイベント用
     void SendChangeScene(std::string sceneName);
     //オブジェクトの削除関数登録用
-    void SetObjectIdFunc(const std::string eventName, const std::function<void(const int)>& _deleteObjectFunc);
+    void AddObjectIdEvent(const std::string eventName, const std::function<void(const int)>& _deleteObjectFunc);
 
 private:
     // コンストラクタをプライベートにすることで外部からのインスタンス生成を禁止

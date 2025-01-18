@@ -1,19 +1,24 @@
 #include "DragSword.h"
-void DragSword::Init(TextureManager& _textureManager)
+#include "GameManager.h"
+
+void DragSword::Init()
 {
-	//Initialize(GetObjectTexName(), _textureManager);   //”wŒi‚ð‰Šú‰»
-	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
-	for (auto& component : components)
-	{
-		component.second->Init(*this);
-	}
+	//Initialize(GetObjectTexName());   //”wŒi‚ð‰Šú‰»
+	//SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+	boxCollider.Init(*this);
 }
 
 void DragSword::Update(void)
 {
-	for (auto& component : components)
+	auto& gameManager = GameManager::GetInstance();
+	auto hitObjects = boxCollider.HitObjectName(*this);
+	if (hitObjects.size()>1)
 	{
-		component.second->Update();
+		gameManager.dragSwordHit = true;
+	}
+	else
+	{
+		gameManager.dragSwordHit = false;
 	}
 }
 

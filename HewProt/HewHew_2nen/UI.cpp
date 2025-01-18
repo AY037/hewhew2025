@@ -1,7 +1,7 @@
 #include "UI.h"
-void UI::Init(TextureManager& _textureManager)
+void UI::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager);   //”wŒi‚ğ‰Šú‰»
+	Initialize(GetObjectTexName());   //”wŒi‚ğ‰Šú‰»
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 

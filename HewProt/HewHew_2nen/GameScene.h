@@ -5,6 +5,8 @@
 #include "Debug.h"
 #include "GuiController.h"
 #include "StageCollider.h"
+#include "HpBar.h"
+#include "Background.h"
 
 
 #define NOSELECTED (-1)//オブジェクトを選択していない
@@ -32,6 +34,9 @@ public:
 private:
 	Input& input = Input::GetInstance();
 	Debug& debug = Debug::GetInstance();
+
+	HpBar hpBar;
+	Background backGrounds;
 
 	//斬撃の時間
 	int slash_time = 0;

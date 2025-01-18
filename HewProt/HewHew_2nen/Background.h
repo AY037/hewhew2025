@@ -1,17 +1,14 @@
 #pragma once
-#include "GameObject.h"
-class Background:public GameObject
+#include "UI.h"
+class Background
 {
 public:
-	Background(){
-		//AddComponent("Rigidbody");
-		//AddComponent("BoxCollider");
-		SetObjectTexName("asset/background.png");
-	}
-	~Background() { }
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	Background();
+	~Background();
+	void Init();  //‰Šú‰»
 	void Update();//XV
-	void Draw();  //•`‰æ
+	void Draw(DirectX::XMMATRIX& _pm);  //•`‰æ
 private:
+	std::vector<std::unique_ptr<UI>> backGrounds;
 };
 

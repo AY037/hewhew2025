@@ -1,7 +1,7 @@
 #include "Stage.h"
-void Stage::Init(TextureManager& _textureManager)
+void Stage::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager);   //”wŒi‚ğ‰Šú‰»
+	Initialize(GetObjectTexName());   //”wŒi‚ğ‰Šú‰»
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
 	for (auto& component : components)
 	{

@@ -1,7 +1,7 @@
 #include "DragAnimation.h"
-void DragAnimation::Init(TextureManager& _textureManager)
+void DragAnimation::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager, 5, 3); //プレイヤーを初期化
+	Initialize(GetObjectTexName(), 5, 3); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//色を設定
 	numU = 0;
 	numV = 0;

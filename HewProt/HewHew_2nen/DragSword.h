@@ -1,15 +1,18 @@
 #pragma once
 #include "GameObject.h"
+#include "BoxCollider.h"
+
 class DragSword :public GameObject
 {
 public:
 	DragSword() {
-		AddComponent("BoxCollider");
 		SetObjTypeName("DragSword");
+		//SetObjectTexName("asset/block.png");
 	}
 	~DragSword() {}
-	void Init(TextureManager& _textureManager);  //‰Šú‰»
+	void Init();  //‰Šú‰»
 	void Update();//XV
 	void Draw();  //•`‰æ
 private:
+	BoxCollider boxCollider;
 };

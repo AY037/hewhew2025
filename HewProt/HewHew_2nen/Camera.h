@@ -4,7 +4,7 @@
 // プロジェクション変換行列設定
 #define FOV (60.0f)
 #define NEAR_CLIP (1.0f)
-#define FAR_CLIP (400.0f)
+#define FAR_CLIP (900.0f)
 class Camera
 {
 public:
@@ -28,8 +28,10 @@ private:
 	Input& input = Input::GetInstance();
 	//カメラ座標
 	DirectX::XMFLOAT3 cameraPos = { 0.0f, 0.0f, 0.0f };
+	DirectX::XMFLOAT3 vibrationVector = { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT3 cameraAngle= { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT2 mousePos = { 0.0f, 0.0f};
 	DirectX::XMFLOAT3 playerPos = { 0.0f,0.0f ,0.0f };
 	int flame_cnt = 0;
+	float scrollVelocity = 1.3f;//スクロールの速度
 };

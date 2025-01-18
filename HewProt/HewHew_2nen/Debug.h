@@ -7,9 +7,9 @@ public:
 	Flame() {
 	}
 	~Flame() { }
-	void Init(TextureManager& _textureManager)
+	void Init()
 	{
-		Initialize("asset/flame.png", _textureManager);   //”wŒi‚ð‰Šú‰»
+		Initialize("asset/flame.png");   //”wŒi‚ð‰Šú‰»
 		SetColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -39,7 +39,7 @@ public:
 			flame->SetAngle(0);
 			int objID = flames.size();
 			flame->SetObjID(objID);
-			flame->Init(textureManager);
+			flame->Init();
 			flames[objID] = flame;
 		}
 

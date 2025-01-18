@@ -169,7 +169,7 @@ void GuiController::ControlGUI()
 				copyObj->SetPos(pos.x + 11, pos.y, pos.z);
 				copyObj->SetSize(size.x, size.y, size.z);
 				copyObj->SetAngle((*gameObjects)[selected_ObjectID]->GetAngle());
-				copyObj->Init(textureManager);
+				copyObj->Init();
 				scene->AddObject(copyObj);
 				scene->AddAndDelete();
 			}
@@ -321,7 +321,7 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
 			obj->SetName("Stage");
-			obj->Init(textureManager);
+			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
@@ -332,7 +332,7 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
 			obj->SetName("Enemy");
-			obj->Init(textureManager);
+			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
@@ -342,7 +342,7 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
 			obj->SetName("FlyEnemy");
-			obj->Init(textureManager);
+			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
@@ -353,7 +353,7 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
 			obj->SetName("BulletFlyEnemy");
-			obj->Init(textureManager);
+			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
@@ -363,11 +363,63 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
 			obj->SetName("Ground");
-			obj->Init(textureManager);
+			obj->Init();
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("DynamicStage", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("DynamicStage");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("DynamicStage");
+			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
 		}
 	
+		if (ImGui::Button("DontDragStage", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("DontDragStage");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("DontDragStage");
+			obj->Init();
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("FallWall", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("FallWall");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("FallWall");
+			obj->Init();
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		if (ImGui::Button("Coin", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("Coin");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("Coin");
+			obj->Init();
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
+
+		ImGui::SameLine(); // 横並びに配置
+		if (ImGui::Button("Goal", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("Goal");
+			obj->SetPos(pos.x, pos.y, 0);
+			//obj->SetSize(10, 10, 0);
+			obj->SetName("Goal");
+			obj->Init();
+			scene->AddObject(obj);
+			scene->AddAndDelete();
+		}
 }
 
 void GuiController::RenderHierarchyView() {

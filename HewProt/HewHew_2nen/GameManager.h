@@ -17,6 +17,8 @@ public:
 	//プレイヤーHP、残存HP描画用
 	void SetPlayerHP(const int pHP);
 	int GetPlayerHP() const;
+	int dragCharging = 0;
+	bool dragSwordHit = false;
 private:
 	DirectX::XMFLOAT3 playerPos;
 	int playerHP = 0;

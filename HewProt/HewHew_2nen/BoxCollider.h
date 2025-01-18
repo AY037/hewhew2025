@@ -12,6 +12,7 @@ public:
 	void Init(GameObject& obj)override;
 	//当たり判定全オブジェクトとの比較用
 	bool HitCheck(GameObject& obj);
+	std::unordered_map<std::string, std::shared_ptr<GameObject>> HitObjectName(GameObject& obj);
 	//当たり判定特定オブジェクトとの比較用
 	bool HitCheck(GameObject& obj, std::string target, int* enemyId = nullptr);
 

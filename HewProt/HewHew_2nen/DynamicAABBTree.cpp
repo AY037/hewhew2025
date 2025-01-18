@@ -83,10 +83,10 @@ void DynamicAABBTree::updateTree() {
 	if (root == -1) return;
 
 	// 全ノードのAABBを再計算
-	updateAABB(root);
+	updateAABBs(root);
 }
 
-void DynamicAABBTree::updateAABB(int node) {
+void DynamicAABBTree::updateAABBs(int node) {
 	if (node == -1 || (nodes[node].left == -1 && nodes[node].right == -1)) {
 		// 葉ノードの場合はそのまま
 		return;
@@ -96,10 +96,17 @@ void DynamicAABBTree::updateAABB(int node) {
 	int right = nodes[node].right;
 
 	// 左右の子ノードをマージしてAABBを更新
-	updateAABB(left);
-	updateAABB(right);
+	updateAABBs(left);
+	updateAABBs(right);
 
 	nodes[node].aabb = AABB::merge(nodes[left].aabb, nodes[right].aabb);
+}
+
+void DynamicAABBTree::updateAABB(int objId)
+{
+	int nodeId = objectToNodeMap[objId];
+
+	nodes[nodeId].aabb = GetAABB((*objects)[objId]);
 }
 
 
@@ -134,7 +141,7 @@ AABB DynamicAABBTree::GetAABB(std::shared_ptr<GameObject>& obj)
 	if (angle != 0)
 	{
 		DirectX::XMFLOAT3 pos = obj->GetPos();
-		DirectX::XMFLOAT3 size = obj->GetSize();
+		DirectX::XMFLOAT3 size = obj->GetBoxSize();
 		float radAngle = DirectX::XMConvertToRadians(angle);
 
 		// AABBのコーナーを計算
@@ -172,7 +179,7 @@ AABB DynamicAABBTree::GetAABB(std::shared_ptr<GameObject>& obj)
 	else
 	{
 		DirectX::XMFLOAT3 pos = obj->GetPos();
-		DirectX::XMFLOAT3 size = obj->GetSize();
+		DirectX::XMFLOAT3 size = obj->GetBoxSize();
 		AABB box;
 		box.left = pos.x - size.x / 2;
 		box.top = pos.y + size.y / 2;
@@ -205,6 +212,15 @@ bool DynamicAABBTree::findOverlappingObjects(int _objectID) {
 		return true;
 	}
 	return false;
+}
+
+std::unordered_map<std::string, std::shared_ptr<GameObject>> DynamicAABBTree::findOverlappingObjectName(int _objectID) {
+	const AABB& target = GetAABB((*objects)[_objectID]);
+
+	std::unordered_map<std::string, std::shared_ptr<GameObject>> hitObjName;
+	query(root, target, hitObjName); // ルートから探索
+
+	return hitObjName;
 }
 
 bool DynamicAABBTree::findOverlappingObjects(int _objectID, std::string& targetName,int* enemyId) {
@@ -292,19 +308,25 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 								results[nodes[nodeID].objectID] = normal;
 							}
 						}
-						if (obj1->GetObjTypeName() == "Enemy" || obj2->GetObjTypeName() == "Enemy")
-						{
-							if (obj1->GetObjectType() == true)
-							{
-								EventManager::GetInstance().SendEvent("damage");
-							}
-						}
 					}
 					else
 					{
 						if (obj1->GetObjTypeName() == "DragSword" || obj2->GetObjTypeName() == "DragSword")
 						{
 							if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
+							{
+								if (obj1->GetObjectType() == true)
+								{
+									results[nodes[nodeID].objectID] = normal;
+
+								}
+								if (obj2->GetObjectType() == true)
+								{
+									results[target.objectID] = normal;
+
+								}
+							}
+							if (obj1->GetObjTypeName() == "Stage" || obj2->GetObjTypeName() == "Stage")
 							{
 								if (obj1->GetObjectType() == true)
 								{
@@ -331,50 +353,9 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 										Sound::GetInstance().Play(SE_DESTROY);
 									}
 								}
-								//残骸の移動速度が早ければ
-								if (obj1->GetObjTypeName() == "Debri")
-								{
-									if (math::Max(std::fabs(obj1->GetVelocity().x), std::fabs(obj1->GetVelocity().y)) > 1.0f)
-									{
-										Sound::GetInstance().Play(SE_DESTROY);
-									}
-								}
-
-								//攻撃が敵に命中したとき
-								if (obj2->GetObjTypeName() == "Sword" && obj1->GetObjTypeName() == "Enemy")
-								{
-									obj1->SetSize(5.0f, 5.0f, 0);
-									obj1->SetObjTypeName("Debri");
-									obj1->SetName("Debri");
-									Sound::GetInstance().Play(SE_HIT);
-								}
-								if (obj1->GetObjTypeName() == "Sword" && obj2->GetObjTypeName() == "Enemy")
-								{
-									obj2->SetSize(5.0f, 5.0f, 0);
-									obj2->SetObjTypeName("Debri");
-									obj2->SetName("Debri");
-									Sound::GetInstance().Play(SE_HIT);
-								}
 							}
 							if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
 							{
-								if (obj1->GetObjTypeName() == "Enemy")
-								{
-									obj1->SetSize(5.0f, 5.0f, 0);
-									obj1->SetObjTypeName("Debri");
-									obj1->SetName("Debri");
-									Sound::GetInstance().Play(SE_HIT);
-									results[nodes[nodeID].objectID] = normal;
-								}
-								if (obj2->GetObjTypeName() == "Enemy")
-								{
-									obj2->SetSize(5.0f, 5.0f, 0);
-									obj2->SetObjTypeName("Debri");
-									obj2->SetName("Debri");
-									Sound::GetInstance().Play(SE_HIT);
-									results[nodes[nodeID].objectID] = normal;
-
-								}
 								if (obj1->GetObjTypeName() == "Sword" || obj2->GetObjTypeName() == "Sword")
 								{
 									// リーフノードなら、オブジェクトIDを結果に追加
@@ -417,9 +398,38 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 			if (obj2->GetObjTypeName() == targetName)
 			{
 				//OBBで重なってるかチェック
-				if (obb.IntersectsWithNormal(obj1, obj2, normal))
+				if (obb.IntersectsWithNormal(obj1, obj2, normal,false))
 				{
 					results[objID2] = normal;
+				}
+			}
+		}
+	}
+
+}
+
+void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<std::string, std::shared_ptr<GameObject>>& _hitObjectName)
+{
+	if (nodeID == -1) return; // 無効なノードは無視
+
+	// AABBが重なっている場合のみ処理
+	if (nodes[nodeID].aabb.intersects(target))
+	{
+		query(nodes[nodeID].left, target, _hitObjectName);
+		query(nodes[nodeID].right, target, _hitObjectName);
+		if (nodes[nodeID].isLeaf()) {
+			int objID1 = target.objectID;
+			int objID2 = nodes[nodeID].objectID;
+			std::shared_ptr<GameObject>& obj1 = (*objects)[objID1];
+			std::shared_ptr<GameObject>& obj2 = (*objects)[objID2];
+			DirectX::XMFLOAT2 normal;
+
+			if(obj2->GetIsBoxColl())
+			{
+				//OBBで重なってるかチェック
+				if (obb.IntersectsWithNormal(obj1, obj2, normal,false))
+				{
+					_hitObjectName[obj2->GetObjTypeName()] = obj2;
 				}
 			}
 		}

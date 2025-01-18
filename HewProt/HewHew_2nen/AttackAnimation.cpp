@@ -1,8 +1,8 @@
 #include "AttackAnimation.h"
 
-void AttackAnimation1::Init(TextureManager& _textureManager)
+void AttackAnimation1::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager, 10, 1); //プレイヤーを初期化
+	Initialize(GetObjectTexName(), 10, 1); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	numU = 6;
 }

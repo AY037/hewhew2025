@@ -1,8 +1,9 @@
 #include "Sword.h"
 #include "EventManager.h"
-void Sword::Init(TextureManager& _textureManager)
+
+void Sword::Init()
 {
-	Initialize(GetObjectTexName(), _textureManager, 3, 4); //プレイヤーを初期化
+	Initialize(GetObjectTexName(), 3, 4); //プレイヤーを初期化
 	SetColor(1.0f, 1.0f, 1.0f, 1.0f);//角度を設定
 	for (auto& component : components)
 	{
@@ -22,7 +23,7 @@ void Sword::Update(void)
 
 	for (auto& component : components)
 	{
-		component.second->Update();
+		//component.second->Update();
 	}
 
 	if (falme_cnt == alive_time)
