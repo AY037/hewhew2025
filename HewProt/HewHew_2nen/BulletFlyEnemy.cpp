@@ -143,7 +143,7 @@ void BulletFlyEnemy::Update(void)
 						auto& obj = pair.second;
 						DirectX::XMFLOAT3 velocity = obj->GetVelocity();
 						float velocityScale = std::fabs(velocity.x) + std::fabs(velocity.y);
-						//if (velocityScale > 2.0f)
+						if (velocityScale > 2.0f)
 						{
 							SetSize(5.0f, 5.0f, 0);
 							SetObjTypeName("Debri");

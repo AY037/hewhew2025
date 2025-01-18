@@ -4,7 +4,7 @@
             "angle": 0.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 4,
+            "object_id": 0,
             "position": [
                 0.0,
                 -13.0,
@@ -20,7 +20,7 @@
             "angle": 0.0,
             "name": "Player",
             "objectTexName": "asset/player_Run.png",
-            "object_id": 5,
+            "object_id": 1,
             "position": [
                 -167.3303985595703,
                 19.182710647583008,
@@ -36,7 +36,7 @@
             "angle": 30.0,
             "name": "DragSword",
             "objectTexName": "",
-            "object_id": 6,
+            "object_id": 2,
             "position": [
                 1501.1917724609375,
                 300.0,
@@ -52,7 +52,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 7,
+            "object_id": 3,
             "position": [
                 2504.0576171875,
                 57.499996185302734,
@@ -68,7 +68,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 8,
+            "object_id": 4,
             "position": [
                 50.0,
                 50.0,
@@ -84,7 +84,7 @@
             "angle": 25.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 9,
+            "object_id": 5,
             "position": [
                 155.3706512451172,
                 64.80465698242188,
@@ -100,7 +100,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 10,
+            "object_id": 6,
             "position": [
                 83.32002258300781,
                 63.32685089111328,
@@ -116,7 +116,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 11,
+            "object_id": 7,
             "position": [
                 110.14368438720703,
                 63.32684326171875,
@@ -132,7 +132,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 12,
+            "object_id": 8,
             "position": [
                 220.3058624267578,
                 79.29518127441406,
@@ -148,7 +148,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 13,
+            "object_id": 9,
             "position": [
                 199.19287109375,
                 93.26351928710938,
@@ -164,7 +164,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 14,
+            "object_id": 10,
             "position": [
                 238.41891479492188,
                 93.2635269165039,
@@ -180,7 +180,7 @@
             "angle": 330.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 15,
+            "object_id": 11,
             "position": [
                 288.4696044921875,
                 59.2449951171875,
@@ -196,7 +196,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 16,
+            "object_id": 12,
             "position": [
                 421.9376525878906,
                 18.52216339111328,
@@ -212,7 +212,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 17,
+            "object_id": 13,
             "position": [
                 454.5348205566406,
                 18.308330535888672,
@@ -228,7 +228,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 18,
+            "object_id": 14,
             "position": [
                 613.0408935546875,
                 48.522159576416016,
@@ -244,7 +244,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 19,
+            "object_id": 15,
             "position": [
                 684.9688110351563,
                 17.761322021484375,
@@ -260,7 +260,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 20,
+            "object_id": 16,
             "position": [
                 704.3082885742188,
                 18.830486297607422,
@@ -276,7 +276,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 21,
+            "object_id": 17,
             "position": [
                 723.0062866210938,
                 18.616649627685547,
@@ -292,7 +292,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 22,
+            "object_id": 18,
             "position": [
                 965.1089477539063,
                 44.67317581176758,
@@ -308,7 +308,7 @@
             "angle": 330.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 23,
+            "object_id": 19,
             "position": [
                 1073.733642578125,
                 25.031646728515625,
@@ -324,7 +324,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 24,
+            "object_id": 20,
             "position": [
                 973.6102905273438,
                 59.30784225463867,
@@ -340,7 +340,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 25,
+            "object_id": 21,
             "position": [
                 999.57861328125,
                 58.88017654418945,
@@ -356,7 +356,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 26,
+            "object_id": 22,
             "position": [
                 1027.685302734375,
                 58.238677978515625,
@@ -372,7 +372,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 27,
+            "object_id": 23,
             "position": [
                 1084.4456787109375,
                 35.358497619628906,
@@ -388,7 +388,7 @@
             "angle": 0.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 28,
+            "object_id": 24,
             "position": [
                 660.7540893554688,
                 26.679004669189453,
@@ -404,7 +404,7 @@
             "angle": 0.0,
             "name": "FallWall",
             "objectTexName": "asset/FallWall.jpg",
-            "object_id": 29,
+            "object_id": 25,
             "position": [
                 660.5917358398438,
                 81.26985931396484,
@@ -420,7 +420,7 @@
             "angle": 0.0,
             "name": "FallWall",
             "objectTexName": "asset/FallWall.jpg",
-            "object_id": 30,
+            "object_id": 26,
             "position": [
                 1249.8739013671875,
                 32.72966766357422,
@@ -436,7 +436,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 31,
+            "object_id": 27,
             "position": [
                 1263.5592041015625,
                 18.830488204956055,
@@ -452,7 +452,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 32,
+            "object_id": 28,
             "position": [
                 1278.955322265625,
                 18.40282440185547,
@@ -468,7 +468,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 33,
+            "object_id": 29,
             "position": [
                 1296.489501953125,
                 17.975156784057617,
@@ -484,7 +484,7 @@
             "angle": 0.0,
             "name": "Stage",
             "objectTexName": "asset/Stage.jpg",
-            "object_id": 34,
+            "object_id": 30,
             "position": [
                 1472.522705078125,
                 49.37751007080078,
@@ -500,7 +500,7 @@
             "angle": 0.0,
             "name": "FallWall",
             "objectTexName": "asset/FallWall.jpg",
-            "object_id": 35,
+            "object_id": 31,
             "position": [
                 1512.6207275390625,
                 77.84850311279297,
@@ -516,7 +516,7 @@
             "angle": 325.0,
             "name": "Ground",
             "objectTexName": "asset/Ground.jpg",
-            "object_id": 36,
+            "object_id": 32,
             "position": [
                 1603.77685546875,
                 27.16998291015625,
@@ -532,7 +532,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 37,
+            "object_id": 33,
             "position": [
                 1525.7403564453125,
                 62.88017272949219,
@@ -548,7 +548,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 38,
+            "object_id": 34,
             "position": [
                 1542.513916015625,
                 63.735504150390625,
@@ -564,7 +564,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 39,
+            "object_id": 35,
             "position": [
                 1559.9288330078125,
                 63.735504150390625,
@@ -580,7 +580,7 @@
             "angle": 0.0,
             "name": "Enemy",
             "objectTexName": "asset/Enemy.png",
-            "object_id": 40,
+            "object_id": 36,
             "position": [
                 1612.840087890625,
                 37.22016143798828,

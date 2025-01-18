@@ -9,7 +9,7 @@ FallWall::FallWall()
 {
 	AddComponent("BoxCollider");
 	SetObjectTexName("asset/FallWall.jpg");
-	SetObjTypeName("Stage");
+	SetObjTypeName("Ground");
 }
 
 FallWall::~FallWall()
@@ -62,9 +62,12 @@ void FallWall::Update()
 
 		if (pair.first == "Enemy")
 		{
-			int id = pair.second->GetObjID();
-			EventManager::GetInstance().SendObjIdEvent("Explosion", id);
-			EventManager::GetInstance().SendObjIdEvent("TransDebri", id);
+			if(m_FallFlg)
+			{
+				int id = pair.second->GetObjID();
+				EventManager::GetInstance().SendObjIdEvent("Explosion", id);
+				EventManager::GetInstance().SendObjIdEvent("TransDebri", id);
+			}
 		}
 	}
 
@@ -97,5 +100,5 @@ void FallWall::Update()
 		}
 	}
 
-
+	boxCollider->Update();
 }
