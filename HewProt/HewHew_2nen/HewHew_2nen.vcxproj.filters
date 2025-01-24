@@ -201,9 +201,6 @@
     <ClCompile Include="SaveLoad.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="sound.cpp">
-      <Filter>ソース ファイル\Input/Audio</Filter>
-    </ClCompile>
     <ClCompile Include="direct3d.cpp">
       <Filter>ソース ファイル\Render</Filter>
     </ClCompile>
@@ -291,6 +288,15 @@
     <ClCompile Include="BigAttackAnimation0.cpp">
       <Filter>ソース ファイル\GameObject\Player\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="DrawNumbers.cpp">
+      <Filter>ソース ファイル\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>ソース ファイル\Input/Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>ソース ファイル\Input/Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -369,9 +375,6 @@
       <Filter>ヘッダー ファイル\Render</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>ヘッダー ファイル\Input/Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル\Input/Audio</Filter>
     </ClInclude>
     <ClInclude Include="SaveLoad.h">
@@ -460,6 +463,24 @@
     </ClInclude>
     <ClInclude Include="BigAttackAnimation0.h">
       <Filter>ヘッダー ファイル\GameObject\Player\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawNumbers.h">
+      <Filter>ヘッダー ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="directxtk\include\Audio.h">
+      <Filter>ヘッダー ファイル\Input/Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>ヘッダー ファイル\Input/Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="directxtk\include\pch.h">
+      <Filter>ヘッダー ファイル\Input/Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="directxtk\include\PlatformHelpers.h">
+      <Filter>ヘッダー ファイル\Input/Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="directxtk\include\SoundCommon.h">
+      <Filter>ヘッダー ファイル\Input/Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

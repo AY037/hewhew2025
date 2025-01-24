@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "EventManager.h"
+#include "GameManager.h"
 #include <random>
 float GenerateRandomInt(int min, int max) {
 	// ランダムエンジンを初期化（1回だけ実行される）
@@ -22,6 +23,9 @@ void Camera::Init()
 	SetCameraPos(0, 30, -200);//カメラ初期位置
 #endif
 	EventManager::GetInstance().AddListener("Vibration", [this]() { CameraVibration(); });
+
+	playerPos = GameManager::GetInstance().GetPlayerPos();
+
 	const DirectX::XMFLOAT2 adjust_cameraPos = { 80,40 };
 	cameraPos.x = playerPos.x + adjust_cameraPos.x;
 	cameraPos.y = playerPos.y + adjust_cameraPos.y;
@@ -44,7 +48,7 @@ void Camera::Update(const DirectX::XMFLOAT3& _playerPos, bool stop_flg)
 		float targetPointX = playerPos.x + adjust_cameraPos.x;
 		if (targetPointX - 1.0f > cameraPos.x || targetPointX + 1.0f < cameraPos.x)
 		{
-			cameraPos.x += (targetPointX > cameraPos.x) ? 1.0f : -1.0f;
+			cameraPos.x += (targetPointX > cameraPos.x) ? 1.0f : -0.0f;
 		}
 
 		//y軸は画面外にいった場合合わせる

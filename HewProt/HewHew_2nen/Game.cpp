@@ -1,9 +1,12 @@
 #include "Game.h"
-#include "TitleScene.h"
+#include "AudioManager.h"
+
 void Game::Init(HWND hWnd)
 {
-	Sound::GetInstance().Init();
-	sceneManager = new SceneManager;
+	//サウンドの初期化
+	AudioManager::GetInstance().Init();
+	AudioManager::GetInstance().LoadSounds();
+	sceneManager->SwitchScene("Stage1");
 }
 
 void Game::Update(void)
@@ -25,7 +28,7 @@ void Game::Draw(void)
 
 void Game::Uninit(void)
 {
-	delete sceneManager;
-	sceneManager = nullptr;
-	Sound::GetInstance().Uninit();
+	sceneManager.reset();
+	AudioManager::GetInstance().UnInit();
+	Application::GetInstance().D3D_Release();//DirectXを終了
 }

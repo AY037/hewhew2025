@@ -43,7 +43,7 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 	// ウィンドウクラス情報をまとめる
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = CS_CLASSDC;
+	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
@@ -57,37 +57,51 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 
 	RegisterClassEx(&wc);
 
+	RECT rc = {};
+	rc.right = static_cast<LONG>(SCREEN_WIDTH);
+	rc.bottom = static_cast<LONG>(SCREEN_HEIGHT);
+
+	// ウィンドウサイズを調整.
+	auto wndStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	AdjustWindowRect(&rc, wndStyle, FALSE);
+
+	//RECT rc1, rc2;
+	//GetWindowRect(hwnd, &rc1); //ウインドウの矩形領域を取得
+	//GetClientRect(hwnd, &rc2); //クライアントの矩形領域を取得
+	//int sx = SCREEN_WIDTH;
+	//int sy = SCREEN_HEIGHT;
+	//sx += ((rc1.right - rc1.left) - (rc2.right - rc2.left));
+	//sy += ((rc1.bottom - rc1.top) - (rc2.bottom - rc2.top));
+	//SetWindowPos(hwnd, NULL, 0, 0, sx, sy, (SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE)); //ウィンドウサイズを変更
 	// ウィンドウの情報をまとめる
 	HWND hwnd;
 	hwnd = CreateWindowEx(0,	// 拡張ウィンドウスタイル
 		L"DX21Smpl",				// ウィンドウクラスの名前
 		L"DirectX初期化",			// ウィンドウの名前
-		WS_OVERLAPPEDWINDOW,	// ウィンドウスタイル
+		wndStyle,	// ウィンドウスタイル
 		CW_USEDEFAULT,			// ウィンドウの左上Ｘ座標
 		CW_USEDEFAULT,			// ウィンドウの左上Ｙ座標 
-		SCREEN_WIDTH,			// ウィンドウの幅
-		SCREEN_HEIGHT,			// ウィンドウの高さ
+		rc.right - rc.left,			// ウィンドウの幅
+		rc.bottom - rc.top,			// ウィンドウの高さ
 		NULL,					// 親ウィンドウのハンドル
 		NULL,					// メニューハンドルまたは子ウィンドウID
 		hInstance,				// インスタンスハンドル
 		NULL);					// ウィンドウ作成データ
 	// Initialize Direct3D
 			// ウィンドウのサイズを修正
-	RECT rc1, rc2;
-	GetWindowRect(hwnd, &rc1); //ウインドウの矩形領域を取得
-	GetClientRect(hwnd, &rc2); //クライアントの矩形領域を取得
-	int sx = SCREEN_WIDTH;
-	int sy = SCREEN_HEIGHT;
-	sx += ((rc1.right - rc1.left) - (rc2.right - rc2.left));
-	sy += ((rc1.bottom - rc1.top) - (rc2.bottom - rc2.top));
-	SetWindowPos(hwnd, NULL, 0, 0, sx, sy, (SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE)); //ウィンドウサイズを変更
 
 
-	// Show the window
-	::ShowWindow(hwnd, nCmdShow);
-	::UpdateWindow(hwnd);
+   // ウィンドウを表示.
+	ShowWindow(hwnd, SW_SHOWNORMAL);
+
+	// ウィンドウを更新.
+	UpdateWindow(hwnd);
+
+	// ウィンドウにフォーカスを設定.
+	SetFocus(hwnd);
 
 	Application::GetInstance().D3D_Create(hwnd);
+
 
 	// コンソールを割り当てる
 	//AllocConsole();
@@ -176,6 +190,16 @@ extern  int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPre
 	bool show_demo_window = true;
 	bool show_another_window = false;
 
+	RECT rect;
+	GetClientRect(hwnd, &rect);
+
+	// ウィンドウのクライアント領域の中央座標を計算
+	int centerX = rect.left + (rect.right - rect.left) / 2;
+	int centerY = rect.top + (rect.bottom - rect.top) / 2;
+
+	// クライアント座標をスクリーン座標に変換
+	POINT center = { centerX, centerY };
+	ClientToScreen(hwnd, &center);
 
 	// Main loop
 	while (1)

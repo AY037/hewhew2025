@@ -3,9 +3,22 @@
 #include "TextureManager.h"
 #include <string>
 #include <memory>
+#include <SimpleMath.h>
 #include "Component.h"
 #include "ComponentManager.h"
 #include "PhysicsEventManager.h"
+
+enum VertexName {
+	LEFT_TOP=0,
+	LEFT_BOTTOM=1,
+	RIGHT_TOP=2,
+	RIGHT_BOTTOM=3
+};
+
+struct VertexPos {
+	DirectX::SimpleMath::Vector3 pos[4];
+};
+
 class GameObject {
 
 private:
@@ -89,7 +102,7 @@ public:
 	void SetIsBoxColl(const bool tf);
 	virtual float GetMass();
 
-	void SetTexture(const std::string imgname, TextureManager& textureManager);
+	void SetTexture(const std::string imgname);
 	void AddComponent(const std::string& name);
 	template <class T>
 	std::shared_ptr<T> GetComponent(const std::string& name)
@@ -106,6 +119,7 @@ public:
 	DirectX::XMFLOAT3 GetSize(void); //大きさをゲット
 	float GetAngle(void);            //角度をゲット
 	DirectX::XMFLOAT4 GetColor(void);//色をゲット
+	VertexPos GetVertexPos();//頂点座標を取得
 	int GetObjID();
 	bool GetIsBoxColl();
 

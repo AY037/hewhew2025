@@ -7,7 +7,7 @@
 class Game{
 
 private:
-	SceneManager* sceneManager;// シーンを管理するためのオブジェクト。
+	std::unique_ptr<SceneManager> sceneManager = std::make_unique<SceneManager>();// シーンを管理するためのオブジェクト。
 
 	bool isRunning;// ゲームが実行中かどうかを判定するフラグ。
 

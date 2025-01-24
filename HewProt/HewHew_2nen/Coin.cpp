@@ -33,11 +33,11 @@ void Coin::Update()
 
 	auto hitObjects = m_BoxCollider->HitObjectName(*this);
 
-	for (auto& pair : hitObjects)
+	for (auto& obj : hitObjects)
 	{
-		if (pair.first == "Player")
+		if (obj->GetObjTypeName() == "Player")
 		{
-			EventManager::GetInstance().SendObjIdEvent("Delete",GetObjID());
+			EventManager::GetInstance().SendObjIdEvent("Delete", GetObjID());
 		}
 	}
 }

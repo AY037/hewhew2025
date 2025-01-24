@@ -6,7 +6,6 @@
 #include <list>
 #include <queue>
 #include "GameObject.h"
-#include "Sound.h"
 #include "Camera.h"
 #include "SaveLoad.h"
 
@@ -61,7 +60,6 @@ protected:
     TextureManager& textureManager = TextureManager::GetInstance();
     SaveLoad saveload;
     Camera camera; // シーンごとのカメラ
-    Sound& sound = Sound::GetInstance();
     DirectX::XMMATRIX vm;
     DirectX::XMMATRIX pm;
 	//読み込むファイル名

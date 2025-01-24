@@ -100,11 +100,11 @@ void Rigidbody::StaticCollision(GameObject& obj, GameObject& other,DirectX::XMFL
     //}
 
 	v1Float3 = { velocity.x,velocity.y,0 };
-  /*  if(obj.GetName()!="Player")
-    {*/
+    if(obj.GetName()!="Player")
+    {
         // 動的オブジェクトの速度を更新
         obj.SetVelocity(v1Float3);
-    //}
+    }
 }
 
 

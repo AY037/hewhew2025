@@ -67,15 +67,17 @@ public:
 	//特定の重なっているオブジェクトの探索
 	void query(int nodeID, const AABB& target, std::unordered_map<int, DirectX::XMFLOAT2>& results, std::string& targetName);;
 
-	void query(int nodeID, const AABB& target, std::unordered_map<std::string, std::shared_ptr<GameObject>>& _hitObjectName);
+	void query(int nodeID, const AABB& target, std::vector<std::shared_ptr<GameObject>>& _hitObjectName);
 	//重なっているオブジェクトを探す
 	bool findOverlappingObjects(int _objectID);
 
 	//特定の重なっているオブジェクトを探す
 	bool findOverlappingObjects(int _objectID, std::string& targetName, int* enemyId =nullptr);
 
+	//特定のオブジェクトとの当たり判定
+	bool checkHit(int _objectID, int targetId);
 	//重なっているオブジェクトの名前を返す
-	std::unordered_map<std::string, std::shared_ptr<GameObject>> findOverlappingObjectName(int _objectID);
+	std::vector<std::shared_ptr<GameObject>> findOverlappingObjectName(int _objectID);
 
 	// オブジェクトを削除
 	void reset();

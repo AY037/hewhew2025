@@ -1,6 +1,7 @@
 #include "ResultScene.h"
 #include "UI.h"
 #include "Engine.h"
+#include "GameManager.h"
 void ResultScene::Init()// シーンの初期化。
 {
     camera.Init();
@@ -16,6 +17,8 @@ void ResultScene::Init()// シーンの初期化。
     {
         if (obj.second) obj.second->Init();
     }
+
+    numbers.SetNum("Score", GameManager::GetInstance().score,DirectX::XMFLOAT3(0.0f,0.0f, 0.0f), DirectX::XMFLOAT3(100.0f, 100.0f, 0.0f));
 
 #ifdef GUI_MODE
     Engine::GetInstance().GetGuiController().Init(this, sceneName);
@@ -50,6 +53,8 @@ void ResultScene::Draw()// シーン内のオブジェクトを描画
             obj->DrawUiObject(pm);
         }
     }
+
+    numbers.Draw(pm);
 }
 void ResultScene::Shutdown()// シーンの終了処理。
 {

@@ -267,7 +267,7 @@ void GuiController::RenderTextureSelector(std::shared_ptr<GameObject>& gameObjec
 			if (ImGui::Selectable(textureName.c_str(), isSelected))
 			{
 				currentTextureName = textureName; // 選択中のテクスチャ名を更新
-				gameObject->SetTexture(textureName.c_str(), textureManager); // GameObjectにテクスチャを設定
+				gameObject->SetTexture(textureName.c_str()); // GameObjectにテクスチャを設定
 			}
 
 			// 現在選択されている項目にチェックをつける
@@ -527,10 +527,10 @@ void GuiController::RenderTopView() {
 		{
 			if (ImGui::Button("StartGame", ImVec2(100, 30))) { // 幅200、高さ100のボタン
 				EventManager::GetInstance().SendEvent("StartGame");
+				EventManager::GetInstance().SendEvent("CameraInit");
 				runningGame = true;
 				std::string textName = curentSceneName + std::string(".txt");
 				scene->GetSaveLoad().SaveScene(textName, *gameObjects);//シーンの保存
-				Sound::GetInstance().Play(SOUND_LABEL_BGM001);
 				selected_ObjectID = NOSELECTED;
 			}
 		}
@@ -540,7 +540,6 @@ void GuiController::RenderTopView() {
 				EventManager::GetInstance().SendEvent("EndGame");
 				runningGame = false;
 				selected_ObjectID = NOSELECTED;
-				Sound::GetInstance().Stop(SOUND_LABEL_BGM001);
 				EventManager::GetInstance().SendChangeScene(curentSceneName);
 			}
 		}

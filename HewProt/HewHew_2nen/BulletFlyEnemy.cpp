@@ -1,8 +1,7 @@
 #include "BulletFlyEnemy.h"
 #include "GameManager.h"
 #include "EventManager.h"
-#include "Sound.h"
-
+#include "AudioManager.h"
 
 void BulletFlyEnemy::Init()
 {
@@ -118,59 +117,54 @@ void BulletFlyEnemy::Update(void)
 			//ŽcŠ[‚ÌˆÚ“®‘¬“x‚ª‘‚¯‚ê‚ÎÚG‰¹‚ð–Â‚ç‚·
 			if (GetName() == "Debri")
 			{
-				if (math::Max(std::fabs(GetVelocity().x), std::fabs(GetVelocity().y)) > 2.0f)
+				auto velocity = GetVelocity();
+				float velocityScale = std::fabs(velocity.x) + std::fabs(velocity.y);
+				if (velocityScale > 2.5f)
 				{
-					Sound::GetInstance().Play(SE_DESTROY);
+					AudioManager::GetInstance().PlayAudio(SE_DESTROY,false);
 				}
 			}
 
-			for (auto& pair : hitObject)
+			for (auto& obj : hitObject)
 			{
+				std::string objTypeName = obj->GetObjTypeName();
 				if (GetName() == "BulletFlyEnemy")
 				{
 					//Œ•‚É“–‚½‚é‚ÆŽcŠ[‚É
-					if (pair.first == "Sword")
+					if (objTypeName == "Sword")
 					{
-						SetSize(5.0f, 5.0f, 0);
-						SetObjTypeName("Debri");
-						SetName("Debri");
+						EventManager::GetInstance().SendObjIdEvent("TransDebri", GetObjID());
 						EventManager::GetInstance().SendObjIdEvent("Explosion", GetObjID());
-						Sound::GetInstance().Play(SE_HIT);
+						AudioManager::GetInstance().PlayAudio(SE_HIT, false);
 					}
 					//ŽcŠ[‚ª“–‚½‚é‚Æ
-					if (pair.first == "Debri")
+					if (objTypeName == "Debri")
 					{
-						auto& obj = pair.second;
 						DirectX::XMFLOAT3 velocity = obj->GetVelocity();
 						float velocityScale = std::fabs(velocity.x) + std::fabs(velocity.y);
-						if (velocityScale > 2.0f)
+						if (velocityScale > 2.5f)
 						{
-							SetSize(5.0f, 5.0f, 0);
-							SetObjTypeName("Debri");
-							SetName("Debri");
+							EventManager::GetInstance().SendObjIdEvent("TransDebri", GetObjID());
 							EventManager::GetInstance().SendObjIdEvent("Explosion", GetObjID());
-							Sound::GetInstance().Play(SE_HIT);
+							AudioManager::GetInstance().PlayAudio(SE_HIT, false);
 						}
 					}
-					if (pair.first == "Player")
+					if (objTypeName == "Player")
 					{
 						EventManager::GetInstance().SendEvent("damage");
 					}
 				}
 				else
 				{
-					if (pair.first == "Enemy")
+					if (objTypeName == "Enemy")
 					{
 						DirectX::XMFLOAT3 velocity = GetVelocity();
 						float velocityScale = std::fabs(velocity.x) + std::fabs(velocity.y);
-						if (velocityScale > 2.0f)
+						if (velocityScale > 2.5f)
 						{
-							auto& obj = pair.second;
-							obj->SetSize(5.0f, 5.0f, 0);
-							obj->SetObjTypeName("Debri");
-							obj->SetName("Debri");
+							EventManager::GetInstance().SendObjIdEvent("TransDebri", obj->GetObjID());
 							EventManager::GetInstance().SendObjIdEvent("Explosion", GetObjID());
-							Sound::GetInstance().Play(SE_HIT);
+							AudioManager::GetInstance().PlayAudio(SE_HIT, false);
 
 							if (debriTime_cnt > 120)
 							{

@@ -1,7 +1,6 @@
 #include "DynamicAABBTree.h"
 #include "GameObject.h"
 #include "Debug.h"
-#include "Sound.h"
 #include "EventManager.h"
 
 //ゲームオブジェクトのリストを渡す
@@ -197,14 +196,11 @@ bool DynamicAABBTree::findOverlappingObjects(int _objectID) {
 	std::unordered_map<int, DirectX::XMFLOAT2> results;
 	query(root, target, results); // ルートから探索
 
-	if (results.size() != 0)
+	for (auto& _result : results)
 	{
-		for (auto& _result : results)
-		{
-			auto target = static_cast<GameObject*>((*objects)[_result.first].get());
-			(*objects)[_objectID]->GetPhysicsEventManager().SendOnCollisionEvent(*target, _result.second);
+		auto target = static_cast<GameObject*>((*objects)[_result.first].get());
+		(*objects)[_objectID]->GetPhysicsEventManager().SendOnCollisionEvent(*target, _result.second);
 
-		}
 	}
 
 	if (results.size() > 0)
@@ -214,16 +210,16 @@ bool DynamicAABBTree::findOverlappingObjects(int _objectID) {
 	return false;
 }
 
-std::unordered_map<std::string, std::shared_ptr<GameObject>> DynamicAABBTree::findOverlappingObjectName(int _objectID) {
+std::vector<std::shared_ptr<GameObject>> DynamicAABBTree::findOverlappingObjectName(int _objectID) {
 	const AABB& target = GetAABB((*objects)[_objectID]);
 
-	std::unordered_map<std::string, std::shared_ptr<GameObject>> hitObjName;
+	std::vector<std::shared_ptr<GameObject>> hitObjName;
 	query(root, target, hitObjName); // ルートから探索
 
 	return hitObjName;
 }
 
-bool DynamicAABBTree::findOverlappingObjects(int _objectID, std::string& targetName,int* enemyId) {
+bool DynamicAABBTree::findOverlappingObjects(int _objectID, std::string& targetName, int* enemyId) {
 	const AABB& target = GetAABB((*objects)[_objectID]);
 
 	std::unordered_map<int, DirectX::XMFLOAT2> results;
@@ -234,11 +230,41 @@ bool DynamicAABBTree::findOverlappingObjects(int _objectID, std::string& targetN
 	{
 		for (auto& _result : results)
 		{
-			if(enemyId !=nullptr)
+			if (enemyId != nullptr)
 			{
 				*enemyId = _result.first;
 			}
 		}
+		return true;
+	}
+	return false;
+}
+
+
+//特定のオブジェクトとの当たり判定
+bool DynamicAABBTree::checkHit(int _objectID, int targetId)
+{
+	std::unordered_map<int, DirectX::XMFLOAT2> results;
+
+	std::shared_ptr<GameObject>& obj1 = (*objects)[_objectID];
+	std::shared_ptr<GameObject>& obj2 = (*objects)[targetId];
+	DirectX::XMFLOAT2 normal;
+
+	//OBBで重なってるかチェック
+	if (obb.IntersectsWithNormal(obj1, obj2, normal, true))
+	{
+		results[targetId] = normal;
+	}
+
+	for (auto& _result : results)
+	{
+		auto target = static_cast<GameObject*>((*objects)[_result.first].get());
+		(*objects)[_objectID]->GetPhysicsEventManager().SendOnCollisionEvent(*target, _result.second);
+
+	}
+
+	if (results.size() > 0)
+	{
 		return true;
 	}
 	return false;
@@ -342,18 +368,6 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 						}
 						else
 						{
-
-							if (obj1->GetObjectType() == true)
-							{
-								//残骸の移動速度が早ければ
-								if (obj2->GetObjTypeName() == "Debri")
-								{
-									if (math::Max(std::fabs(obj2->GetVelocity().x), std::fabs(obj2->GetVelocity().y)) > 1.0f)
-									{
-										Sound::GetInstance().Play(SE_DESTROY);
-									}
-								}
-							}
 							if (obj1->GetObjTypeName() == "Debri" || obj2->GetObjTypeName() == "Debri")
 							{
 								if (obj1->GetObjTypeName() == "Sword" || obj2->GetObjTypeName() == "Sword")
@@ -398,7 +412,7 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 			if (obj2->GetObjTypeName() == targetName)
 			{
 				//OBBで重なってるかチェック
-				if (obb.IntersectsWithNormal(obj1, obj2, normal,false))
+				if (obb.IntersectsWithNormal(obj1, obj2, normal, false))
 				{
 					results[objID2] = normal;
 				}
@@ -408,7 +422,7 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<i
 
 }
 
-void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<std::string, std::shared_ptr<GameObject>>& _hitObjectName)
+void DynamicAABBTree::query(int nodeID, const AABB& target, std::vector<std::shared_ptr<GameObject>>& _hitObjectName)
 {
 	if (nodeID == -1) return; // 無効なノードは無視
 
@@ -424,12 +438,12 @@ void DynamicAABBTree::query(int nodeID, const AABB& target, std::unordered_map<s
 			std::shared_ptr<GameObject>& obj2 = (*objects)[objID2];
 			DirectX::XMFLOAT2 normal;
 
-			if(obj2->GetIsBoxColl())
+			if (obj2->GetIsBoxColl())
 			{
 				//OBBで重なってるかチェック
-				if (obb.IntersectsWithNormal(obj1, obj2, normal,false))
+				if (obb.IntersectsWithNormal(obj1, obj2, normal, false))
 				{
-					_hitObjectName[obj2->GetObjTypeName()] = obj2;
+					_hitObjectName.push_back(obj2);
 				}
 			}
 		}

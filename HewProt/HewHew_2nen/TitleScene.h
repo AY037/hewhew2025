@@ -10,7 +10,6 @@ public:
 	~TitleScene()
 	{
 
-		sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 	}
 	void Init();	 // シーンの初期化。ここにオブジェクトを追加
 	void Update();	 // シーン内のオブジェクト更新。

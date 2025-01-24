@@ -7,7 +7,7 @@ void GameObject::Initialize(const std::string imgname, int sx, int sy)
 	splitX = sx;
 	splitY = sy;
 
-	SetUV(numU,numV,splitX,splitY);
+	SetUV(numU, numV, splitX, splitY);
 
 	vertexList[1].u = 1.0f;
 	vertexList[2].v = 1.0f;
@@ -129,7 +129,7 @@ void GameObject::DrawUiObject(DirectX::XMMATRIX& _pm)
 	// UVアニメーションの行列作成
 	float u = (float)numU;
 	float v = (float)numV;
-	float uw = 1/ (float)splitX;
+	float uw = 1 / (float)splitX;
 	float vh = 1 / (float)splitY;
 	//UVの行列作成
 	DirectX::SimpleMath::Matrix mat = DirectX::SimpleMath::Matrix::CreateScale(uw, vh, 1.0f);
@@ -248,10 +248,10 @@ std::string& GameObject::GetObjTypeName(void)
 	return objTypeName;
 }
 
-void GameObject::SetTexture(const std::string imgname, TextureManager& textureManager)
+void GameObject::SetTexture(const std::string imgname)
 {
 	textureName = imgname;
-	m_pTextureView = textureManager.GetTexture(imgname);
+	m_pTextureView = TextureManager::GetInstance().GetTexture(imgname);
 }
 
 void GameObject::AddComponent(const std::string& name)
@@ -320,4 +320,25 @@ int GameObject::GetHp()
 DirectX::XMFLOAT3 GameObject::GetBoxSize()
 {
 	return size;
+}
+
+VertexPos GameObject::GetVertexPos()
+{
+	using namespace DirectX::SimpleMath;
+
+	VertexPos vertexPos;
+
+	vertexPos.pos[LEFT_TOP] = Vector3(pos.x - size.x / 2, pos.y + size.y / 2, 0.0f);
+	vertexPos.pos[LEFT_BOTTOM] = Vector3(pos.x - size.x / 2, pos.y - size.y / 2, 0.0f);
+	vertexPos.pos[RIGHT_TOP] = Vector3(pos.x + size.x / 2, pos.y + size.y / 2, 0.0f);
+	vertexPos.pos[RIGHT_BOTTOM] = Vector3(pos.x + size.x / 2, pos.y - size.y / 2, 0.0f);
+
+	float radAngle = DirectX::XMConvertToRadians(angle);
+	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixRotationZ(radAngle);
+	for(int i=0;i<4;++i)
+	{
+		XMVector2Transform(vertexPos.pos[i],rotationMatrix);
+	}
+
+	return vertexPos;
 }

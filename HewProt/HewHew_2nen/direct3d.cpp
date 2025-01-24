@@ -76,7 +76,6 @@ HRESULT Application::D3D_Create(HWND hwnd)
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
-	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 
 	// デバイスとスワップチェインを同時に作成する関数の呼び出し
@@ -134,8 +133,8 @@ HRESULT Application::D3D_Create(HWND hwnd)
 	D3D11_VIEWPORT viewport;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = (FLOAT)rect.Width();
-	viewport.Height = (FLOAT)rect.Height();
+	viewport.Width = SCREEN_WIDTH;
+	viewport.Height = SCREEN_HEIGHT;
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	g_pDeviceContext->RSSetViewports(1, &viewport);

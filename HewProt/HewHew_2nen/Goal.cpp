@@ -23,9 +23,9 @@ void Goal::Update()
 
 	auto hitObjects = m_BoxCollider->HitObjectName(*this);
 
-	for (auto& pair : hitObjects)
+	for (auto& obj : hitObjects)
 	{
-		if (pair.first == "Player")
+		if (obj->GetObjTypeName() == "Player")
 		{
 			EventManager::GetInstance().SendChangeScene("ResultScene");
 		}

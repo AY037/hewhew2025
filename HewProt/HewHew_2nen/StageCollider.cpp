@@ -13,7 +13,7 @@ void StageCollider::Init(GameObject& obj)
 bool StageCollider::HitCheck(GameObject& pObj)
 {
 	DirectX::XMFLOAT3 pPos = pObj.GetPos();
-	DirectX::XMFLOAT3 pSize = pObj.GetSize();
+	DirectX::XMFLOAT3 pSize = pObj.GetBoxSize();
 	float pLeft = pPos.x - (pSize.x / 2);
 	float pRight = pPos.x + (pSize.x / 2);
 
@@ -24,7 +24,7 @@ bool StageCollider::HitCheck(GameObject& pObj)
 	{
 		GameObject& stgObj = *tmp;
 		DirectX::XMFLOAT3 stgPos = stgObj.GetPos();
-		DirectX::XMFLOAT3 stgSize = stgObj.GetSize();
+		DirectX::XMFLOAT3 stgSize = stgObj.GetBoxSize();
 		float stgLeft = stgPos.x - (stgSize.x / 2);
 		float stgRight = stgPos.x + (stgSize.x / 2);
 

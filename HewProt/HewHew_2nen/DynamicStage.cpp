@@ -32,19 +32,20 @@ void DynamicStage::Update()
 
 	auto hitObjects = boxColl.HitObjectName(*this);
 
-	for (auto& pair : hitObjects)
+	for (auto& obj : hitObjects)
 	{
-		if (pair.first == "DragSword")
+		std::string objTypeName = obj->GetObjTypeName();
+		if (objTypeName == "DragSword")
 		{
  			m_ActiveRigidbody = true;
 		}
-		if (pair.first == "Enemy")
+		if (objTypeName == "Enemy")
 		{
-			int id = pair.second->GetObjID();
+			int id = obj->GetObjID();
 			EventManager::GetInstance().SendObjIdEvent("Explosion", id);
 			EventManager::GetInstance().SendObjIdEvent("TransDebri", id);
 		}
-		if (pair.first == "Ground"|| pair.first == "Stage")
+		if (objTypeName == "Ground"|| objTypeName == "Stage")
 		{
 			m_ActiveBoxcollider = true;
 		}

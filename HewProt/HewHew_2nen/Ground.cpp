@@ -13,7 +13,7 @@ void Ground::Update(void)
 {
 	for (auto& component : components)
 	{
-		component.second->Update();
+		//component.second->Update();
 	}
 }
 

@@ -10,6 +10,7 @@ FallWall::FallWall()
 	AddComponent("BoxCollider");
 	SetObjectTexName("asset/FallWall.jpg");
 	SetObjTypeName("Ground");
+	SetName("FallWall");
 }
 
 FallWall::~FallWall()
@@ -33,9 +34,10 @@ void FallWall::Update()
 
 	auto hitObjects = boxCollider->HitObjectName(*this);
 
-	for (auto& pair : hitObjects)
+	for (auto& obj : hitObjects)
 	{
-		if (pair.first == "Sword" && !m_FallFlg)
+		std::string objTypeName = obj->GetObjTypeName();
+		if (objTypeName == "Sword" && !m_FallFlg)
 		{
 			m_FallFlg = true;
 
@@ -45,10 +47,10 @@ void FallWall::Update()
 			m_FulcrumPos = Vector3(pos.x + size.x / 2, pos.y - size.y / 2, 0.0f);
 			m_R = size.y / 2;
 
-			EventManager::GetInstance().SendObjIdEvent("Delete", pair.second->GetObjID());
+			EventManager::GetInstance().SendObjIdEvent("Delete", obj->GetObjID());
 		}
 
-		if (pair.first == "Ground" || pair.first == "Stage")
+		if (objTypeName == "Ground" || objTypeName == "Stage")
 		{
 			m_FallSpeed = 0.0f;
 
@@ -60,11 +62,11 @@ void FallWall::Update()
 			}
 		}
 
-		if (pair.first == "Enemy")
+		if (objTypeName == "Enemy")
 		{
 			if(m_FallFlg)
 			{
-				int id = pair.second->GetObjID();
+				int id = obj->GetObjID();
 				EventManager::GetInstance().SendObjIdEvent("Explosion", id);
 				EventManager::GetInstance().SendObjIdEvent("TransDebri", id);
 			}
@@ -96,7 +98,8 @@ void FallWall::Update()
 		if (angle >= 265.9f &&angle <= 274.1f)
 		{
 			m_RotateSpeed = 0.0f;
-			//SetAngle(270.0f);
+			SetAngle(270.0f);
+			SetObjTypeName("Stage");//“|‚ê‚½‚ç“§‰ß
 		}
 	}
 

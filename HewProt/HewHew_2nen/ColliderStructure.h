@@ -52,7 +52,7 @@ struct AABB
 struct OBB {
 	DirectX::XMFLOAT2 center;   // 中心座標
 	DirectX::XMFLOAT2 halfSize; // 各軸の半分のサイズ
-	DirectX::XMFLOAT2 axes[2];  // 各軸の方向ベクトル（正規化済み）
+	DirectX::XMFLOAT2 axes[2];  // 各軸の方向ベクトル
 
 
 	DirectX::XMFLOAT2 GetDirection2D(GameObject& obj);

@@ -10,7 +10,22 @@ void UI::Update(void)
 
 }
 
-void UI::Draw(void)
+void UI::Draw(DirectX::XMMATRIX& _pm)
 {
-
+	if(activeDraw)
+	{
+		DrawUiObject(_pm);
+	}
 }
+
+
+void UI::SetActiveDraw(bool active)
+{
+	activeDraw = active;
+}
+
+bool UI::GetActiveDraw()
+{
+	return activeDraw;
+}
+

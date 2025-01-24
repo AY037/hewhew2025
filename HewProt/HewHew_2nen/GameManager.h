@@ -19,6 +19,7 @@ public:
 	int GetPlayerHP() const;
 	int dragCharging = 0;
 	bool dragSwordHit = false;
+	int score = 0;//ÉXÉRÉA
 private:
 	DirectX::XMFLOAT3 playerPos;
 	int playerHP = 0;

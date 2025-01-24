@@ -9,6 +9,7 @@
 #include "Engine.h"
 #include "UI.h"
 #include "Explosion.h"
+#include "AudioManager.h"
 
 //オブジェクトID
 //#define PLAYER_ID (3)
@@ -152,8 +153,6 @@ void GameScene::Shutdown()// シーンの終了処理。
 	//二分木のリセット
 	DynamicAABBTree::GetInstance().reset();
 	StageCollider::GetInstance()->reset();
-
-	sound.Stop(SOUND_LABEL_BGM000); //BGMを停止
 }
 
 
@@ -164,6 +163,7 @@ void GameScene::SetEventManager()
 		DirectX::XMFLOAT3 pos = gameObjects[objId]->GetPos();
 		obj->SetPos(pos.x, pos.y, pos.z);
 		this->AddObject(obj);
+		AudioManager::GetInstance().PlayAudio(SE_BULLET, false);
 		});
 
 	EventManager::GetInstance().AddObjectIdEvent("Delete", [this](const int objId) {AddRemoveObject(objId); });
@@ -175,6 +175,8 @@ void GameScene::SetEventManager()
 		gameObjects[objId]->SetObjTypeName("Debri");
 		gameObjects[objId]->SetIsBoxColl(true);
 
+		GameManager::GetInstance().score += 100;
+		//残骸になった場所に爆発を追加
 		std::shared_ptr<GameObject> obj = std::make_shared<Explosion>();
 		DirectX::XMFLOAT3 pos = gameObjects[objId]->GetPos();
 		obj->SetPos(pos.x, pos.y, 0.0f);
@@ -280,5 +282,10 @@ void GameScene::SetEventManager()
 				}
 			}
 			hit_stop = 25;//ヒットストップの継続時間
+		});
+
+	EventManager::GetInstance().AddListener("CameraInit", [this]()
+		{
+			camera.Init();
 		});
 }

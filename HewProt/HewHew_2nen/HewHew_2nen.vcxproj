@@ -71,7 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\imgui;$(ProjectDir)\directxtk\include;$(ProjectDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\directxtk\lib\x64\Debug;C:\Users\arima\Desktop\HewHew_2nen\HewHew_2nen\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(ProjectDir)\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\directxtk\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -107,11 +112,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\arima\Desktop\HewHew_2nen\HewHew_2nen\directxtk\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,6 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEngine.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="BigAttackAnimation0.cpp" />
     <ClCompile Include="BigAttackAnimation1.cpp" />
@@ -148,6 +163,7 @@
     <ClCompile Include="DontDragStage.cpp" />
     <ClCompile Include="DragAnimation.cpp" />
     <ClCompile Include="DragSword.cpp" />
+    <ClCompile Include="DrawNumbers.cpp" />
     <ClCompile Include="DynamicAABBTree.cpp" />
     <ClCompile Include="DynamicStage.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -183,7 +199,6 @@
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="sound.cpp" />
     <ClCompile Include="SpriteObject.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageCollider.cpp" />
@@ -195,6 +210,9 @@
     <ClCompile Include="WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Background.h" />
     <ClInclude Include="BigAttackAnimation0.h" />
     <ClInclude Include="BigAttackAnimation1.h" />
@@ -209,9 +227,14 @@
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="direct3d.h" />
+    <ClInclude Include="directxtk\include\Audio.h" />
+    <ClInclude Include="directxtk\include\pch.h" />
+    <ClInclude Include="directxtk\include\PlatformHelpers.h" />
+    <ClInclude Include="directxtk\include\SoundCommon.h" />
     <ClInclude Include="DontDragStage.h" />
     <ClInclude Include="DragAnimation.h" />
     <ClInclude Include="DragSword.h" />
+    <ClInclude Include="DrawNumbers.h" />
     <ClInclude Include="DynamicAABBTree.h" />
     <ClInclude Include="DynamicStage.h" />
     <ClInclude Include="Enemy.h" />
@@ -240,7 +263,6 @@
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="sound.h" />
     <ClInclude Include="SpriteObject.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageCollider.h" />
