@@ -47,11 +47,13 @@ void Rigidbody::ResolveCollision(GameObject& other,DirectX::XMFLOAT2& normal) {
 	}
 	else
 	{
-        //プレイヤーのジャンプ回数をリセット
         if (obj.GetName() == "Player")
         {
             Player* player = dynamic_cast<Player*>(&obj);
-            player->ResetJumpCnt();
+            if (player->GetPos().y > other.GetPos().y)
+            {
+                player->ResetJumpCnt();
+            }
         }
 		StaticCollision(obj, other, normal);
 	}

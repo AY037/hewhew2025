@@ -28,7 +28,6 @@ void Sword::Update(void)
 
 	if (falme_cnt == alive_time)
 	{
-		EventManager::GetInstance().SendEvent("deleteSword");
 	}
 	SetSize(size.x, size.y * 1.02, 0);
 }

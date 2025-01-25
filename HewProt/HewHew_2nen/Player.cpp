@@ -9,6 +9,9 @@
 #include "GameManager.h"
 #include "BigAttackAnimation0.h"
 #include "AudioManager.h"
+#include "Math.h"
+
+using namespace DirectX::SimpleMath;
 
 Player::Player()
 {
@@ -36,13 +39,44 @@ void Player::Init()
 	}
 
 	EventManager::GetInstance().AddListener("damage", [this]() {
-		if (!damage_flg && land.landState != SLIDING)
+		if (!damage_flg && playerAnimationState != SLIDE)
 		{
 			this->playerHP -= 50.0f;
 			damage_flg = true;
 			AudioManager::GetInstance().PlayAudio(SE_VOICE_DAMAGE_NORMAL1, false);
 		}
 		});
+
+	//画面端と挟まった時の透過処理
+	EventManager::GetInstance().AddListener("Transparent", [this]() {
+		DynamicAABBTree::GetInstance().updateAABB(GetObjID());
+		std::vector<std::shared_ptr<GameObject>> hitObjectNames = boxColl.HitObjectName(*this);
+
+		int groundId =-1;
+		float height = 10000.0f;//接触してるオブジェクトの中で最も低いオブジェクトのy座標
+
+		//当たり判定を地面だけにする
+		for (auto& obj : hitObjectNames)
+		{
+			std::string objTypeName = obj->GetObjTypeName();
+
+			if (objTypeName == "Ground"|| objTypeName == "Stage")
+			{
+				if (height > obj->GetPos().y)
+				{
+					groundId = obj->GetObjID();
+					height = obj->GetPos().y;
+				}
+			}
+
+			if (groundId != -1)
+			{
+				slopeId = groundId;
+				land.landState = TRANSPARENCY;
+			}
+		}
+		});
+
 	playerAnimations[DRAG_ANI] = std::make_shared<DragAnimation>(GetPos());
 	boxColl.Init(*this);
 	//プレイヤーのHPをGameManagerに登録
@@ -67,7 +101,6 @@ void Player::Update(void)
 	gameManager.dragCharging = enterCnt;
 
 	//プレイヤーのアニメーション
-
 	switch (playerAnimationState)
 	{
 	case RUN:
@@ -211,18 +244,23 @@ void Player::Update(void)
 		{
 			if (playerAnimations[DRAG_ANI] != nullptr)
 			{
+				//調整ベクトルの回転
+				float radAngle = DirectX::XMConvertToRadians(GetAngle());
+				playerAnimations[DRAG_ANI]->SetAngle(GetAngle());
 				if (enterCnt == 0)
 				{
 					playerAnimations[DRAG_ANI]->SetTexture("asset/hikizuri.png");
 				}
 				if (enterCnt > 0 && enterCnt < 60)
 				{
-					playerAnimations[DRAG_ANI]->SetPos(pos.x - 32, pos.y - 6, 0);
+					Vector3 adjustVec = math::GetRotateVec(-32.0f, -6.0f, 0.0f, radAngle, math::Z);
+					playerAnimations[DRAG_ANI]->SetPos(pos.x + adjustVec.x, pos.y + adjustVec.y, 0.0f);
 					playerAnimations[DRAG_ANI]->SetSize(30.0f, 30.0f, 0.0f);
 				}
 				if (enterCnt >= 60 && enterCnt < 120)
 				{
-					playerAnimations[DRAG_ANI]->SetPos(pos.x - 38, pos.y + 2, 0);
+					Vector3 adjustVec = math::GetRotateVec(-38.0f, 2.0f, 0.0f, radAngle, math::Z);
+					playerAnimations[DRAG_ANI]->SetPos(pos.x + adjustVec.x, pos.y + adjustVec.y, 0.0f);
 					playerAnimations[DRAG_ANI]->SetSize(40.0f, 40.0f, 0.0f);
 				}
 				if (enterCnt == 120)
@@ -232,8 +270,9 @@ void Player::Update(void)
 				}
 				if (enterCnt > 120)
 				{
+					Vector3 adjustVec = math::GetRotateVec(-42.0f, 4.0f, 0.0f, radAngle, math::Z);
 					playerAnimations[DRAG_ANI]->SetSize(50.0f, 50.0f, 0.0f);
-					playerAnimations[DRAG_ANI]->SetPos(pos.x - 42, pos.y + 4, 0);
+					playerAnimations[DRAG_ANI]->SetPos(pos.x + adjustVec.x, pos.y + adjustVec.y, 0.0f);
 				}
 			}
 			if (enterCnt != 180)
@@ -287,12 +326,13 @@ void Player::Update(void)
 		//Sound::GetInstance().Stop(SE_SPARK_ROOP);
 		AudioManager::GetInstance().PlayAudio(SE_ATTACK_NORMAL, false);
 		playerAnimations[ATTACK_ANI] = std::make_shared<AttackAnimation1>(pos);
+		EventManager::GetInstance().SendEvent("normalAttack");
 		//攻撃イベントの送信
 		if (enterCnt < 60)
 		{
 			DirectX::XMFLOAT3 swordAniPos = DirectX::XMFLOAT3(pos.x + size.x / 2, pos.y, pos.z);
 			playerAnimations[BIG_ATTACK_ANI0] = std::make_shared<BigAttackAnimation0>(swordAniPos);
-			EventManager::GetInstance().SendEvent("normalAttack");
+			EventManager::GetInstance().SendEvent("attack0");
 			AudioManager::GetInstance().PlayAudio(SE_VOICE_ATTACK_NORMAL, false);
 		}
 		if (enterCnt >= 60 && enterCnt < 120)
@@ -331,7 +371,12 @@ void Player::Update(void)
 		m_AttackCnt++;
 	}
 
-
+	//画面外にプレイヤーが出た時
+	if (pos.x < gameManager.cameraPos.x - 160)
+	{
+		EventManager::GetInstance().SendEvent("Transparent");//透明化
+		EventManager::GetInstance().SendEvent("damage");
+	}
 
 	DynamicAABBTree::GetInstance().updateAABB(GetObjID());
 	std::vector<std::shared_ptr<GameObject>> hitObjectNames = boxColl.HitObjectName(*this);
@@ -339,23 +384,11 @@ void Player::Update(void)
 	for (auto& obj : hitObjectNames)
 	{
 		std::string objTypeName = obj->GetObjTypeName();
-
+		auto hitObjPos = obj->GetPos();
 		if (objTypeName == "Ground")
 		{
-			bool checkNormalGround = false;
-			for (auto& checkObj : hitObjectNames)
-			{
-				if (checkObj->GetObjTypeName() == "Ground" || checkObj->GetObjTypeName() == "Stage")
-				{
-					if (checkObj->GetAngle() == 0)
-					{
-						checkNormalGround = true;
-					}
-				}
-			}
-
 			float angle = obj->GetAngle();
-			if (angle != 0 && objTypeName != "FallWall")
+			if (angle != 0)
 			{
 				if (land.landState == NORMAL)
 				{
@@ -389,7 +422,8 @@ void Player::Update(void)
 			}
 		}
 
-		if (objTypeName == "Enemy" && land.landState == SLIDING)
+		//引きずりながら坂を移動すれば敵を残骸に
+		if (objTypeName == "Enemy" && playerAnimationState == SLIDE)
 		{
 			EventManager::GetInstance().SendObjIdEvent("TransDebri", obj->GetObjID());
 		}
@@ -403,7 +437,7 @@ void Player::Update(void)
 		{
 			if (gameManager.dragSwordHit)
 			{
-				if (!m_AttackFlg)
+				if (!m_AttackFlg&&GetSize().y!=30.0f)
 				{
 					//プレイヤーの座標計算
 					SetTexture("asset/player_Slide.png");
@@ -411,19 +445,15 @@ void Player::Update(void)
 					land.landState = SLIDING;
 					SetUV(0, 0, 1, 1);
 					SetSize(30.0f, 30.0f, 0.0f);
+					SetPos(pos.x + 10.0f, pos.y + 10.0f, 0.0f);
 					land.changeTexture = true;
 				}
-				AudioManager::GetInstance().PlayAudio(SE_DRAG_ROOP, true);
-				if (gameManager.dragSwordHit)
-				{
-					playerAnimations[DRAG_ANI]->SetPos(pos.x - 20, pos.y - 5, 0);
-				}
-				slopeId = -1;//下り坂は複数オブジェクトと当たり判定を取るため
+				//slopeId = -1;//下り坂は複数オブジェクトと当たり判定を取るため
 			}
 			else
 			{
 				land.landState = NORMAL;
-				if(!land.changeTexture&&!m_AttackFlg)
+				if (!land.changeTexture && !m_AttackFlg)
 				{
 					ResetTexture();
 					land.changeTexture = true;
@@ -440,12 +470,22 @@ void Player::Update(void)
 		}
 	}
 
+	//坂下り引きずり時の処理
+	if (playerAnimationState == SLIDE && drawDragAni)
+	{
+		AudioManager::GetInstance().PlayAudio(SE_DRAG_ROOP, true);
+		float radAngle = DirectX::XMConvertToRadians(GetAngle());
+		Vector3 adjustVec = math::GetRotateVec(-30.0f, 0.0f, 0.0f, radAngle, math::Z);
+		playerAnimations[DRAG_ANI]->SetPos(pos.x + adjustVec.x, pos.y + adjustVec.y, 0.0f);
+		playerAnimations[DRAG_ANI]->SetAngle(GetAngle());
+		playerAnimations[DRAG_ANI]->SetSize(40.0f, 40.0f, 0.0f);
+	}
 
 	//坂の右端に到達したら通常状態に戻す
 	auto vertexPos = GetVertexPos();
 	if (vertexPos.pos[RIGHT_TOP].x > land.posX)
 	{
-		if (GetAngle()!=0.0f)
+		if (GetAngle() != 0.0f)
 		{
 			AudioManager::GetInstance().StopAudio(SE_DRAG_ROOP);
 			ResetTexture();
@@ -504,8 +544,9 @@ void Player::Update(void)
 	if (playerAnimations.size() != 0 && enterRelease == true)
 	{
 		flame_cnt++;
-		if (flame_cnt == 25)
+		if (flame_cnt == 32)
 		{
+			EventManager::GetInstance().SendEvent("deleteSword");
 			playerAnimations.erase(ATTACK_ANI);
 			playerAnimations.erase(BIG_ATTACK_ANI0);
 			playerAnimations.erase(BIG_ATTACK_ANI1);
@@ -539,6 +580,12 @@ void Player::Update(void)
 		damage_flg = false;
 		invincibility_cnt = 0;
 		SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		//オブジェクト透過状態の時のみNORMALに戻す
+		if(land.landState==TRANSPARENCY)
+		{
+			land.landState = NORMAL;
+		}
 	}
 
 	if (playerHP == 0)

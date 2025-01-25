@@ -162,10 +162,11 @@
     <ClCompile Include="direct3d.cpp" />
     <ClCompile Include="DontDragStage.cpp" />
     <ClCompile Include="DragAnimation.cpp" />
+    <ClCompile Include="DynamicGround.cpp" />
     <ClCompile Include="DragSword.cpp" />
     <ClCompile Include="DrawNumbers.cpp" />
     <ClCompile Include="DynamicAABBTree.cpp" />
-    <ClCompile Include="DynamicStage.cpp" />
+    <ClCompile Include="FallGround.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -236,7 +237,8 @@
     <ClInclude Include="DragSword.h" />
     <ClInclude Include="DrawNumbers.h" />
     <ClInclude Include="DynamicAABBTree.h" />
-    <ClInclude Include="DynamicStage.h" />
+    <ClInclude Include="DynamicGround.h" />
+    <ClInclude Include="FallGround.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EventManager.h" />

@@ -8,8 +8,7 @@
 class Camera
 {
 public:
-	Camera() { cameraPos = { 0.0f, 0.0f, 0.0f };
-	cameraAngle = { 0.0f, 0.0f, 0.0f };
+	Camera() {
 	}
 	~Camera(){}
 	void Init();   //初期化
@@ -27,11 +26,14 @@ public:
 private:
 	Input& input = Input::GetInstance();
 	//カメラ座標
-	DirectX::XMFLOAT3 cameraPos = { 0.0f, 0.0f, 0.0f };
+	DirectX::XMFLOAT3 m_CameraPos = { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT3 vibrationVector = { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT3 cameraAngle= { 0.0f, 0.0f, 0.0f };
 	DirectX::XMFLOAT2 mousePos = { 0.0f, 0.0f};
 	DirectX::XMFLOAT3 playerPos = { 0.0f,0.0f ,0.0f };
 	int flame_cnt = 0;
 	float scrollVelocity = 1.3f;//スクロールの速度
+
+	DirectX::XMFLOAT3 oldPlayerPos = { 0.0f,0.0f,0.0f };//1フレーム前のプレイヤー座標
+	bool m_IsPlayerStop = false;
 };

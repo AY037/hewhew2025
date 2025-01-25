@@ -6,6 +6,7 @@ void DragSword::Init()
 	//Initialize(GetObjectTexName());   //”wŒi‚ğ‰Šú‰»
 	//SetColor(1.0f, 1.0f, 1.0f, 1.0f);
 	boxCollider.Init(*this);
+	SetSize(10.0f, 10.0f, 0.0f);
 }
 
 void DragSword::Update(void)

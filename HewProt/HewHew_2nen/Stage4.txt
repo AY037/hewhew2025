@@ -35,7 +35,7 @@
         {
             "angle": 30.0,
             "name": "DragSword",
-            "objectTexName": "",
+            "objectTexName": "asset/Ground.jpg",
             "object_id": 2,
             "position": [
                 1501.1917724609375,
@@ -43,8 +43,8 @@
                 0.0
             ],
             "size": [
-                50.0,
-                20.0,
+                10.0,
+                10.0,
                 0.0
             ]
         },
@@ -54,8 +54,8 @@
             "objectTexName": "asset/Ground.jpg",
             "object_id": 3,
             "position": [
-                58.339988708496094,
-                27.66049575805664,
+                58.55382537841797,
+                27.87433624267578,
                 0.0
             ],
             "size": [
@@ -66,12 +66,12 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 4,
             "position": [
-                239.59669494628906,
-                52.892845153808594,
+                239.5967254638672,
+                51.39601135253906,
                 0.0
             ],
             "size": [
@@ -82,7 +82,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 5,
             "position": [
@@ -98,7 +98,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 6,
             "position": [
@@ -114,7 +114,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 7,
             "position": [
@@ -130,7 +130,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 8,
             "position": [
@@ -146,7 +146,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 9,
             "position": [
@@ -162,7 +162,7 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 10,
             "position": [
@@ -178,12 +178,12 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 11,
             "position": [
-                176.8236541748047,
-                52.46517562866211,
+                176.39601135253906,
+                52.03750991821289,
                 0.0
             ],
             "size": [
@@ -194,11 +194,11 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 12,
             "position": [
-                187.18214416503906,
+                186.7544708251953,
                 52.251346588134766,
                 0.0
             ],
@@ -210,11 +210,11 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 13,
             "position": [
-                197.9683074951172,
+                197.11297607421875,
                 52.251338958740234,
                 0.0
             ],
@@ -226,12 +226,12 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 14,
             "position": [
-                208.11300659179688,
-                52.465171813964844,
+                207.6853485107422,
+                52.25133514404297,
                 0.0
             ],
             "size": [
@@ -242,12 +242,12 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 15,
             "position": [
-                218.6853485107422,
-                52.67901611328125,
+                218.2576904296875,
+                52.03751754760742,
                 0.0
             ],
             "size": [
@@ -258,12 +258,12 @@
         },
         {
             "angle": 0.0,
-            "name": "DynamicStage",
+            "name": "FallGround",
             "objectTexName": "asset/block.png",
             "object_id": 16,
             "position": [
                 228.9493408203125,
-                52.89284896850586,
+                52.03751754760742,
                 0.0
             ],
             "size": [

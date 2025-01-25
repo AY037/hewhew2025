@@ -35,7 +35,7 @@
         {
             "angle": 30.0,
             "name": "DragSword",
-            "objectTexName": "",
+            "objectTexName": "asset/Ground.jpg",
             "object_id": 2,
             "position": [
                 1501.1917724609375,
@@ -43,8 +43,8 @@
                 0.0
             ],
             "size": [
-                50.0,
-                20.0,
+                10.0,
+                10.0,
                 0.0
             ]
         },

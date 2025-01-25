@@ -13,7 +13,7 @@ void BigAttackAnimation0::Update(void)
 {
 	DirectX::XMFLOAT3 size = GetSize();
 	animation_cnt++;
-	if (animation_cnt % 3 == 0)
+	if (animation_cnt % 4 == 0)
 	{
 		numU++;
 	}

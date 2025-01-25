@@ -7,7 +7,7 @@ void Engine::Init(HWND hWnd)
 	//サウンドの初期化
 	AudioManager::GetInstance().Init();
 	AudioManager::GetInstance().LoadSounds();
-	sceneManager->SwitchScene("Stage1");
+	sceneManager.SwitchScene("Stage1");
 
 	EventManager::GetInstance().AddListener("StartGame", [this]() {
 		this->isRunning = true; 
@@ -19,15 +19,15 @@ void Engine::Init(HWND hWnd)
 void Engine::Update(void)
 {
 	input.Update();
-	if (sceneManager != nullptr)
+	if (&sceneManager != nullptr)
 	{
 		if(isRunning == true)
 		{
-			sceneManager->Update();
+			sceneManager.Update();
 		}
 		else
 		{
-			sceneManager->EngineUpdate();
+			sceneManager.EngineUpdate();
 		}
 	}
 
@@ -38,9 +38,9 @@ void Engine::Update(void)
 
 void Engine::Draw(void)
 {
-	if (sceneManager != nullptr)
+	if (&sceneManager != nullptr)
 	{
-		sceneManager->Draw();
+		sceneManager.Draw();
 	}
 #ifdef GUI_MODE
 	guiController.Draw();
@@ -49,7 +49,6 @@ void Engine::Draw(void)
 
 void Engine::Uninit(void)
 {
-	sceneManager.reset();
 	AudioManager::GetInstance().UnInit();
 	Application::GetInstance().D3D_Release();//DirectXを終了
 }

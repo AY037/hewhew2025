@@ -11,10 +11,6 @@
 #include "Explosion.h"
 #include "AudioManager.h"
 
-//オブジェクトID
-//#define PLAYER_ID (3)
-//#define SWORD_ID (4)
-
 using namespace DirectX;
 
 void GameScene::Init()// シーンの初期化。
@@ -37,15 +33,6 @@ void GameScene::Init()// シーンの初期化。
 
 	camera.Init();
 
-	//int size = GameManager::GetInstance().GetPlayerHP();
-	//for (int i = 1; i <= size; ++i)
-	//{
-	//	std::shared_ptr<UI> heart=std::make_shared<UI>();
-	//	heart->SetSize(SCREEN_WIDTH / 20, SCREEN_WIDTH / 20, 0);
-	//	heart->SetPos(-SCREEN_WIDTH / 2 + SCREEN_WIDTH / 20 * i, SCREEN_HEIGHT / 2 - (SCREEN_HEIGHT / 20 * 3), 0);
-	//	heart->Initialize("asset/Heart.png");
-	//	uiObjectList.push_back(heart);
-	//}
 	hpBar.Init();
 	backGrounds.Init();
 
@@ -99,7 +86,24 @@ void GameScene::Update()// シーン内のオブジェクト更新。
 
 		if ((input.GetRightTriggerPress()) || (input.GetKeyPress(VK_SPACE)))
 		{
-			gameObjects[DRAGSWORD_ID]->SetPos(playerPos.x - 17, playerPos.y, 0);
+			DirectX::XMFLOAT3 dragPos = playerPos;//引きずる場所
+			float angle = gameObjects[PLAYER_ID]->GetAngle();
+			//プレイヤーの角度に135足して後ろに剣を回転
+			float radAngle = DirectX::XMConvertToRadians(angle+135);
+			dragPos.x += -sin(radAngle) * 15;
+			dragPos.y += cos(radAngle) * 15;
+			gameObjects[DRAGSWORD_ID]->SetPos(dragPos.x, dragPos.y, 0);//引きずってる剣の座標を設定
+			GameManager::GetInstance().dragSwordPos = dragPos;
+
+			std::vector<int> debriIds = FindObjID("Debri");
+			for (auto& debriId : debriIds)
+			{
+				auto pos = gameObjects[debriId]->GetPos();
+				if ((pow(dragPos.x - pos.x, 2) + pow(dragPos.y - pos.y, 2)) < 25.0f * 25.0f)
+				{
+					gameObjects[debriId]->SetPos(dragPos.x +(rand()%7), dragPos.y + (rand() % 7), 0.0f);
+				}
+			}
 		}
 		else
 		{
@@ -132,11 +136,10 @@ void GameScene::Draw()// シーン内のオブジェクトを描画
 	{
 		if ((*obj)) {
 			(*obj)->DrawObject(vm, pm);
-
+			(*obj)->Draw(vm, pm);
 		}
 	}
-	//プレイヤーのアニメーション描画
-	gameObjects[PLAYER_ID]->Draw(vm, pm);
+
 	//UIの描画
 	for (auto& obj : uiObjectList)
 	{
@@ -193,27 +196,42 @@ void GameScene::SetEventManager()
 	//剣当たり判定の消去
 	EventManager::GetInstance().AddListener("deleteSword", [this]() {
 		std::vector<int> tmp = this->FindObjID("Sword");
-		if (tmp.size() != 0)
+		for(auto& id :tmp)
 		{
-			this->AddRemoveObject(tmp.front());
+			this->AddRemoveObject(id);
 		}
 		});
 
-
 	EventManager::GetInstance().AddListener("normalAttack", [this]()
 		{
-			std::vector<int> tmp = FindObjID("Sword");
-			if (tmp.size() == 0)
-			{
+			//std::vector<int> tmp = FindObjID("Sword");
+			//if (tmp.size() == 0)
+			//{
+			DirectX::XMFLOAT3 velocity = { 4.0f, 1.0f, 0.0f };
+			std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 16);
+			obj->SetName("Sword");
+			obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x, gameObjects[PLAYER_ID]->GetPos().y, 0);
+			obj->SetSize(20, 30, 0);
+			obj->SetAngle(20);
+			//obj->SetObjectTexName("asset/block.png");
+			this->AddObject(obj);
+			//}
+		});
+
+	EventManager::GetInstance().AddListener("attack0", [this]()
+		{
+			//std::vector<int> tmp = FindObjID("Sword");
+			//if (tmp.size() == 0)
+			//{
 				DirectX::XMFLOAT3 velocity = { 4.0f, 1.0f, 0.0f };
 				std::shared_ptr<GameObject> obj = std::make_shared<Sword>(velocity, 16);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x + (gameObjects[PLAYER_ID]->GetSize().x / 2), gameObjects[PLAYER_ID]->GetPos().y, 0);
-				obj->SetSize(20, 50, 0);
+				obj->SetSize(20, 40, 0);
 				obj->SetAngle(20);
 				//obj->SetObjectTexName("asset/block.png");
 				this->AddObject(obj);
-			}
+			//}
 		});
 
 	EventManager::GetInstance().AddListener("attack1", [this]()
@@ -224,7 +242,7 @@ void GameScene::SetEventManager()
 				obj->SetVelocity(velocity);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x + (gameObjects[PLAYER_ID]->GetSize().x / 2), gameObjects[PLAYER_ID]->GetPos().y, 0);
-				obj->SetSize(20, 40, 0);
+				obj->SetSize(20, 45, 0);
 				obj->SetAngle(20);
 				//obj->SetObjectTexName("asset/block.png");
 				this->AddObject(obj);
@@ -239,9 +257,9 @@ void GameScene::SetEventManager()
 					DirectX::XMFLOAT3 playerPos = gameObjects[PLAYER_ID]->GetPos();
 					DirectX::XMFLOAT3 playerSize = gameObjects[PLAYER_ID]->GetSize();
 					//引きずってる剣の近くのオブジェクトのみ集める
-					if ((pos.x > playerPos.x - 80 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
+					if ((pos.x > playerPos.x - 50 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
 					{
-						gameObjects[objID]->SetPos(pos.x + playerSize.x / 2 + 25, pos.y + 25, 0);
+						gameObjects[objID]->SetPos(playerPos.x + playerSize.x / 2 + 25, playerPos.y + 25, 0);
 						//gameObjects[objID]->SetPos(pos.x + playerSize.x / 2, pos.y + 5, 0);
 						//gameObjects[objID]->SetVelocity(velocity);
 					}
@@ -258,7 +276,7 @@ void GameScene::SetEventManager()
 				obj->SetVelocity(velocity);
 				obj->SetName("Sword");
 				obj->SetPos(gameObjects[PLAYER_ID]->GetPos().x + (gameObjects[PLAYER_ID]->GetSize().x / 2), gameObjects[PLAYER_ID]->GetPos().y, 0);
-				obj->SetSize(20, 60, 0);
+				obj->SetSize(15, 60, 0);
 				obj->SetAngle(20);
 				//obj->SetObjectTexName("asset/block.png");
 				this->AddObject(obj);
@@ -273,9 +291,9 @@ void GameScene::SetEventManager()
 					DirectX::XMFLOAT3 playerPos = gameObjects[PLAYER_ID]->GetPos();
 					DirectX::XMFLOAT3 playerSize = gameObjects[PLAYER_ID]->GetSize();
 					//引きずってる剣の近くのオブジェクトのみ集める
-					if ((pos.x > playerPos.x - 80 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
+					if ((pos.x > playerPos.x - 50 && pos.x < playerPos.x + 20) && (pos.y > playerPos.y - 20 && pos.y < playerPos.y + 20))
 					{
-						gameObjects[objID]->SetPos(pos.x + playerSize.x / 2+25, pos.y + 25, 0);
+						gameObjects[objID]->SetPos(playerPos.x + playerSize.x / 2+20, playerPos.y + 10, 0);
 						//gameObjects[objID]->SetPos(pos.x + playerSize.x / 2, pos.y + 5, 0);
 						//gameObjects[objID]->SetVelocity(velocity);
 					}

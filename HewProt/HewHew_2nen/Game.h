@@ -7,7 +7,7 @@
 class Game{
 
 private:
-	std::unique_ptr<SceneManager> sceneManager = std::make_unique<SceneManager>();// シーンを管理するためのオブジェクト。
+	SceneManager& sceneManager = SceneManager::GetInstance();// シーンを管理するための
 
 	bool isRunning;// ゲームが実行中かどうかを判定するフラグ。
 
@@ -15,7 +15,6 @@ private:
 public:
 	Game() {
 		isRunning = false;
-		sceneManager= nullptr;
 	}
 	~Game(){}
 	void Init(HWND hWnd); //初期化

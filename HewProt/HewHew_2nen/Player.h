@@ -23,6 +23,7 @@ enum LandingState
 	SLIDING,//â‚ğŠŠ‚è’†
 	LANDING,//°‚ğˆäŒË’†
 	NORMAL, //’Êíó‘Ô
+	TRANSPARENCY
 };
 
 struct Land {

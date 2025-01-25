@@ -18,10 +18,12 @@ public:
 	void SetPlayerHP(const int pHP);
 	int GetPlayerHP() const;
 	int dragCharging = 0;
-	bool dragSwordHit = false;
+	bool dragSwordHit = false;//引きずり剣が当たっているか
+	DirectX::XMFLOAT3 dragSwordPos = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);//引きずり剣の座標
 	int score = 0;//スコア
+	DirectX::XMFLOAT3 cameraPos = { 0.0f,0.0f,0.0f };
 private:
-	DirectX::XMFLOAT3 playerPos;
+	DirectX::XMFLOAT3 playerPos = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 	int playerHP = 0;
 };
 

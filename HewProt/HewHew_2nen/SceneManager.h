@@ -7,10 +7,11 @@
 class SceneManager
 {
 public:
-	SceneManager() { Init(); }
-	~SceneManager() {
-		scenes.clear(); // マップ自体をクリア
+	static SceneManager& GetInstance() {
+		static SceneManager sceneManager;
+		return sceneManager;
 	}
+
 	void Init();
 	void AddScene(const std::string& sceneName);	   //シーンの追加。
 	void SwitchScene(const std::string& sceneName);	   //シーンの切り替え。
@@ -18,6 +19,10 @@ public:
 	void EngineUpdate();			   // 現在のシーンの更新（エンジン使用時）
 	void Draw();                       // 現在のシーンの描画
 private:
+	SceneManager() { Init(); }
+	~SceneManager() {
+		scenes.clear(); // マップ自体をクリア
+	}
 	std::unordered_map<std::string,std::shared_ptr<Scene>> scenes; // すべてのシーンのリスト。
 	std::string currentSceneName;		// 現在アクティブなシーン。
 };

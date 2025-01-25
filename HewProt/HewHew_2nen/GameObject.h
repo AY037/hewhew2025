@@ -92,6 +92,7 @@ public:
 	void SetName(std::string);
 	void SetObjTypeName(std::string);
 	void SetPos(float x, float y, float z);  //座標をセット
+	void SetPos(DirectX::XMFLOAT3 _pos);
 	void SetVelocity(DirectX::XMFLOAT3 v);  //速度をセット
 	void SetSize(float x, float y, float z); //大きさをセット
 	void SetAngle(float z);//角度をセット

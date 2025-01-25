@@ -216,9 +216,6 @@
     <ClCompile Include="BigAttackAnimation2.cpp">
       <Filter>ソース ファイル\GameObject\Player\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="StageCollider.cpp">
-      <Filter>ソース ファイル\Component\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
@@ -261,7 +258,7 @@
     <ClCompile Include="DragSword.cpp">
       <Filter>ソース ファイル\GameObject\Player</Filter>
     </ClCompile>
-    <ClCompile Include="DynamicStage.cpp">
+    <ClCompile Include="FallGround.cpp">
       <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="HpBar.cpp">
@@ -296,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>ソース ファイル\Input/Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="StageCollider.cpp">
+      <Filter>ソース ファイル\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicGround.cpp">
+      <Filter>ソース ファイル\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -437,7 +440,7 @@
     <ClInclude Include="DragSword.h">
       <Filter>ヘッダー ファイル\GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicStage.h">
+    <ClInclude Include="FallGround.h">
       <Filter>ヘッダー ファイル\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="HpBar.h">
@@ -481,6 +484,9 @@
     </ClInclude>
     <ClInclude Include="directxtk\include\SoundCommon.h">
       <Filter>ヘッダー ファイル\Input/Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicGround.h">
+      <Filter>ヘッダー ファイル\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -160,6 +160,13 @@ void GameObject::SetPos(float x, float y, float z)
 	pos.y = y;
 	pos.z = z;
 }
+void GameObject::SetPos(DirectX::XMFLOAT3 _pos)
+{
+	//座標をセットする
+	pos.x = _pos.x;
+	pos.y = _pos.y;
+	pos.z = _pos.z;
+}
 
 void GameObject::SetVelocity(DirectX::XMFLOAT3 v)
 {

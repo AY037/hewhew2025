@@ -102,6 +102,4 @@ void FallWall::Update()
 			SetObjTypeName("Stage");//“|‚ê‚½‚ç“§‰ß
 		}
 	}
-
-	boxCollider->Update();
 }

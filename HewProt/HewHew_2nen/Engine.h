@@ -22,7 +22,7 @@ private:
 	Engine() {
 	}
 	~Engine() {}
-	std::unique_ptr<SceneManager> sceneManager =std::make_unique<SceneManager>();// シーンを管理するためのオブジェクト。
+	SceneManager& sceneManager = SceneManager::GetInstance();// シーンを管理するための
 
 	bool isRunning;// ゲームが実行中かどうかを判定するフラグ。
 

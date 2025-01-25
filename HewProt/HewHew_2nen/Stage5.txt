@@ -22,8 +22,8 @@
             "objectTexName": "asset/player_Run.png",
             "object_id": 1,
             "position": [
-                -167.3303985595703,
-                19.182710647583008,
+                -977.1282958984375,
+                20.038043975830078,
                 0.0
             ],
             "size": [
@@ -43,8 +43,8 @@
                 0.0
             ],
             "size": [
-                50.0,
-                20.0,
+                10.0,
+                10.0,
                 0.0
             ]
         },
@@ -182,8 +182,8 @@
             "objectTexName": "asset/Ground.jpg",
             "object_id": 11,
             "position": [
-                288.4696044921875,
-                59.2449951171875,
+                288.4696350097656,
+                58.81732940673828,
                 0.0
             ],
             "size": [
@@ -589,6 +589,566 @@
             "size": [
                 16.0,
                 20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Ground",
+            "objectTexName": "asset/Ground.jpg",
+            "object_id": 37,
+            "position": [
+                11.17276668548584,
+                27.258209228515625,
+                0.0
+            ],
+            "size": [
+                10.0,
+                40.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Ground",
+            "objectTexName": "asset/Ground.jpg",
+            "object_id": 38,
+            "position": [
+                1569.17236328125,
+                27.056547164916992,
+                0.0
+            ],
+            "size": [
+                10.0,
+                40.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 39,
+            "position": [
+                -547.6455688476563,
+                118.64690399169922,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 40,
+            "position": [
+                -524.4570922851563,
+                115.43940734863281,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 41,
+            "position": [
+                -515.1677856445313,
+                99.18807983398438,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 42,
+            "position": [
+                -535.1736450195313,
+                109.66590881347656,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 43,
+            "position": [
+                -538.3812255859375,
+                91.70391082763672,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 44,
+            "position": [
+                -562.7581787109375,
+                88.06875610351563,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 45,
+            "position": [
+                -570.0285034179688,
+                108.81058502197266,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 46,
+            "position": [
+                -560.192138671875,
+                128.0555877685547,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 47,
+            "position": [
+                -496.46978759765625,
+                130.1939239501953,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 48,
+            "position": [
+                -496.8974914550781,
+                88.924072265625,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 49,
+            "position": [
+                -470.1683044433594,
+                75.45257568359375,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 50,
+            "position": [
+                -506.73382568359375,
+                61.339561462402344,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 51,
+            "position": [
+                -521.7021484375,
+                85.7165756225586,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 52,
+            "position": [
+                -538.1673583984375,
+                134.68441772460938,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 53,
+            "position": [
+                -477.8663024902344,
+                117.57776641845703,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 54,
+            "position": [
+                -522.1298217773438,
+                130.83541870117188,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 55,
+            "position": [
+                -487.06109619140625,
+                107.74142456054688,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 56,
+            "position": [
+                -552.0665283203125,
+                79.72923278808594,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 57,
+            "position": [
+                -533.2491455078125,
+                71.38973999023438,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 58,
+            "position": [
+                -494.11767578125,
+                74.59722900390625,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 59,
+            "position": [
+                -506.09228515625,
+                120.78526306152344,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 60,
+            "position": [
+                -478.7215881347656,
+                88.49642181396484,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 61,
+            "position": [
+                -487.9164733886719,
+                119.7160873413086,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 62,
+            "position": [
+                -509.51361083984375,
+                75.02490234375,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 63,
+            "position": [
+                -530.2554931640625,
+                99.18809509277344,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 64,
+            "position": [
+                -553.7772216796875,
+                100.04342651367188,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 65,
+            "position": [
+                -504.16778564453125,
+                99.18807983398438,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 66,
+            "position": [
+                -476.06109619140625,
+                107.74142456054688,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 67,
+            "position": [
+                -466.8663024902344,
+                117.57776641845703,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 68,
+            "position": [
+                -467.7215881347656,
+                88.49642181396484,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 69,
+            "position": [
+                -485.04217529296875,
+                66.47156524658203,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "BulletFlyEnemy",
+            "objectTexName": "asset/bulletFlyEnemy.png",
+            "object_id": 70,
+            "position": [
+                -522.2491455078125,
+                71.38973999023438,
+                0.0
+            ],
+            "size": [
+                20.0,
+                20.0,
+                0.0
+            ]
+        },
+        {
+            "angle": 0.0,
+            "name": "Goal",
+            "objectTexName": "asset/Goal.png",
+            "object_id": 71,
+            "position": [
+                -665.3309326171875,
+                22.774030685424805,
+                0.0
+            ],
+            "size": [
+                30.0,
+                30.0,
                 0.0
             ]
         }

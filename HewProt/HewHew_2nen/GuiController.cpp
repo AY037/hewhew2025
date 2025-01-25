@@ -369,11 +369,11 @@ void GuiController::GameObjectSelector(const XMFLOAT3& pos)
 		}
 
 		ImGui::SameLine(); // 横並びに配置
-		if (ImGui::Button("DynamicStage", ImVec2(140, 60))) { // 幅200、高さ100のボタン
-			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("DynamicStage");
+		if (ImGui::Button("FallGround", ImVec2(140, 60))) { // 幅200、高さ100のボタン
+			std::shared_ptr<GameObject> obj = gameObjMng.GetObj("FallGround");
 			obj->SetPos(pos.x, pos.y, 0);
 			//obj->SetSize(10, 10, 0);
-			obj->SetName("DynamicStage");
+			obj->SetName("FallGround");
 			obj->Init();
 			scene->AddObject(obj);
 			scene->AddAndDelete();
